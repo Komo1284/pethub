@@ -7,6 +7,102 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-
+<div class="min-h-screen flex flex-col bg-orange-50">
+    <div th:replace="~{header :: header}"></div>
+    <main class="flex-1">
+        <section class="py-16">
+            <div class="container mx-auto px-4 md:px-6">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-center">Create a New Post</h1>
+                <form class="max-w-3xl mx-auto grid gap-6">
+                    <div>
+                        <label
+                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
+                                for="title"
+                        >
+                            Title
+                        </label>
+                        <input
+                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                id="title"
+                                placeholder="Enter your post title"
+                                type="text"
+                        />
+                    </div>
+                    <div>
+                        <label
+                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
+                                for="category"
+                        >
+                            Category
+                        </label>
+                        <button
+                                type="button"
+                                role="combobox"
+                                aria-controls="radix-:r2s:"
+                                aria-expanded="false"
+                                aria-autocomplete="none"
+                                dir="ltr"
+                                data-state="closed"
+                                data-placeholder=""
+                                class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            <span style="pointer-events: none;">Select a category</span>
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-chevron-down h-4 w-4 opacity-50"
+                                    aria-hidden="true"
+                            >
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </button>
+                        <select
+                                aria-hidden="true"
+                                tabindex="-1"
+                                style="position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; overflow-wrap: normal;"
+                        >
+                            <option value=""></option>
+                            <option value="pets">Pets</option>
+                            <option value="grooming">Grooming</option>
+                            <option value="training">Training</option>
+                            <option value="health">Health</option>
+                            <option value="nutrition">Nutrition</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
+                                for="content"
+                        >
+                            Content
+                        </label>
+                        <textarea
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                id="content"
+                                placeholder="Write your post content here"
+                                rows="8"
+                        ></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button
+                                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground h-10 px-4 py-2 bg-orange-600 hover:bg-orange-500"
+                                type="submit"
+                        >
+                            Publish
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <div th:replace="~{footer :: footer}"></div>
+</div>
 </body>
 </html>
