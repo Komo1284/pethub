@@ -1,16 +1,46 @@
 package itbank.pethub.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import itbank.pethub.service.CartService;
+import itbank.pethub.service.OrderService;
+import itbank.pethub.vo.CartVO;
+import itbank.pethub.vo.OrderVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/mall/order")
+import java.util.List;
+
+
+@RestController
+@RequestMapping("/order")
 public class OrderController {
 
-    @GetMapping("/cart")
-    public void cart() {}
+    @Autowired
+    private CartService cs;
 
-    @GetMapping("/orderStatus")
-    public void orderStatus() {}
+    @Autowired
+    private OrderService os;
+    // 장바구니 항목 조회
+    @GetMapping("/cart")
+    public List<CartVO> getCartItems(@RequestParam Long userId) {
+        return CartService.getCartItemsByUser(userId);
+    }
+
+    // 장바구니에 항목 추가
+    @PostMapping("/cart")
+    public void addToCart(@RequestBody CartVO cartItem) {
+        CartService.addToCart(cartItem);
+    }
+
+    // 장바구니에서 항목 제거
+    @DeleteMapping("/cart/{id}")
+    public void removeFromCart(@PathVariable Long id) {
+        CartService.removeFromCart(id);
+    }
+
+    // 결제 생성
+    @PostMapping("/pay")
+    public OrderVO createOrder(@RequestParam Long userId, @RequestBody List<CartItemVO> cartItems, @RequestParam(required = false) String couponCode) {
+        return orderService.createOrder(userId, cartItems, couponCode);
+    }
+
 }
