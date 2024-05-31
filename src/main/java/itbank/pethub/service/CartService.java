@@ -13,17 +13,10 @@ public class CartService {
     @Autowired
     private CartDAO cd;
 
-    public List<CartVO> getCartItemsByUser(Long userId) {
-        return CartDAO.findCartItemsByUserId(userId);
+    public List<CartVO> getCartItems(int member_id) {
+        return cd.findCartItems(member_id);
     }
 
-    public void addToCart(CartItemVO cartItem) {
-        cartDAO.insertCartItem(cartItem);
-    }
-
-    public void removeFromCart(Long cartItemId) {
-        cartDAO.deleteCartItem(cartItemId);
-    }
 
 
 }
