@@ -5,73 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .relative:hover .absolute {
+            display: block;
+        }
+        .absolute {
+            display: none;
+            z-index: 10;
+        }
+        .absolute a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #4a5568;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .absolute a:hover {
+            background-color: #edf2f7;
+            color: #2d3748;
+        }
+        .space-x-2 > * + * {
+            margin-left: 3rem; /* 카테고리 간의 간격을 조정합니다 */
+        }
+        .relative button {
+            padding: 1.5rem 3rem; /* 각 카테고리 버튼의 크기를 조정합니다 */
+        }
+    </style>
 </head>
 <body>
-<!--
-// v0 by Vercel.
-// https://v0.dev/t/Sgu1FF1qPwi
--->
 
-<header class="bg-orange-600 text-white py-4">
-    <div class="max-w-7xl mx-auto px-4">
-        <h1 class="text-2xl font-bold">Product Category</h1>
-    </div>
-</header>
-<div class="bg-orange-50">
-    <div class="max-w-7xl mx-auto py-6 flex">
-        <aside class="w-64 bg-white rounded-lg shadow-md mr-6">
-            <nav class="p-4">
-                <h3 class="text-lg font-semibold mb-4">Categories</h3>
+<div th:replace="~{header :: header}"></div>
+
+<div th:replace="~{mall/shop/shopHeader :: search}"></div>
+
+<div th:replace="~{mall/shop/shopHeader :: category}"></div>
+
+<div class="min-h-screen flex flex-col bg-orange-50">
+    <div class="max-w-[1600px] w-full mx-auto py-6 flex mt-8">
+        <aside class="w-1/5 bg-white rounded-lg shadow-md mr-6">
+            <nav class="w-full p-4">
+                <h3 class="text-lg font-semibold mb-4">상품 분류</h3>
                 <ul>
                     <li>
                         <a class="block py-2 px-4 rounded hover:bg-orange-100 hover:text-orange-600" href="#">
-                            Category 1
+                            대분류 카테고리 1
                         </a>
                         <ul class="ml-4">
                             <li>
                                 <a class="block py-1 px-4 rounded hover:bg-orange-100 hover:text-orange-600" href="#">
-                                    Subcategory 1
+                                    소분류 카테고리 1
                                 </a>
                             </li>
                             <li>
                                 <a class="block py-1 px-4 rounded hover:bg-orange-100 hover:text-orange-600" href="#">
-                                    Subcategory 2
+                                    소분류 카테고리 2
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a class="block py-2 px-4 rounded hover:bg-orange-100 hover:text-orange-600" href="#">
-                            Category 2
+                            대분류 카테고리 2
                         </a>
                     </li>
                     <li>
                         <a class="block py-2 px-4 rounded hover:bg-orange-100 hover:text-orange-600" href="#">
-                            Category 3
+                            대분류 카테고리 3
                         </a>
                     </li>
                 </ul>
             </nav>
         </aside>
-        <div class="flex-1">
-            <nav class="flex space-x-4 overflow-x-auto mb-6">
-                <a class="text-orange-600 hover:underline" href="#">
-                    Category 1
-                </a>
-                <a class="text-orange-600 hover:underline" href="#">
-                    Category 2
-                </a>
-                <a class="text-orange-600 hover:underline" href="#">
-                    Category 3
-                </a>
-                <a class="text-orange-600 hover:underline" href="#">
-                    Category 4
-                </a>
-                <a class="text-orange-600 hover:underline" href="#">
-                    Category 5
-                </a>
-            </nav>
-            <div class="grid grid-cols-4 gap-6">
+        <div class="w-4/5 flex-1">
+            <div class="grid grid-cols-4 gap-6 w-full">
                 <div class="rounded-lg border text-card-foreground shadow-sm bg-white" data-v0-t="card">
                     <img
                             src="/placeholder.svg"
@@ -780,51 +785,6 @@
         </div>
     </div>
 </div>
-<footer class="bg-orange-600 text-white py-4">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between">
-        <div>
-            <h2 class="text-lg font-bold">Product Category</h2>
-            <p class="text-sm">Explore our wide range of products.</p>
-        </div>
-        <div>
-            <h3 class="text-lg font-bold">Follow Us</h3>
-            <div class="flex space-x-4">
-                <a class="text-white hover:text-orange-200" href="#">
-                    <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="w-6 h-6"
-                    >
-                        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-                    </svg>
-                </a>
-                <a class="text-white hover:text-orange-200" href="#">
-                    <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="w-6 h-6"
-                    >
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                </a>
-                <a class="text-white hover:text-orange-200" href="#"></a>
-            </div>
-        </div>
-    </div>
-</footer>
+<div th:replace="~{footer :: footer}"></div>
 </body>
 </html>

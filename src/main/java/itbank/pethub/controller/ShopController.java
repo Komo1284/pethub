@@ -11,6 +11,6 @@ public class ShopController {
     @GetMapping("/main")
     public void main() {}
 
-    @GetMapping("/category_view")
+    @GetMapping("/category/category_view")
     public void categoryView() {}
 }

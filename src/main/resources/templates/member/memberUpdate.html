@@ -11,14 +11,14 @@
     <div th:replace="~{header :: header}"></div>
     <main class="flex-1 flex">
         <div th:replace="~{member/myPageAside :: aside}"></div>
-        <div class="flex-1 p-4 md:p-6">
+        <div class="flex-1 p-4 md:p-6 mt-16 mx-8">
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold mb-6">Edit Profile</h2>
+                <h2 class="text-xl font-semibold mb-6">회원정보 수정</h2>
                 <form>
                     <div class="mt-6">
-                        <h3 class="text-lg font-semibold mb-2">Profile Picture</h3>
+                        <h3 class="text-lg font-semibold mb-2">프로필 사진</h3>
                         <div class="flex items-center gap-4">
-              <span class="relative flex shrink-0 overflow-hidden rounded-full w-20 h-20">
+              <span class="relative flex shrink-0 overflow-hidden rounded-full w-40 h-40">
                 <span class="flex h-full w-full items-center justify-center rounded-full bg-muted">
                   <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +42,7 @@
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                                         for="profilePicture"
                                 >
-                                    <span class="text-sm text-gray-500 hover:text-gray-900">Change Profile Picture</span>
+                                    <span class="text-sm text-gray-500 hover:text-gray-900">프로필사진을 수정하세요.</span>
                                     <input
                                             class="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 hidden"
                                             id="profilePicture"
@@ -53,14 +53,17 @@
                             </div>
                         </div>
                     </div>
+                    <br>
                     <div class="mt-6">
-                        <h3 class="text-lg font-semibold mb-2">Change Password</h3>
+                        <h3 class="text-lg font-semibold mb-2">비밀번호 변경</h3>
+                        <p class="text-gray-500 text-sm"> * 비밀번호를 변경하지 않는다면 변경할 비밀번호에 현재 비밀번호와 동일하게 입력해주세요.</p>
+                        <br>
                         <div class="mb-4">
                             <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
                                     for="currentPassword"
                             >
-                                Current Password
+                                현재 비밀번호
                             </label>
                             <input
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
@@ -73,7 +76,7 @@
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
                                     for="newPassword"
                             >
-                                New Password
+                                변경할 비밀번호
                             </label>
                             <input
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
@@ -86,7 +89,7 @@
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
                                     for="confirmPassword"
                             >
-                                Confirm New Password
+                                변경할 비밀번호 확인
                             </label>
                             <input
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
@@ -95,15 +98,16 @@
                             />
                         </div>
                     </div>
+                    <br>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h3 class="text-lg font-semibold mb-2">Personal Information</h3>
+                            <h3 class="text-lg font-semibold mb-2">개인정보 수정</h3>
                             <div class="mb-4">
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
                                         for="nickname"
                                 >
-                                    Nickname
+                                    닉네임
                                 </label>
                                 <input
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
@@ -117,7 +121,7 @@
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
                                         for="email"
                                 >
-                                    Email
+                                    이메일
                                 </label>
                                 <input
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
@@ -131,7 +135,7 @@
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
                                         for="phone"
                                 >
-                                    Phone Number
+                                    휴대폰 번호
                                 </label>
                                 <input
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
@@ -142,13 +146,13 @@
                             </div>
                         </div>
                         <div>
-                            <h3 class="text-lg font-semibold mb-2">Address</h3>
+                            <h3 class="text-lg font-semibold mb-2">주소</h3>
                             <div class="mb-4">
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
                                         for="address"
                                 >
-                                    Address
+                                    주소
                                 </label>
                                 <input
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
