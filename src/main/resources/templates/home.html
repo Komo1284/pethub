@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="min-h-screen flex flex-col">
+    <div th:replace="~{header :: header}"></div>
+    <main class="flex-1">
+        <section class="bg-orange-50 py-16">
+            <div class="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome to PetHub</h1>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Discover a vibrant community of pet lovers and a one-stop shop for all your furry friend's needs.
+                    </p>
+                    <div class="flex gap-4">
+                        <a
+                                class="inline-flex items-center justify-center rounded-md bg-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                                href="#"
+                        >
+                            Join the Community
+                        </a>
+                        <a
+                                class="inline-flex items-center justify-center rounded-md bg-white px-5 py-3 text-sm font-semibold text-orange-600 shadow-sm hover:bg-gray-50"
+                                href="#"
+                        >
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <img
+                            src="/placeholder.svg"
+                            width="600"
+                            height="400"
+                            alt="Hero"
+                            class="rounded-lg shadow-lg"
+                            style="aspect-ratio: 600 / 400; object-fit: cover;"
+                    />
+                </div>
+            </div>
+        </section>
+        <section class="py-16">
+            <div class="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <img
+                            src="/placeholder.svg"
+                            width="600"
+                            height="400"
+                            alt="Community"
+                            class="rounded-lg shadow-lg"
+                            style="aspect-ratio: 600 / 400; object-fit: cover;"
+                    />
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold mb-4">Connect with Pet Lovers</h2>
+                    <p class="text-gray-600 mb-6">
+                        Join our vibrant community of pet enthusiasts to share stories, advice, and experiences. Connect with
+                        like-minded individuals and learn from each other.
+                    </p>
+                    <a
+                            class="inline-flex items-center justify-center rounded-md bg-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                            href="#"
+                    >
+                        Explore Community
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="bg-orange-50 py-16">
+            <div class="container mx-auto px-4 md:px-6 grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-4">One-Stop Pet Shop</h2>
+                    <p class="text-gray-600 mb-6">
+                        Discover a wide range of high-quality pet supplies, toys, and accessories for your furry companions.
+                        Shop with{" "}
+                    </p>
+                    <a
+                            class="inline-flex items-center justify-center rounded-md bg-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                            href="#"
+                    >
+                        Shop Now
+                    </a>
+                </div>
+                <div>
+                    <img
+                            src="/placeholder.svg"
+                            width="600"
+                            height="400"
+                            alt="Shop"
+                            class="rounded-lg shadow-lg"
+                            style="aspect-ratio: 600 / 400; object-fit: cover;"
+                    />
+                </div>
+            </div>
+        </section>
+    </main>
+    <div th:replace="~{footer :: footer}"></div>
+</div>
+</body>
+</html>
