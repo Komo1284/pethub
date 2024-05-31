@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DeliveryVO {
-    private int id;
-    private String address, status;
+    private int id, post,status_id;
+    private String address;
 }
