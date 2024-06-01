@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/ko.js"></script>
+    <style>
+        .ck-editor__editable:not(.ck-editor__nested-editable) {
+
+            height: 700px;
+        }
+    </style>
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
@@ -52,13 +60,12 @@
                                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
                                 for="content"
                         >
-                            내용
                         </label>
                         <textarea
-                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                class="flex min-h-[1200px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 id="content"
                                 placeholder="여기에 게시물 컨텐츠를 작성하세요."
-                                rows="8"
+                                rows="20"
                         ></textarea>
                     </div>
                     <div class="flex justify-end">
@@ -75,5 +82,18 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+<script>
+
+    ClassicEditor.create( document.querySelector( '#content' ), {
+
+        language: "ko",
+        ckfinder : {
+            uploadUrl: "/image/upload",
+            withCredentials: true
+        }
+
+    } );
+
+</script>
 </body>
 </html>
