@@ -18,9 +18,6 @@ spring:
 #s3
 cloud:
   aws:
-    credentials:
-      access-key: 액세스키
-      secret-key: 시크릿키
     region:
       static: ap-northeast-2
     stack:
