@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface BoardDAO {
 
+    // 전체 게시판
     @Select("select * from Board order by id desc")
     List<BoardVO> selectAll();
 
@@ -22,4 +23,24 @@ public interface BoardDAO {
 
     @Delete("delete from Board where id = #{id}")
     int deleteBoard(int id);
+
+    // 공지 사항
+    @Select("select * from Board where type = 1 order by id desc")
+    List<BoardVO> selectAllNotice();
+
+    // 강아지
+    @Select("select * from Board where type = 2 order by id desc")
+    List<BoardVO> selectAllDogs();
+
+    // 고양이
+    @Select("select * from Board where type = 3 order by id desc")
+    List<BoardVO> selectAllCats();
+
+    // 새
+    @Select("select * from Board where type = 4 order by id desc")
+    List<BoardVO> selectAllBirds();
+
+    // 기타
+    @Select("select * from Board where type = 5 order by id desc")
+    List<BoardVO> selectAllEtcs();
 }

@@ -33,4 +33,24 @@ public class BoardService {
     public int delBoard(int id) {
         return bd.deleteBoard(id);
     }
+
+    public List<BoardVO> getNotices() {
+        return bd.selectAllNotice();
+    }
+
+    public List<BoardVO> getDogs() {
+        return bd.selectAllDogs();
+    }
+
+    public List<BoardVO> getCats() {
+        return bd.selectAllCats();
+    }
+
+    public List<BoardVO> getBirds() {
+        return bd.selectAllBirds();
+    }
+
+    public List<BoardVO> getEtcs() {
+        return bd.selectAllEtcs();
+    }
 }
