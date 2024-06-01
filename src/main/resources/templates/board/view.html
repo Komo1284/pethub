@@ -14,7 +14,7 @@
             <div class="container mx-auto px-4 md:px-6">
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <br>
-                    <h1 class="text-4xl font-bold">강아지가 자꾸 짖어서 걱정이에요, 도와주세요!</h1>
+                    <h1 class="text-4xl font-bold" th:text="${row.title}">강아지가 자꾸 짖어서 걱정이에요, 도와주세요!</h1>
                     <br>
                     <article class="prose prose-sm sm:prose lg:prose-lg">
                         <div class="flex items-center justify-between mb-4">
@@ -61,7 +61,7 @@
                                         <rect width="18" height="18" x="3" y="4" rx="2"></rect>
                                         <path d="M3 10h18"></path>
                                     </svg>
-                                    <span>May 1, 2023</span>
+                                    <span th:text="${row.w_date}">May 1, 2023</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <svg
@@ -79,11 +79,12 @@
                                         <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path>
                                         <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>
                                     </svg>
-                                    <span>카테고리</span>
+                                    <span th:text="${row.type}">카테고리</span>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                <form th:action="'/board/updateBd/' + ${row.id}" method="get">
+                                <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
                                     <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -101,7 +102,9 @@
                                     </svg>
                                     <span>수정</span>
                                 </button>
-                                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
+                                </form>
+                                <form th:action="'/board/deleteBd/' + ${row.id}" method="get">
+                                <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
                                     <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -120,10 +123,11 @@
                                     </svg>
                                     <span>삭제</span>
                                 </button>
+                                </form>
                             </div>
                         </div>
                         <br><br>
-                        <p>
+                        <p th:utext="${row.contents}">
                             안녕하세요, 저는 2살 된 시추 강아지를 키우고 있는 반려인입니다. 요즘 저희 강아지가 자꾸 이유 없이 짖어서 정말 걱정이에요.<br>
                             특히 밤에 많이 짖어서 이웃들에게 피해를 줄까 봐 너무 신경이 쓰입니다. 낮에는 비교적 얌전한 편인데, 밤만 되면 마치 뭔가에 겁을 먹은 듯이 짖기 시작해요.<br>
                             처음에는 그냥 산책을 덜 시켜서 그런가 했는데, 아무리 산책을 많이 시켜도 밤만 되면 같은 문제가 반복되네요.<br><br>

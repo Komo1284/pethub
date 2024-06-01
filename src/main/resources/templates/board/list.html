@@ -35,12 +35,15 @@
                 </a>
             </nav>
         </aside>
+        <section class="content p-4 md:p-6">
         <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
             <div class="mb-6 flex justify-between items-center">
-                <h2 class="text-2xl font-bold">카테고리명 ex) Cat</h2>
+                <h2 class="text-2xl font-bold">Community</h2>
+                <a th:href="@{/board/write}"
                 <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-9 rounded-md px-3">
                     글 쓰기
                 </button>
+                </a>
             </div>
             <div class="relative w-full overflow-auto">
                 <table class="w-full caption-bottom text-sm">
@@ -64,27 +67,18 @@
                     </tr>
                     </thead>
                     <tbody class="[&amp;_tr:last-child]:border-0">
-                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">1</td>
+                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" th:each="row : ${list}">
+                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.id}">1</td>
                         <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                            <a class="text-orange-600 hover:underline" href="#">
+                            <a class="text-orange-600 hover:underline"
+                               th:text="${row.title}"
+                               th:href="@{/board/view/{id}(id=${row.id})}">
                                 Introducing a New Furry Friend
                             </a>
                         </td>
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">John Doe</td>
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">245</td>
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2023-05-01</td>
-                    </tr>
-                    <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2</td>
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                            <a class="text-orange-600 hover:underline" href="#">
-                                Training Tips for Puppies
-                            </a>
-                        </td>
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">Jane Smith</td>
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">189</td>
-                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2023-04-28</td>
+<!--                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">John Doe</td>-->
+<!--                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">245</td>-->
+                        <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.w_date}">2023-05-01</td>
                     </tr>
                     </tbody>
                 </table>
