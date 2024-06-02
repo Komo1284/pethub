@@ -33,7 +33,8 @@ dependencies {
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    implementation 'com.github.portone:iamport-rest-client-java:0.2.9'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.1'
+
 }
 
 tasks.named('test') {

@@ -5,11 +5,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
 public class CartVO {
-    private int id, order_id, order_item, count;
-    private int order_price,origin_price,discount_price;
+
+    private int id;
+    private int memberId;
+    private List<CartItemVO> cartItems;
+    private int totalPrice;
 
 }

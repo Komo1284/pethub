@@ -15,6 +15,6 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
-  portone:
-    api_key: 4586115827888501
-    api_secret: qv83kwrwpsIg5kvjWk0WVygmqKH8LnooLgOk5cEJpOB6AWwDPfnFJMtKcm8sfmPGfsa2WY7GB34zABri
+#  portone:
+#    api_key: 4586115827888501
+#    api_secret: qv83kwrwpsIg5kvjWk0WVygmqKH8LnooLgOk5cEJpOB6AWwDPfnFJMtKcm8sfmPGfsa2WY7GB34zABri
