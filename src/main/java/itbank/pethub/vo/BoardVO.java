@@ -13,4 +13,5 @@ public class BoardVO {
     private Date w_date;
     private boolean secret;
     private String nick;
+    private int v_count;
 }

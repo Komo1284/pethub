@@ -2,11 +2,12 @@ package itbank.pethub.controller;
 
 import itbank.pethub.service.BoardService;
 import itbank.pethub.vo.BoardVO;
+import itbank.pethub.vo.ReplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -84,6 +85,7 @@ public class BoardController {
         return mav;
     }
 
+    // 글작성
     @GetMapping("/write")
     public void write() {}
 
@@ -97,17 +99,21 @@ public class BoardController {
         return mav;
     }
 
+    // 글 내용 보기
     @GetMapping("/view/{id}")
     public ModelAndView view(@PathVariable int id) {
         ModelAndView mav = new ModelAndView();
 
+        bs.viewCount(id);
         mav.addObject("row", bs.getBoard(id));
+        mav.addObject("reply", bs.getReplies(id));
 
         mav.setViewName("board/view");
 
         return mav;
     }
 
+    // 게시판 수정
     @GetMapping("/updateBd/{id}")
     public ModelAndView updateBd(@PathVariable int id) {
         ModelAndView mav = new ModelAndView();
@@ -128,11 +134,51 @@ public class BoardController {
         return mav;
     }
 
+    // 게시판 삭제
     @GetMapping("/deleteBd/{id}")
     public ModelAndView deleteBd(@PathVariable int id) {
         ModelAndView mav = new ModelAndView();
         bs.delBoard(id);
         mav.setViewName("redirect:/board/list");
+        return mav;
+    }
+
+    // 댓글 추가
+    @PostMapping("/addReply")
+    public ModelAndView addReply(ReplyVO input) {
+        ModelAndView mav = new ModelAndView();
+        bs.addReply(input);
+        mav.setViewName("redirect:/board/view/" + input.getBoard_id());
+
+        return mav;
+    }
+
+    // 댓글 삭제
+    @PostMapping("/deleteReply/{id}")
+    public ModelAndView deleteReply(@PathVariable int id, @RequestParam("board_id") int boardId) {
+        ModelAndView mav = new ModelAndView();
+        bs.deleteReply(id);
+        mav.setViewName("redirect:/board/view/" + boardId);
+
+        return mav;
+    }
+
+    // 댓글 수정
+    @GetMapping("/updateReply/{replyId}") // replyId를 사용하도록 수정
+    public ModelAndView updateReply(@PathVariable int replyId) { // replyId로 수정
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("replyId", bs.getReply(replyId));
+        mav.setViewName("board/view");
+        return mav;
+    }
+
+    @PostMapping("/updateReply/{id}")
+    public ModelAndView updateReply(@PathVariable int id , ReplyVO input, @RequestParam("board_id") int boardId) {
+        ModelAndView mav = new ModelAndView();
+        input.setId(id);
+        bs.updateReply(input);
+        mav.setViewName("redirect:/board/view/" + boardId);
+
         return mav;
     }
 

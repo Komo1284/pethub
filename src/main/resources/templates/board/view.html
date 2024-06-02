@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function upReply(replyId) {
+            // Fetch API를 사용하여 서버로부터 수정 폼을 가져옵니다.
+            fetch('/board/updateReply/' + replyId, {
+                method: 'GET' // GET 메서드를 사용하도록 설정
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('서버 응답 오류: ' + response.status);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    // 성공적으로 데이터를 받으면 수정 폼을 표시합니다.
+                    var replyForm = document.getElementById('replyForm');
+                    replyForm.innerHTML = data;
+                })
+                .catch(error => {
+                    // 오류가 발생했을 때의 처리
+                    console.error('오류 발생:', error);
+                });
+        }
+    </script>
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
@@ -23,7 +46,7 @@
                   <span class="relative flex shrink-0 overflow-hidden rounded-full w-6 h-6">
                     <img class="aspect-square h-full w-full" alt="Author" src="/placeholder-user.jpg" />
                   </span>
-                                    <span>작성자 닉네임</span>
+                                    <span th:text="${row.nick}">작성자 닉네임</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <svg
@@ -41,7 +64,7 @@
                                         <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
-                                    <span>1,234 views</span>
+                                    <span th:text="${row.v_count}">1,234 views</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <svg
@@ -142,28 +165,34 @@
                         </p>
                     </article>
                 </div>
+
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
                     <h3 class="text-xl font-bold mb-4">댓글 작성란</h3>
                     <div class="flex flex-col gap-4">
-            <textarea
-                    class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="여기에 댓글을 작성하세요..."
-            ></textarea>
+                    <form th:action="@{/board/addReply}" method="post">
+                        <textarea
+                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            placeholder="여기에 댓글을 작성하세요..."
+                            th:name="contents" th:value="${row?.contents}" th:required
+                        ></textarea>
+                        <input type="hidden" name="board_id" th:value="${row?.id}" />
                         <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
-                            댓글 남기기
+                                댓글 남기기
                         </button>
+                    </form>
                     </div>
                 </div>
+
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold mb-4">댓글</h3>
-                    <div class="grid gap-4">
-                        <div class="bg-gray-100 p-4 rounded-md">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center gap-2">
+                                    <h3 class="text-xl font-bold mb-4">댓글</h3>
+                                    <div class="grid gap-4">
+                                        <div class="bg-gray-100 p-4 rounded-md" th:each="reply : ${reply}">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center gap-2">
                   <span class="relative flex shrink-0 overflow-hidden rounded-full w-6 h-6">
-                    <img class="aspect-square h-full w-full" alt="Author" src="/placeholder-user.jpg" />
+                    <img class="aspect-square h-full w-full" alt="Author" th:src="${'/placeholder-user.jpg'}" />
                   </span>
-                                    <span>Jane Smith</span>
+                                    <span th:text="${reply.nick}">Jane Smith</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <svg
@@ -183,16 +212,18 @@
                                         <rect width="18" height="18" x="3" y="4" rx="2"></rect>
                                         <path d="M3 10h18"></path>
                                     </svg>
-                                    <span>April 30, 2023</span>
+                                    <span th:text="${reply.w_date}">April 30, 2023</span>
                                 </div>
                             </div>
-                            <p class="text-gray-600">
+                            <p class="text-gray-600" th:text="${reply.contents}">
                                 안녕하세요! 저도 예전에 비슷한 문제를 겪었어요. 강아지가 밤에 짖는 이유는 여러 가지가 있을 수 있어요. <br>
                                 불안감이나 외로움 때문에 그럴 수도 있고, 아니면 주변 소음 때문에 예민하게 반응하는 걸 수도 있어요. <br>
                                 저는 강아지에게 안정감을 주기 위해 자기 전에 충분히 놀아주고, 잠자리에 들 때는 편안한 음악을 틀어줬더니 많이 나아졌어요. 한번 시도해 보세요!
                             </p>
+                            <div id="replyForm"></div>
+
                             <div class="flex items-center justify-end gap-2 mt-2">
-                                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" onclick="upReply('${reply.id}')">
                                     <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -210,7 +241,10 @@
                                     </svg>
                                     <span>수정</span>
                                 </button>
-                                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
+
+                                <form th:action="'/board/deleteReply/' + ${reply.id}" method="post" id="deleteForm">
+                                    <input type="hidden" name="board_id" th:value="${row.id}" />
+                                <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
                                     <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -229,6 +263,7 @@
                                     </svg>
                                     <span>삭제</span>
                                 </button>
+                                </form>
                             </div>
                         </div>
                     </div>
