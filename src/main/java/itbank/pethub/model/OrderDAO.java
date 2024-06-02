@@ -9,27 +9,19 @@ import java.util.List;
 @Mapper
 public interface OrderDAO {
 
-    // Cart 관련 메소드
-    CartVO findCartByMemberId(int memberId);
+    List<CartVO> getCartItemsByMemberId(int memberId);
 
-    List<CartItemVO> findCartItemsByCartId(int cartId);
+    void updateCartItem(int itemId, int count);
 
-    void addItemToCart(CartItemVO cartItem);
+    void deleteCartItem(int itemId);
 
-    void removeItemFromCart(int cartItemId);
+    List<CartVO> getItemsByIds(List<Integer> itemIds);
 
-    void updateItemQuantity(int cartItemId, int quantity);
+    MemberVO getMemberById(int memberId);
 
-    // Order 관련 메소드
-    void createOrder(OrderVO order);
+    void insertOrder(OrdersVO order);
 
-    void createOrderItem(OrderItemVO orderItem);
+    void updateOrderItemStatus(int itemId, String status);
 
-    void updateOrderStatus(int orderId, String status);
-
-    // Member 관련 메소드
-    MemberVO findMemberById(int memberId);
-
-    // 주문 현황
-    List<CartVO> getOrders(int id);
+    void clearCart(int memberId, List<Integer> itemIds);
 }

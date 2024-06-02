@@ -1,89 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Farm</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Payment</title>
 </head>
 <body>
-<div class="min-h-screen bg-[#f0f8f0] flex flex-col">
-    <main class="flex-1 container mx-auto py-12 px-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" th:each="row : ${orderlist}">
-            <div id="buy"  class="col-span-2 bg-white rounded-lg shadow-md p-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold">배송 정보</h2>
+<h1>결제 페이지</h1>
+<h2>선택한 상품들</h2>
+<table>
+    <thead>
+    <tr>
+        <th>상품명</th>
+        <th>수량</th>
+        <th>가격</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${selectedItems}">
+        <td th:text="${item.product_name}"></td>
+        <td th:text="${item.count}"></td>
+        <td th:text="${item.unit_price * item.count}"></td>
+    </tr>
+    </tbody>
+</table>
+<h2>총 가격: <span th:text="${totalPrice}"></span></h2>
+<h2>배송 정보</h2>
+<form id="payment-form">
+    <label>이름: <input type="text" name="name" th:value="${member.name}"></label><br>
+    <label>전화번호: <input type="text" name="phone" th:value="${member.phone}"></label><br>
+    <label>주소: <input type="text" name="address" th:value="${member.address}"></label><br>
+    <label>이메일: <input type="text" name="email" th:value="${member.email}"></label><br>
 
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <p class="text-gray-500 mb-1">고객 이름</p>
-                        <p class="font-medium" th:text="${row.member_name}"></p>
-                    </div>
-                    <div>
-                        <p class="text-gray-500 mb-1">주문 번호</p>
-                        <p class="font-medium" th:text="${row.order_id}"></p>
-                    </div>
-                    <div>
-                        <p class="text-gray-500 mb-1">배송지</p>
-                        <p class="font-medium" th:text="${row.address}"></p>
-                    </div>
-                    <div>
-                        <p class="text-gray-500 mb-1">전화번호</p>
-                        <p class="font-medium" th:text="${row.member_phone}"></p>
-                    </div>
-                </div>
-                <div class="border-t pt-6">
-                    <h3 class="text-xl font-bold mb-4">상품목록</h3>
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-4 items-center">
-                            <div class="col-span-2">
-                                <p>상품명</p>
-                                <p class="font-medium" th:text="${row.product_name}"></p>
-                            </div>
-                            <div class="col-span-2">
-                                <p></p>
-                                <p class="font-size-0" th:text="${row.delivery_id}"></p>
-                            </div>
-                            <div class="text-right">
-                                <p>개수</p>
-                                <p class="font-medium" th:text="${row.count}"></p>
-                            </div>
-                            <div class="text-right">
-                                <p>가격</p>
-                                <p class="font-medium" th:text="${row.unit_price}"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <h2 class="text-2xl font-bold mb-6">주문 합계</h2>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <p class="text-gray-500">소계</p>
-                        <p class="font-medium" th:text="${row.total_price}"></p>
-                    </div>
-                    <div data-orientation="horizontal" role="none" class="shrink-0 bg-gray-100 h-[1px] w-full"></div>
-                    <div class="flex items-center justify-between">
-                        <p class="text-lg font-bold">합계</p>
-                        <p id="totalPrice" class="text-lg font-bold" th:text="${row.total_price}"></p>
-                    </div>
-                </div>
-                <br>
-                <div class="payment-options">
-                    <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
-                    <label><input type="radio" name="pay_method" value="trans">실시간 계좌이체</label>
-                    <label><input type="radio" name="pay_method" value="vbank">가상계좌</label>
-                    <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
-                </div>
-                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 mt-6 w-full bg-green-500 hover:bg-green-600 text-white" onclick="requestPay()">
-                    결제
-                </button>
-            </div>
-        </div>
-    </main>
-</div>
+    <h2>결제 방법</h2>
+    <div class="payment-options">
+        <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
+        <label><input type="radio" name="pay_method" value="trans">실시간 계좌이체</label>
+        <label><input type="radio" name="pay_method" value="vbank">가상계좌</label>
+        <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
+    </div>
+    <button type="button" onclick="requestPay()">결제하기</button>
+</form>
 
 <!-- jQuery -->
 <script type="text/javascript"
@@ -92,77 +49,49 @@
 <script type="text/javascript"
         src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script>
-    var IMP = window.IMP;
-    IMP.init("imp81357167");
-
     function requestPay() {
-        var selectedPayMethod = document.querySelector('input[name="pay_method"]:checked').value;
-        var totalOrderPrice = parseFloat(document.getElementById('totalPrice').innerText);
-        if (isNaN(totalOrderPrice) || totalOrderPrice <= 0) {
-            alert("총 주문 가격이 올바르지 않습니다.");
-            return;
-        }
+        var IMP = window.IMP;
+        IMP.init('imp81357167'); // 여기에 아임포트 식별코드 입력
 
-        var orderItems = [];
-        var rows = document.querySelectorAll('#buy p:nth-child(2)'); // Skip the header row
+        var form = document.getElementById('payment-form');
+        var payMethod = form.pay_method.value;
 
-        console.log(rows);
-
-        //rows.forEach(function(row) {
-
-        var orderItem = {
-            order_id: rows[1].innerHTML,
-            product_name: rows[4].innerHTML,
-            member_name: rows[0].innerHTML,
-            member_phone: rows[3].innerHTML,
-            address: rows[2].innerHTML,
-            delivery_id: rows[5].innerHTML,
-        };
-        orderItems.push(orderItem);
-        // });
-
-
+        /* var memberId =   member ID 가져오기 */;
+        var merchantUid = 'merchant_' + new Date().getTime();
 
         IMP.request_pay({
-            pg: "html5_inicis",
-            pay_method: selectedPayMethod,
-            merchant_uid: orderItems.map(item => item.order_id).join(','), // Use comma separated order_ids
-            name: "주문 묶음",
-            amount: totalOrderPrice,
-            buyer_name: orderItems[0].member_name,
-            buyer_tel: orderItems[0].member_phone,
-            buyer_addr: orderItems[0].address,
-        }, function(rsp) {
+            pg: 'html5_inicis', // 결제 연동할 PG사
+            pay_method: payMethod,
+            merchant_uid: merchantUid,
+            name: '주문명: 결제 테스트',
+            /*amount:  결제할 금액 ,*/
+            buyer_email: form.email.value,
+            buyer_name: form.name.value,
+            buyer_tel: form.phone.value,
+            buyer_addr: form.address.value,
+        }, function (rsp) {
             if (rsp.success) {
-                if (orderItems.length > 0) { // 주문 항목이 있는 경우에만 AJAX 요청을 보냄
-                    orderItems.forEach(function(orderItem) {
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "/pay/updateDeliveryInfo", true);
-                        xhr.setRequestHeader("Content-Type", "application/json");
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                alert("배송 정보가 업데이트되었습니다.");
-
-                                // 결제 성공 후 페이지 이동
-                                window.location.href = "/pay/orderStatus"; // 이동할 페이지 URL
-                            }
-                        };
-                        var data = {
-                            order_id: orderItem.order_id,
-                            delivery_id: orderItem.delivery_id, // Include delivery_id in the data
-                        };
-                        xhr.send(JSON.stringify(data));
-                    });
-                } else {
-                    // 주문 항목이 없는 경우
-                    window.location.href = "/pay/details"; // 이동할 페이지 URL
-                }
+                fetch('/order/pay/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        payMethod: payMethod,
+                        /*    itemIds: 선택한 아이템 ID 리스트 ,*/
+                        memberId: memberId,
+                        merchantUid: merchantUid
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        location.href = '/order/success';
+                    }
+                });
             } else {
-                alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                alert('결제에 실패하였습니다. 에러 내용: ' + rsp.error_msg);
             }
         });
     }
 </script>
-
 </body>
 </html>
