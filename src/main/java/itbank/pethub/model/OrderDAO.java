@@ -32,8 +32,6 @@ public interface OrderDAO {
             "WHERE o.order_status = (SELECT os.id FROM order_status os WHERE os.name = '주문 접수'))")
     int countup(CartVO cartVO);
 
-    void updateCartItem(int itemId, int count);
-
     @Select("SELECT * FROM cart WHERE order_id IN (SELECT id FROM `order` WHERE member_id = #{memberId})")
     public List<CartVO> getCarts(int memberId);
 
@@ -43,7 +41,7 @@ public interface OrderDAO {
     @Select("select * from item where id = #{id}")
     ItemVO selectOne(int id);
 
-    @Select("SELECT id FROM cart WHERE order_id IN (SELECT id FROM `order` WHERE member_id=#{memberId} and order_status in (select id from Order_Status where name ='주문 접수')) AND order_item=#{id}")
+    @Select("SELECT id FROM cart WHERE order_id IN (SELECT id FROM `order` WHERE member_id=#{memberId} and order_status in (select id from order_status where name ='주문 접수')) AND order_item=#{id}")
     @ResultType(Integer.class)
     Integer getExistingOrderId(@Param("memberId") int memberId, @Param("id") int id);
 
@@ -53,22 +51,20 @@ public interface OrderDAO {
     @Delete("Delete From cart where order_id=#{orderId}")
     int deleteCart(int orderId);
 
-    @Select("select order_status from order where id=#{orderId}")
-    int getOrder_status_id(int orderId);
+    @Select("select delivery_id from `order` where id=#{order_id}")
+    int getDeli_id(int order_id);
 
-    @Select("select delivery_id from order where order_status=#{osId}")
-    int getDeli_id(int osId);
 
-    @Select("select status_id from delivery where id=#{dId}")
-    int getDeli_st_id(int dId);
 
-    @Delete("DELETE from order whhere id=#{orderId}")
+    @Delete("DELETE from `order` where id=#{orderId}")
     int deleteOrder(int orderId);
 
-    @Delete("DELETE from order_status where id=#{osId}")
-    int deleteOrderStatus(int osId);
+
 
     @Delete("DELETE from delivery where id=#{dId}")
     int deleteDelivery(int dId);
 
+
+    @Select("select * from modc where member_id=#{memberId}")
+    List<MODCVO> selectMODC(int memberId);
 }
