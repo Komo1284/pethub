@@ -1,9 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.service.OrderService;
-import itbank.pethub.vo.CartVO;
-import itbank.pethub.vo.ItemVO;
-import itbank.pethub.vo.MemberVO;
+import itbank.pethub.vo.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,37 +78,47 @@ public class OrderController {
 
         // 주문이 이미 존재하는지 확인 - order 페이지에만 있는지 확인
         int existingOrderId = os.getExistingOrderId(memberId, productId);
-
+        System.out.println(existingOrderId);
         if (existingOrderId != -1) {
             // 주문이 이미 존재하면 수량을 업데이트
             CartVO cartVO = new CartVO();
-            cartVO.setOrder_id(existingOrderId);
+            cartVO.setId(existingOrderId);
             cartVO.setCount(quantity);
             os.countUp(cartVO);
-        } else {
-            os.makedelivery_status();
-            os.makeOrder_status();
 
+        } else {
             //포스트 번호 - 어케 할지 몰라 일단 300으로 고정시켜둠
             int port=300;
-            int delivery_status_id=os.getdelivery_status_id();
-            String add=user.getAddress();
 
-            os.makeDelivery(add, port, delivery_status_id);
+            String add=user.getAddress();
+            DeliveryVO dv=new DeliveryVO();
+
+            dv.setAddress(add);
+            dv.setPost(port);
+            os.makeDelivery(dv);
 
             int delivery_id=os.getdelivery_id();
-            int order_status=os.getOrder_status();
 
-            os.makeOrder(memberId, delivery_id, order_status);
+            OrderVO ov=new OrderVO();
+            ov.setMember_id(memberId);
+            ov.setDelivery_id(delivery_id);
+            os.makeOrder(ov);
 
             ItemVO iv=os.getItem(productId);
 
             int orderid = os.getorderid();
-            os.makeCart(orderid, productId, iv.getPrice(), quantity, iv.getPrice());
+
+            CartVO cv=new CartVO();
+            cv.setOrder_id(orderid);
+            cv.setOrder_item(productId);
+            cv.setOrder_price(iv.getPrice());
+            cv.setCount(quantity);
+            cv.setOrigin_price(iv.getPrice());
+            os.makeCart(cv);
         }
 
         // 주문이 성공적으로 추가되거나 업데이트된 후 주문 페이지로 리다이렉트
-        mav.setViewName("/order/cart");
+        mav.setViewName("redirect:/order/cart");
 
         return mav;
     }

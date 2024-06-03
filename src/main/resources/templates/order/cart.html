@@ -33,9 +33,10 @@
                                         <p class="text-gray-500">가격: <span th:text="${row.order_price}"></span></p>
 
                                         <div class="flex items-center gap-2">
-                                           <h3>수량: 왜 안되는데?</h3> <input type="number"
+                                            <h3>수량: <span th:text="${row.count}"></span></h3>
+                                            <input type="number"
                                                    class="appearance-none border rounded-md w-20 h-9 px-3 text-sm text-center text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
-                                                   value="${row.count}" min="1">
+                                                   th:value="${row.count}" min="1">
                                         </div>
                                     </div>
                                 </div>
@@ -43,7 +44,7 @@
                                     <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" th:onclick="|location.href='/order/orderUpdate/' + ${row.id}|">
 
 
-                                    <svg
+                                        <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 width="24"
                                                 height="24"
@@ -82,34 +83,75 @@
                                 </div>
                             </li>
                             <hr>
-                            <li class="flex items-center justify-between gap-4">
-
-                                <div>
-                                    <div class="bg-gray-100 p-4 rounded-md">
-                                        <h3 class="text-lg font-semibold mb-2">주문 요약</h3>
-                                        <div class="flex justify-between mb-2">
-                                            <span>소계</span>
-                                            <span>$69.97</span>
-                                        </div>
-                                        <div class="flex justify-between mb-2">
-                                            <span>배송비</span>
-                                            <span>$5.99</span>
-                                        </div>
-                                        <div class="flex justify-between mb-4">
-                                            <span class="font-semibold">합계</span>
-                                            <span class="font-semibold">$75.96</span>
-                                        </div>
-                                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full">
-                                            결제하기
-                                        </button>
-                                    </div>
-                                </div>
+                        </ul>
                     </div>
                 </div>
+            </div>
+            <!-- Order Summary Section -->
+            <div class="bg-gray-100 p-4 rounded-md mt-8">
+                <h3 class="text-lg font-semibold mb-2">주문 요약</h3>
+                <div class="flex justify-between mb-2">
+                    <span>소계</span>
+                    <span id="subtotal">0</span> <!-- Placeholder for subtotal -->
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span>배송비</span>
+                    <span>$5.99</span> <!-- Fixed shipping fee -->
+                </div>
+                <div class="flex justify-between mb-4">
+                    <span class="font-semibold">합계</span>
+                    <span id="total">0</span> <!-- Placeholder for total -->
+                </div>
+                <button id="checkoutBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full">
+                    결제하기
+                </button>
             </div>
         </div>
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+
+<!-- JavaScript to calculate subtotal and total -->
+<script>
+    // Function to calculate subtotal
+    function calculateSubtotal() {
+        let subtotal = 0;
+        document    .querySelectorAll('.text-gray-500 > span').forEach((element) => {
+            subtotal += parseFloat(element.textContent);
+        });
+        return subtotal.toFixed(2); // Return subtotal with two decimal places
+    }
+
+    // Function to update subtotal and total
+    function updateSummary() {
+        // Calculate subtotal
+        const subtotal = calculateSubtotal();
+
+        // Get fixed shipping fee
+        const shippingFee = 5.99;
+
+        // Calculate total
+        const total = (parseFloat(subtotal) + shippingFee).toFixed(2); // Adding subtotal and shipping fee
+
+        // Update subtotal and total in the HTML
+        document.getElementById('subtotal').textContent = subtotal;
+        document.getElementById('total').textContent = total;
+    }
+
+    // Call updateSummary function when the page loads
+    window.onload = updateSummary;
+
+    // Event listener for input changes
+    document.querySelectorAll('input[type="number"]').forEach((input) => {
+        input.addEventListener('change', updateSummary);
+    });
+
+    // Event listener for checkout button click
+    document.getElementById('checkoutBtn').addEventListener('click', function() {
+        // You can add your checkout logic here, for example, redirecting to a checkout page
+        console.log('Checkout button clicked');
+    });
+</script>
 </body>
 </html>
+

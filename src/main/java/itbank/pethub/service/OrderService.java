@@ -1,9 +1,7 @@
 package itbank.pethub.service;
 
 import itbank.pethub.model.OrderDAO;
-import itbank.pethub.vo.CartVO;
-import itbank.pethub.vo.ItemVO;
-import itbank.pethub.vo.OrderVO;
+import itbank.pethub.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,32 +31,17 @@ public class OrderService {
         return existingOrderId != null ? existingOrderId.intValue() : -1;
     }
 
-    public String makedelivery_status() {
-        return od.makedelivery_status();
-    }
-
-    public String makeOrder_status() {
-        return od.makeOrder_status();
-    }
-
     public int getdelivery_status_id() {
         return od.getdelivery_status_id();
-    }
-
-    public int makeDelivery(String add, int port, int deliveryId) {
-        return od.makedelivery(add, port, deliveryId);
     }
 
     public int getdelivery_id() {
         return od.getdelivery_id();
     }
 
-    public int getOrder_status() {
-        return od.getOrder_status();
-    }
 
-    public OrderVO makeOrder(int memberId, int deliveryId, int orderStatus) {
-        return od.makeOrder(memberId, deliveryId, orderStatus);
+    public int makeOrder(OrderVO ov) {
+        return od.makeOrder(ov);
     }
 
     public ItemVO getItem(int productId) {
@@ -69,8 +52,8 @@ public class OrderService {
         return  od.getorderid();
     }
 
-    public int makeCart(int orderid, int productId, int price, int quantity, int price1) {
-        return od.makecart(orderid, productId, price, quantity, price1);
+    public int makeCart(CartVO cv) {
+        return od.makecart(cv);
     }
 
     public int countUp(CartVO cartVO) {
@@ -112,5 +95,9 @@ public class OrderService {
 
     public int deleteDeliveryStatus(int dsId) {
         return od.deleteDeliveryStatus(dsId);
+    }
+
+    public int makeDelivery(DeliveryVO dsv) {
+        return od.makedelivery(dsv);
     }
 }
