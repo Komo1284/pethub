@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface MemberDAO {
-    @Select("select * from Member where userid = #{userid} and userpw=#{userpw}")
+    @Select("select * from member where userid = #{userid} and userpw=#{userpw}")
     MemberVO selectOne(MemberVO input);
 }

@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-4">
-                                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" th:onclick="|location.href='/order/orderUpdate/' + ${row.id}|">
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" th:onclick="|location.href='/order/cart/update' + ${row.id}|">
 
 
                                         <svg
@@ -110,7 +110,7 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <!-- JavaScript to calculate subtotal and total -->
 <script>
     // Function to calculate subtotal
@@ -140,6 +140,26 @@
 
     // Call updateSummary function when the page loads
     window.onload = updateSummary;
+
+    $(document).ready(function() {
+        $('input[type="number"]').on('change', function() {
+            var newCount = $(this).val();
+            var productId = $(this).data('id');
+
+            $.ajax({
+                type: 'POST',
+                url: '/order/cart/update', // Update with the actual endpoint for updating the cart
+                contentType: 'application/json',
+                data: JSON.stringify({ id: productId, count: newCount }),
+                success: function(response) {
+                    alert('수량이 성공적으로 업데이트되었습니다.');
+                },
+                error: function(xhr, status, error) {
+                    alert('수량 업데이트에 실패하였습니다.');
+                }
+            });
+        });
+    });
 
     // Event listener for input changes
     document.querySelectorAll('input[type="number"]').forEach((input) => {
