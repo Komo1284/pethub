@@ -13,4 +13,6 @@ public class MemberVO {
     private String userpw;
     private String nick;
     private String profile;
+    private int ad;
+    private String newpw;
 }
