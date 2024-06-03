@@ -61,18 +61,22 @@
                     </svg>
                 </a>
             </button>
-            <a class="text-gray-500 hover:text-gray-900" href="/member/login">
-                로그인
-            </a>
-            <a class="text-gray-500 hover:text-gray-900" href="/member/logout">
-                로그아웃
-            </a>
-            <a class="text-gray-500 hover:text-gray-900" href="/member/myPage">
-                마이페이지
-            </a>
-            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-9 rounded-md px-3">
-               <a href="/member/signUp">회원가입</a>
-            </button>
+            <th:block th:if="${session.user == null}">
+                <a class="text-gray-500 hover:text-gray-900" href="/member/login">
+                    로그인
+                </a>
+                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-9 rounded-md px-3">
+                    <a href="/member/signUp">회원가입</a>
+                </button>
+            </th:block>
+            <th:block th:if="${session.user != null}">
+                <a class="text-gray-500 hover:text-gray-900" href="/member/logout">
+                    로그아웃
+                </a>
+                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-9 rounded-md px-3">
+                    <a href="/member/myPage">마이페이지</a>
+                </button>
+            </th:block>
         </div>
     </div>
 </header>

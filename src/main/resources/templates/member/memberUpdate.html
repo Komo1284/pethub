@@ -34,6 +34,7 @@
                                             accept="image/*"
                                             type="file"
                                             name="file"
+                                            onchange="previewImage(event)"
                                     />
                                 </label>
                             </div>
@@ -55,6 +56,7 @@
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                     id="userpw"
                                     type="password"
+                                    name="userpw"
                             />
                         </div>
                         <div class="mb-4">
@@ -68,6 +70,7 @@
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                     id="newpw"
                                     type="password"
+                                    name="newpw"
                             />
                         </div>
                         <div class="mb-4">
@@ -100,6 +103,7 @@
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                         id="nick"
                                         type="text"
+                                        name="nick"
                                         th:value="*{nick}"
                                 />
                             </div>
@@ -114,6 +118,7 @@
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                         id="email"
                                         type="email"
+                                        name="email"
                                         th:value="*{email}"
                                 />
                             </div>
@@ -128,6 +133,7 @@
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                         id="phone"
                                         type="text"
+                                        name="phone"
                                         th:value="*{phone}"
                                 />
                             </div>
@@ -145,6 +151,7 @@
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                         id="address"
                                         type="text"
+                                        name="address"
                                         th:value="*{address}"
                                 />
                             </div>
@@ -164,5 +171,21 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+<th:block th:if="${msg != null}">
+    <script th:inline="javascript">
+        let msg = [[${msg}]];
+        alert(msg);
+    </script>
+</th:block>
+<script th:inline="javascript">
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('profile_picture');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 </body>
 </html>

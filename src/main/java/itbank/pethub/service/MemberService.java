@@ -19,7 +19,6 @@ public class MemberService {
 
     public MemberVO login(MemberVO input) {
         String hash = input.getUserpw();
-        System.out.println(hash);
         return dao.selectOne(input);
     }
 

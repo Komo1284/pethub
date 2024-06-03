@@ -90,12 +90,25 @@ public class MemberController {
 
     // 회원정보 수정요청하여 로그아웃으로 리다이렉트
     @PostMapping("/memberUpdate")
-    public String myPage(MemberVO input, HttpSession session, MultipartFile file) throws IOException {
+    public ModelAndView myPage(MemberVO input, HttpSession session, MultipartFile file) throws IOException {
+
+        ModelAndView mav = new ModelAndView();
+
+        // 변경할 비밀번호와 비밀번호체크가 동일하지 않다면 메세지를 담아서 수정페이지로 포워드
+        if(!Objects.equals(input.getNewpw(), input.getPwCheck())){
+            mav.addObject("msg", "변경할 비밀번호와 확인이 일치하지 않습니다.");
+            mav.setViewName("member/memberUpdate");
+            return mav;
+        }
+
         MemberVO member = (MemberVO) session.getAttribute("user");
+
+        // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅
         String url = is.imageUploadFromFile(file);
         member.setProfile(url);
-        String pw = input.getUserpw();
+
         // hash처리 pw
+        String pw = input.getUserpw();
         pw = PasswordEncoder.encode(pw);
         if(member.getUserpw().equals(pw)){
             member.setUserpw(input.getNewpw());
@@ -105,8 +118,8 @@ public class MemberController {
             ms.update(member);
         }
 
-
-        return "redirect:/member/logout";
+        mav.setViewName("redirect:/member/logout");
+        return mav;
     }
 
     // 회원탈퇴하고 홈으로 리다이렉트
@@ -135,7 +148,6 @@ public class MemberController {
     public ModelAndView findPw(MemberVO input) {
         ModelAndView mav = new ModelAndView("member/findAcc");
         String newPw = ms.findPw(input);
-        System.out.println("newPw = " + newPw);
         mav.addObject("newPw", newPw);
         return mav;
     }
