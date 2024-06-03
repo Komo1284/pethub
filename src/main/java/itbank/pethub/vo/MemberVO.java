@@ -8,7 +8,8 @@ public class MemberVO {
     private String name;
     private String email;
     private String phone;
-    private String address;
+    private int zip_code;
+    private String primary_address, address_details;
     private String userid;
     private String userpw, pwCheck;
     private String nick;

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
@@ -14,14 +15,14 @@
         <div class="flex-1 p-4 md:p-6 mt-16 mx-8">
             <div class="bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-xl font-semibold mb-6">회원정보 수정</h2>
-                <form method="post" th:object="${session.user}" enctype="multipart/form-data">
+                <form method="post" th:object="${session.user}" enctype="multipart/form-data" name="update">
                     <div class="mt-6">
                         <h3 class="text-lg font-semibold mb-2">프로필 사진</h3>
                         <div class="flex items-center gap-4">
                             <img th:src="@{*{profile}}"
                                  alt="profile"
                                  width="150" height="150"
-                                id="profile_picture">
+                                 id="profile_picture">
                             <div>
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
@@ -140,19 +141,67 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold mb-2">주소</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="mb-4 grid gap-2">
+                                    <label
+                                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                            for="zip_code"
+                                    >
+                                        우편번호
+                                    </label>
+                                    <input
+                                            class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                                            id="zip_code"
+                                            type="text"
+                                            name="zip_code"
+                                            th:value="*{zip_code}"
+                                            readonly
+                                    />
+                                </div>
+                                <div class="mb-4 grid gap-2 flex items-end">
+                                    <label
+                                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                            for="search"
+                                    ></label>
+                                    <button
+                                            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
+                                            id="search"
+                                            style="height: 2.5rem; width: 50%;"
+                                            type="button"
+                                    >
+                                        주소 검색하기
+                                    </button>
+                                </div>
+                            </div>
                             <div class="mb-4">
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
-                                        for="address"
+                                        for="primary_address"
                                 >
-                                    주소
+                                    기본 주소
                                 </label>
                                 <input
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
-                                        id="address"
+                                        id="primary_address"
                                         type="text"
-                                        name="address"
-                                        th:value="*{address}"
+                                        name="primary_address"
+                                        th:value="*{primary_address}"
+                                        readonly
+                                />
+                            </div>
+                            <div class="mb-4">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                        for="address_details"
+                                >
+                                    상세 주소
+                                </label>
+                                <input
+                                        class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                                        id="address_details"
+                                        type="text"
+                                        name="address_details"
+                                        th:value="*{address_details}"
                                 />
                             </div>
                         </div>
@@ -180,12 +229,44 @@
 <script th:inline="javascript">
     function previewImage(event) {
         const reader = new FileReader();
-        reader.onload = function(){
+        reader.onload = function () {
             const output = document.getElementById('profile_picture');
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
     }
+
+    const search = document.querySelector('#search');
+    search.addEventListener("click", () => {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let fullAddr = '';
+                let extraAddr = '';
+
+                if(data.userSelectedType === 'R') {
+                    fullAddr = data.roadAddress;
+                } else {
+                    fullAddr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R') {
+                    if(data.bname !== '') {
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+
+                    fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+                }
+
+                document.update.primary_address.value = fullAddr;
+                document.update.zip_code.value = data.zonecode;
+                document.update.address_details.focus();
+            }
+        }).open();
+    });
+
 </script>
 </body>
 </html>

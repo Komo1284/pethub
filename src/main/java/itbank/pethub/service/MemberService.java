@@ -28,6 +28,7 @@ public class MemberService {
 
     public void update(MemberVO input) {
         dao.update(input);
+        dao.addressUpdate(input);
     }
 
     public void delete(MemberVO member) {
@@ -58,5 +59,13 @@ public class MemberService {
 
     public List<CouponVO> couponFindbyId(int member_id) {
         return dao.couponFindbyId(member_id);
+    }
+
+    public void updateAddress(MemberVO user) {
+        dao.addressUpdate(user);
+    }
+
+    public void updateNoProfile(MemberVO user) {
+        dao.updateNoProfile(user);
     }
 }

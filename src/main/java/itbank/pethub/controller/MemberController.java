@@ -93,6 +93,17 @@ public class MemberController {
     public ModelAndView myPage(MemberVO input, HttpSession session, MultipartFile file) throws IOException {
 
         ModelAndView mav = new ModelAndView();
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        // 현재비밀번호가 일치하는지 확인
+        String hashPw = input.getUserpw();
+        hashPw = PasswordEncoder.encode(hashPw);
+
+        if(!Objects.equals(user.getUserpw(), hashPw)){
+            mav.addObject("msg", "현재 비밀번호가 알맞지 않습니다.");
+            mav.setViewName("member/memberUpdate");
+            return mav;
+        }
 
         // 변경할 비밀번호와 비밀번호체크가 동일하지 않다면 메세지를 담아서 수정페이지로 포워드
         if(!Objects.equals(input.getNewpw(), input.getPwCheck())){
@@ -101,21 +112,18 @@ public class MemberController {
             return mav;
         }
 
-        MemberVO member = (MemberVO) session.getAttribute("user");
+        input.setId(user.getId());
+        input.setUserpw(input.getNewpw());
 
-        // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅
-        String url = is.imageUploadFromFile(file);
-        member.setProfile(url);
-
-        // hash처리 pw
-        String pw = input.getUserpw();
-        pw = PasswordEncoder.encode(pw);
-        if(member.getUserpw().equals(pw)){
-            member.setUserpw(input.getNewpw());
-            member.setEmail(input.getEmail());
-            member.setAddress(input.getAddress());
-            member.setPhone(input.getPhone());
-            ms.update(member);
+        // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
+        if(!file.isEmpty()){
+            String url = is.imageUploadFromFile(file);
+            user.setProfile(url);
+            ms.update(input);
+            ms.updateAddress(input);
+        } else{ // 이미지 변경 안할 경우
+            ms.updateNoProfile(input);
+            ms.updateAddress(input);
         }
 
         mav.setViewName("redirect:/member/logout");

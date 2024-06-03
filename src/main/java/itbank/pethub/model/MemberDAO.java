@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface MemberDAO {
 
-    @Select("select * from member where userid = #{userid} and userpw = #{userpw}")
+    @Select("select * from member_address_view where userid = #{userid} and userpw = #{userpw}")
     MemberVO selectOne(MemberVO input);
 
     @Insert("insert into member (name, address, email, userid, userpw, nick, phone) " +
@@ -17,7 +17,7 @@ public interface MemberDAO {
     int insert(MemberVO input);
 
     @Update("update member set userpw = #{userpw}, email = #{email}, " +
-            "address = #{address}, phone = #{phone}, profile = #{profile} where id = #{id}")
+            "phone = #{phone}, profile = #{profile} where id = #{id}")
     void update(MemberVO input);
 
     @Delete("delete from member where id = #{id}")
@@ -37,4 +37,12 @@ public interface MemberDAO {
 
     @Select("select * from member_coupons_view where member_id = #{member_id}")
     List<CouponVO> couponFindbyId(int member_id);
+
+    @Update("update address set zip_code = #{zip_code}, primary_address = #{primary_address}, address_details = #{address_details} " +
+            "where member_id = #{id}")
+    void addressUpdate(MemberVO input);
+
+    @Update("update member set userpw = #{userpw}, email = #{email}, " +
+            "phone = #{phone} where id = #{id}")
+    void updateNoProfile(MemberVO user);
 }

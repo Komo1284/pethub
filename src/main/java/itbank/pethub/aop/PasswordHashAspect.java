@@ -23,4 +23,9 @@ public class PasswordHashAspect {
     public void hashPasswordBeforeUpdate(MemberVO input) {
         input.setUserpw(PasswordEncoder.encode(input.getUserpw()));
     }
+
+    @Before("execution(* itbank.pethub.service.MemberService.updateNoProfile(..)) && args(input)")
+    public void hashPasswordBeforeUpdateNoProfile(MemberVO input) {
+        input.setUserpw(PasswordEncoder.encode(input.getUserpw()));
+    }
 }
