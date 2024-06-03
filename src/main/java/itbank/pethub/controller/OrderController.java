@@ -127,21 +127,20 @@ public class OrderController {
     @GetMapping("/delete/{order_id}")
     public ModelAndView delete(@PathVariable("order_id") int order_id) {
         ModelAndView mav = new ModelAndView();
+        System.out.println(order_id);
 
-        int os_id=os.getOrder_status_id(order_id);
-        int d_id=os.getDeli_id(os_id);
-        int ds_id=os.getDeli_st_id(d_id);
+        int d_id=os.getDeli_id(order_id);
+
 
         os.deleteCart(order_id);
         os.deleteOrder(order_id);
-        os.deleteOrderStatus(os_id);
-        os.deleteDelivery(d_id);
+        int row =os.deleteDelivery(d_id);
+        System.out.println(row);
 
-        int row =os.deleteDeliveryStatus(ds_id);
 
 
         String msg = "삭제 되었습니다. ";
-        if (row != 0)
+        if (row != 1)
             msg = "삭제 실패하였습니다.";
 
         mav.addObject("path", "/order/cart");
@@ -152,5 +151,28 @@ public class OrderController {
         return mav;
     }
 
-}
+    @PostMapping("/cart")
+    public ModelAndView orderStatus() {
+        ModelAndView mav = new ModelAndView();
 
+        mav.setViewName("redirect:/order/orderStatus");
+        return mav;
+    }
+
+    @GetMapping("/orderStatus")
+    public ModelAndView orderStatus(HttpSession session) {
+        ModelAndView mav= new ModelAndView();
+        if (session.getAttribute("user") == null) {
+            // 로그인 페이지로 리다이렉트
+            mav.setViewName("redirect:/member/login");
+            return mav;
+        }
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        int member_id=user.getId();
+
+        mav.addObject("list", os.selectMODC(member_id));
+        mav.setViewName("/order/orderStatus");
+        return mav;
+    }
+}
