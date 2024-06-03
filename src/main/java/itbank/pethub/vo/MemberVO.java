@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class MemberVO {
 
-    private int id, profile;
+    private int id, profile, ad;
     private String name, address, email, phone;
     private String userid, userpw, newpw, nick;
     private String image;
