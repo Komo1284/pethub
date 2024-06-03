@@ -14,3 +14,13 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+
+#s3
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    s3:
+      bucket: itbank-pethub-s3
