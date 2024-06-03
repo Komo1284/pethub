@@ -5,6 +5,7 @@ import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.MemberVO;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,12 +24,11 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping("/member")
+@RequiredArgsConstructor
 public class MemberController {
 
-    @Autowired
-    private MemberService ms;
-    @Autowired
-    private ImageService is;
+    private final MemberService ms;
+    private final ImageService is;
 
 
     @GetMapping("/login")
