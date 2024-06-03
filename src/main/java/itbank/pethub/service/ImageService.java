@@ -34,6 +34,14 @@ public class ImageService {
         // request 인자에서 이미지 파일을 뽑아냄
         MultipartFile file = request.getFile("upload");
 
+        String s3Url = imageUploadFromFile(file);
+
+        return s3Url;
+
+    }
+
+    public String imageUploadFromFile(MultipartFile file) throws IOException {
+
         // 뽑아낸 이미지 파일에서 이름 및 확장자 추출
         String fileName = file.getOriginalFilename();
         String ext = fileName.substring(fileName.lastIndexOf("."));
@@ -59,6 +67,5 @@ public class ImageService {
         localFile.delete();
 
         return s3Url;
-
     }
 }

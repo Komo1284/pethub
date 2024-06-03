@@ -22,51 +22,54 @@
                         지금 바로 가입하고, 사랑스러운 반려동물과 함께 더 행복한 일상을 만들어 보세요!
                     </p>
                     <br>
-                    <form class="grid gap-6">
+                    <form class="grid gap-6" method="post">
                         <div class="grid gap-2">
                             <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
-                                    for="username"
+                                    for="userid"
                             >
                                 사용자 아이디
                             </label>
                             <input
                                     class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    id="username"
+                                    id="userid"
                                     placeholder="사용하실 아이디를 입력하세요."
                                     required=""
                                     type="text"
+                                    name="userid"
                             />
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="grid gap-2">
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
-                                        for="password"
+                                        for="userpw"
                                 >
                                     사용자 비밀번호
                                 </label>
                                 <input
                                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                        id="password"
+                                        id="userpw"
                                         placeholder="사용하실 비밀번호를 입력하세요"
                                         required=""
                                         type="password"
+                                        name="userpw"
                                 />
                             </div>
                             <div class="grid gap-2">
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
-                                        for="passwordCheck"
+                                        for="pwCheck"
                                 >
                                     비밀번호 확인
                                 </label>
                                 <input
                                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                        id="passwordCheck"
+                                        id="pwCheck"
                                         placeholder="비밀번호를 한번 더 입력하세요."
                                         required=""
                                         type="password"
+                                        name="pwCheck"
                                 />
                             </div>
                         </div>
@@ -83,6 +86,7 @@
                                     placeholder="이름을 입력하세요."
                                     required=""
                                     type="text"
+                                    name="name"
                             />
                         </div>
                         <div class="grid gap-2">
@@ -98,6 +102,7 @@
                                     placeholder="사용하실 닉네임을 입력하세요."
                                     required=""
                                     type="text"
+                                    name="nick"
                             />
                         </div>
                         <div class="grid gap-2">
@@ -113,6 +118,7 @@
                                     placeholder="이메일을 입력하세요."
                                     required=""
                                     type="email"
+                                    name="email"
                             />
                         </div>
                         <div class="grid gap-2">
@@ -128,6 +134,7 @@
                                     placeholder="주소를 입력하세요. 배송시 기본 배송주소로 쓰입니다."
                                     required=""
                                     type="text"
+                                    name="address"
                             />
                         </div>
                         <div class="grid gap-2">
@@ -143,21 +150,22 @@
                                     placeholder="휴대폰 번호를 입력하세요."
                                     required=""
                                     type="tel"
+                                    name="phone"
                             />
                         </div>
                         <div class="flex items-center gap-2">
                             <input
                                     type="checkbox"
-                                    id="ads"
+                                    id="ad"
                                     class="peer hidden"
                             />
                             <label
-                                    for="ads"
+                                    for="ad"
                                     class="h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 peer-checked:bg-primary peer-checked:text-primary-foreground cursor-pointer"
                             ></label>
                             <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 cursor-pointer"
-                                    for="ads"
+                                    for="ad"
                             >
                                 광고 수신 동의하기
                             </label>
@@ -175,5 +183,24 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+<th:block th:if="${msg != null}">
+    <script th:inline="javascript">
+        let msg = [[${msg}]];
+        alert(msg);
+    </script>
+</th:block>
+<th:block th:if="${row != null}">
+    <script th:inline="javascript">
+        let row = [[${row}]];
+        let msg = "";
+        if(row == 1){
+            msg = "회원가입이 정상적으로 완료되었습니다.";
+        } else{
+            msg = "회원가입에 실패하였습니다."
+        }
+        alert(msg);
+    </script>
+</th:block>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package itbank.pethub.model;
 
+import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import org.apache.ibatis.annotations.*;
 
@@ -16,7 +17,7 @@ public interface MemberDAO {
     int insert(MemberVO input);
 
     @Update("update member set userpw = #{userpw}, email = #{email}, " +
-            "address = #{address}, phone = #{phone} where id = #{id}")
+            "address = #{address}, phone = #{phone}, profile = #{profile} where id = #{id}")
     void update(MemberVO input);
 
     @Delete("delete from member where id = #{id}")
@@ -33,4 +34,7 @@ public interface MemberDAO {
 
     @Select("SELECT COUNT(*) FROM member WHERE userid = #{userid}")
     int countByUserId(String userid);
+
+    @Select("select * from member_coupons_view where member_id = #{member_id}")
+    List<CouponVO> couponFindbyId(int member_id);
 }

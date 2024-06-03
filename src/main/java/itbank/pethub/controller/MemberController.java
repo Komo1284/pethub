@@ -1,20 +1,25 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.MemberVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/member")
@@ -22,6 +27,8 @@ public class MemberController {
 
     @Autowired
     private MemberService ms;
+    @Autowired
+    private ImageService is;
 
 
     @GetMapping("/login")
@@ -53,29 +60,40 @@ public class MemberController {
 
         ModelAndView mav = new ModelAndView();
 
+        // 비밀번호와 비밀번호체크의 내용이 다를 경우
+        if(!Objects.equals(input.getUserpw(), input.getPwCheck())){
+            mav.addObject("msg", "입력한 두 비밀번호가 서로 다릅니다.");
+            mav.setViewName("member/signUp");
+            return mav;
+        }
+
         int row = ms.signUp(input);
-        String msg = "";
-        if (row != 0) {
-            msg = "회원가입 성공!"; }
-        else { msg  = "회원가입 실패!" ;}
-        mav.addObject("msg", msg);
-        mav.setViewName("redirect:/");
+        mav.addObject("row", row);
+        mav.setViewName("member/signUp");
         return mav;
     }
 
 
     // 나의정보 페이지로 이동
     @GetMapping("/myPage")
-    public void myPage() {}
+    public ModelAndView myPage(HttpSession session) {
+        ModelAndView mav = new ModelAndView("member/myPage");
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        mav.addObject("coupons", ms.couponFindbyId(user.getId()));
+
+        return mav;
+    }
 
     // 회원정보 수정정보 페이지로 전송
-    @GetMapping("/update")
+    @GetMapping("/memberUpdate")
     public void update() {}
 
     // 회원정보 수정요청하여 로그아웃으로 리다이렉트
-    @PostMapping("/update")
-    public String myPage(MemberVO input, HttpSession session) {
+    @PostMapping("/memberUpdate")
+    public String myPage(MemberVO input, HttpSession session, MultipartFile file) throws IOException {
         MemberVO member = (MemberVO) session.getAttribute("user");
+        String url = is.imageUploadFromFile(file);
+        member.setProfile(url);
         String pw = input.getUserpw();
         // hash처리 pw
         pw = PasswordEncoder.encode(pw);
@@ -86,6 +104,8 @@ public class MemberController {
             member.setPhone(input.getPhone());
             ms.update(member);
         }
+
+
         return "redirect:/member/logout";
     }
 
@@ -97,27 +117,23 @@ public class MemberController {
         return "redirect:/";
     }
 
-    // 아이디 찾기 페이지로 전송
-    @GetMapping("/findId")
+    // 아이디,비밀번호 찾기 페이지로 전송
+    @GetMapping("/findAcc")
     public void findId() {}
 
     // 아이디를 찾아서 userid로 데이터를 전송하여 해당페이지에서 userid가 있으면 userid를 alert하도록 설정
     @PostMapping("/findId")
     public ModelAndView findId(MemberVO input) {
-        ModelAndView mav = new ModelAndView("member/findId");
+        ModelAndView mav = new ModelAndView("member/findAcc");
         mav.addObject("userid", ms.findId(input));
         return mav;
     }
-
-    // 비밀번호 찾기 페이지로 전송
-    @GetMapping("/findPw")
-    public void findPw() {}
 
     // 아이디와 폰번호로 해당 계정을 찾은 뒤 랜덤한 새로운 비밀번호를 발행.
     // 새로 발행된 비밀번호를 유저에게 alert로 전달해주고 새로운 비밀번호를 db에 저장
     @PostMapping("/findPw")
     public ModelAndView findPw(MemberVO input) {
-        ModelAndView mav = new ModelAndView("member/findPw");
+        ModelAndView mav = new ModelAndView("member/findAcc");
         String newPw = ms.findPw(input);
         System.out.println("newPw = " + newPw);
         mav.addObject("newPw", newPw);

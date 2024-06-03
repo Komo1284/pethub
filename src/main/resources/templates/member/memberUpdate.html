@@ -14,40 +14,26 @@
         <div class="flex-1 p-4 md:p-6 mt-16 mx-8">
             <div class="bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-xl font-semibold mb-6">회원정보 수정</h2>
-                <form>
+                <form method="post" th:object="${session.user}" enctype="multipart/form-data">
                     <div class="mt-6">
                         <h3 class="text-lg font-semibold mb-2">프로필 사진</h3>
                         <div class="flex items-center gap-4">
-              <span class="relative flex shrink-0 overflow-hidden rounded-full w-40 h-40">
-                <span class="flex h-full w-full items-center justify-center rounded-full bg-muted">
-                  <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="w-10 h-10"
-                  >
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                </span>
-              </span>
+                            <img th:src="@{*{profile}}"
+                                 alt="profile"
+                                 width="150" height="150"
+                                id="profile_picture">
                             <div>
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                                        for="profilePicture"
+                                        for="profile"
                                 >
                                     <span class="text-sm text-gray-500 hover:text-gray-900">프로필사진을 수정하세요.</span>
                                     <input
                                             class="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 hidden"
-                                            id="profilePicture"
+                                            id="profile"
                                             accept="image/*"
                                             type="file"
+                                            name="file"
                                     />
                                 </label>
                             </div>
@@ -61,40 +47,41 @@
                         <div class="mb-4">
                             <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
-                                    for="currentPassword"
+                                    for="userpw"
                             >
                                 현재 비밀번호
                             </label>
                             <input
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
-                                    id="currentPassword"
+                                    id="userpw"
                                     type="password"
                             />
                         </div>
                         <div class="mb-4">
                             <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
-                                    for="newPassword"
+                                    for="newpw"
                             >
                                 변경할 비밀번호
                             </label>
                             <input
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
-                                    id="newPassword"
+                                    id="newpw"
                                     type="password"
                             />
                         </div>
                         <div class="mb-4">
                             <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
-                                    for="confirmPassword"
+                                    for="pwCheck"
                             >
                                 변경할 비밀번호 확인
                             </label>
                             <input
                                     class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
-                                    id="confirmPassword"
+                                    id="pwCheck"
                                     type="password"
+                                    name="pwCheck"
                             />
                         </div>
                     </div>
@@ -105,15 +92,15 @@
                             <div class="mb-4">
                                 <label
                                         class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
-                                        for="nickname"
+                                        for="nick"
                                 >
                                     닉네임
                                 </label>
                                 <input
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
-                                        id="nickname"
+                                        id="nick"
                                         type="text"
-                                        value="John Doe"
+                                        th:value="*{nick}"
                                 />
                             </div>
                             <div class="mb-4">
@@ -127,7 +114,7 @@
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                         id="email"
                                         type="email"
-                                        value="john.doe@example.com"
+                                        th:value="*{email}"
                                 />
                             </div>
                             <div class="mb-4">
@@ -140,8 +127,8 @@
                                 <input
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                         id="phone"
-                                        type="tel"
-                                        value="+1 123 456 7890"
+                                        type="text"
+                                        th:value="*{phone}"
                                 />
                             </div>
                         </div>
@@ -158,17 +145,17 @@
                                         class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
                                         id="address"
                                         type="text"
-                                        value="123 Main Street, Anytown, CA 12345, United States"
+                                        th:value="*{address}"
                                 />
                             </div>
                         </div>
                     </div>
                     <div class="mt-8 flex justify-end">
                         <button
-                                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8"
+                                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-11 rounded-md px-8"
                                 type="submit"
                         >
-                            Save Changes
+                            변경된 사항 수정하기
                         </button>
                     </div>
                 </form>
