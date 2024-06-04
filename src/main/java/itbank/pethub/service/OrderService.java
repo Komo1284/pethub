@@ -110,4 +110,20 @@ public class OrderService {
     public int addressupdate(MODCVO user) {
         return od.addressupdate(user);
     }
+
+    public int updatedelivery(int dId) {
+        return od.updatedelivery(dId);
+    }
+
+    public int getd_id(int orderId) {
+        return od.getd_id(orderId);
+    }
+
+    public List<MODCVO> selectAfterpay(int memberId) {
+        return od.selectAfterpay(memberId);
+    }
+
+    public int updateorder(int orderId) {
+        return od.updateorder(orderId);
+    }
 }

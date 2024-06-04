@@ -213,7 +213,7 @@
     IMP.init("imp01786831");
 
     function requestPay() {
-        var selectedPayMethod = 'card';
+        var selectedPayMethod = 'vbank';
         var totalOrderPrice = parseFloat(document.getElementById('total').textContent);
         if (isNaN(totalOrderPrice) || totalOrderPrice <= 0) {
             alert("총 주문 가격이 올바르지 않습니다.");
@@ -224,19 +224,15 @@
         let realadd = primaryAddressValue + addressdetail;
 
         var orderItems = [];
-        const orderIds2 = Array.from(document.querySelectorAll('.order_id')).map(element => element.textContent);
+        var orderIds1 = document.querySelectorAll('.order_id');
         var customerName = document.getElementById('customerName').textContent.trim().split(": ")[1];
         var customerPhone = document.getElementById('customerPhone').textContent.trim().split(": ")[1];
         var customerEmail = document.getElementById('customerEmail').textContent.trim().split(": ")[1];
         var deliveryAddress = realadd;
 
-
-
-
-
-        orderIds2.forEach(function (orderIdElement) {
+        orderIds1.forEach(function (orderIds1) {
             var orderItem = {
-                order_id: orderIds2,
+                order_id: orderIds1.innerHTML,
                 member_name: customerName,
                 member_phone: customerPhone,
                 member_email: customerEmail,
@@ -262,29 +258,33 @@
             buyer_addr: orderItems[0].address
         }, function (rsp) {
             if (rsp.success) {
-                orderItems.forEach(function (orderItem) {
+                // 결제가 성공했을 때만 AJAX 요청을 보냄
+                orderItems.forEach(function(orderItem) {
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/order/cart", true);
+
+                    xhr.open("POST", "/order/updateDeliveryInfo", true);
+
                     xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.onreadystatechange = function () {
+                    xhr.onreadystatechange = function() {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             alert("배송 정보가 업데이트되었습니다.");
+
                             // 결제 성공 후 페이지 이동
-                            window.location.href = "/order/cart"; // 이동할 페이지 URL
+                            window.location.href = "/order/AfterPay"; // 이동할 페이지 URL
                         }
                     };
-                    var data = {
-                        order_id: orderItem.order_id,
-                        delivery_id: orderItem.delivery_id,
-                    };
+                    var data = {order_id: orderItem.order_id};
                     xhr.send(JSON.stringify(data));
                 });
             } else {
                 alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
             }
         });
-
     }
+
+
+</script>
+<script>
 
     // Call updateSummary function when the page loads
     window.onload = updateSummary;

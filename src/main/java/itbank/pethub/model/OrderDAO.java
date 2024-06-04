@@ -77,4 +77,16 @@ public interface OrderDAO {
 
     @Update("UPDATE delivery SET address = #{delivery_address}, post = #{delivery_post} WHERE id = #{delivery_id}")
     int addressupdate(MODCVO user);
+
+    @Update("update delivery set status_id=2 where id=#{dId}")
+    int updatedelivery(int dId);
+
+    @Select("select delivery_id from `order` where id=#{orderId}")
+    int getd_id(int orderId);
+
+    @Select("select * from modc where member_id=#{memberId} and order_status != '주문 접수'")
+    List<MODCVO> selectAfterpay(int memberId);
+
+    @Update("update `order` set order_status=2 where id=#{orderId}")
+    int updateorder(int orderId);
 }
