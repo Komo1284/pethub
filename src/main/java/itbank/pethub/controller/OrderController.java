@@ -46,18 +46,12 @@ public class OrderController {
         return mav;
     }
 
-    /* 장바구니 수량 수정 */
-    @PostMapping("/cart/update")
-    public ResponseEntity<Map<String, Object>> updateCart(@RequestBody CartVO cartVO) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            os.updateCart(cartVO);
-            response.put("success", true);
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("error", e.getMessage());
-        }
-        return ResponseEntity.ok(response);
+    @GetMapping("/orderUpdate/{id}")
+    public ModelAndView updatePage(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", os.selectCart(id));
+        mav.setViewName("/order/orderUpdate");
+        return mav;
     }
 
     @GetMapping("/DetailPage/{id}")
@@ -166,7 +160,7 @@ public class OrderController {
     public ModelAndView orderStatus() {
         ModelAndView mav = new ModelAndView();
 
-        mav.setViewName("redirect:/order/cart");
+        mav.setViewName("redirect:/order/orderStatus");
         return mav;
     }
 
@@ -214,7 +208,4 @@ public class OrderController {
         mav.setViewName("/order/orderStatus");
         return mav;
     }
-
-
 }
-

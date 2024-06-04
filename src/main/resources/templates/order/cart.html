@@ -146,25 +146,8 @@
         window.onload = updateSummary;
 
         document.addEventListener('DOMContentLoaded', (event) => {
-            const plusButtons = document.querySelectorAll('.plus_btn');
-            const minusButtons = document.querySelectorAll('.minus_btn');
+
             const modifyButtons = document.querySelectorAll('.quantity_modify_btn');
-
-            plusButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const input = e.target.previousElementSibling;
-                    input.value = parseInt(input.value) + 1;
-                });
-            });
-
-            minusButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const input = e.target.nextElementSibling;
-                    if (input.value > 1) {
-                        input.value = parseInt(input.value) - 1;
-                    }
-                });
-            });
 
             modifyButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
