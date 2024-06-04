@@ -2,6 +2,7 @@ package itbank.pethub.model;
 
 import itbank.pethub.vo.MemberVO;
 import org.apache.ibatis.annotations.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
