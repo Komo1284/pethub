@@ -51,11 +51,118 @@
                         <ul class="space-y-4">
                             <li class="flex items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
-                                    <div>
+                                    <!--<div>
+                                        <h3 id="member_id" class="text-lg font-semibold">고객 번호: <span th:text="${list[0].member_id}"></span></h3>
                                         <h3 id="customerName" class="text-lg font-semibold">고객 이름: <span th:text="${list[0].member_name}"></span></h3>
                                         <h3 id="customerPhone" class="text-lg font-semibold">고객 전화번호: <span th:text="${list[0].member_phone}"></span></h3>
                                         <h3 id="customerEmail" class="text-lg font-semibold">고객 이메일: <span th:text="${list[0].member_email}"></span></h3>
                                         <h3 id="deliveryAddress" class="text-lg font-semibold">배송 주소: <span th:text="${list[0].delivery_address}"></span></h3>
+                                    </div>-->
+
+                                    <div class="addressInfo_div">
+                                        <div class="addressInfo_button_div">
+                                            <button class="address_btn address_btn_1" onclick="showAdress('1')" >저장된 주소록</button> /
+                                            <button class="address_btn address_btn_2" onclick="showAdress('2')">직접 입력</button>
+                                        </div>
+                                        <hr>
+                                        <div class="addressInfo_input_div_wrap">
+                                            <div class="addressInfo_input_div addressInfo_input_div_1" style="display: block"> <!-- div1 회원 주소록 배송지-->
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th>이름 : </th>
+                                                        <td>
+                                                            <input th:value="${list[0].member_name}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>주소 : </th>
+                                                        <td>
+                                                            <input th:value="${list[0].delivery_address}">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>전화번호 : </th>
+                                                        <td>
+                                                            <input th:value="${list[0].member_phone}">
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <form name="insert">
+                                                <div class="addressInfo_input_div addressInfo_input_div_2" > <!-- div2 배송지 직접 입력-->
+                                                    <div class="grid grid-cols-2 gap-2">
+                                                        <div class="grid gap-2">
+                                                            <label
+                                                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                                                    for="zip_code"
+                                                            >
+                                                                우편번호
+                                                            </label>
+                                                            <input
+                                                                    class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                                                                    id="zip_code"
+                                                                    type="text"
+                                                                    placeholder="주소를 검색해주세요."
+                                                                    name="zip_code"
+                                                                    readonly
+                                                            />
+                                                        </div>
+                                                        <div class="grid gap-2 flex items-end">
+                                                            <label
+                                                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                                                    for="search">
+
+                                                            </label>
+                                                            <button
+                                                                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
+                                                                    id="search"
+                                                                    style="height: 2.5rem; width: 50%;"
+                                                                    type="button"
+                                                            >
+                                                                주소 검색하기
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 gap-2">
+                                                        <div class="grid gap-2">
+                                                            <label
+                                                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                                                    for="primary_address"
+                                                            >
+                                                                도로명 (지번) 주소
+                                                            </label>
+                                                            <input
+                                                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                    id="primary_address"
+                                                                    placeholder="주소를 검색해주세요."
+                                                                    required=""
+                                                                    type="text"
+                                                                    name="primary_address"
+                                                                    readonly
+                                                            />
+                                                        </div>
+                                                        <div class="grid gap-2">
+                                                            <label
+                                                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                                                    for="address_details"
+                                                            >
+                                                                상세 주소
+                                                            </label>
+                                                            <input
+                                                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                                                    id="address_details"
+                                                                    placeholder="상세주소를 입력해주세요."
+                                                                    required=""
+                                                                    type="text"
+                                                                    name="address_details"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -191,6 +298,52 @@
             }
         });
     }
+
+</script>
+
+<script>
+
+function showAdress(className){
+/* 컨텐츠 동작 */
+/* 모두 숨기기 */
+$(".addressInfo_input_div").css('display', 'none');
+/* 컨텐츠 보이기 */
+$(".addressInfo_input_div_" + className).css('display', 'block');
+}
+</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+    const search = document.querySelector('#search');
+    search.addEventListener("click", () => {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let fullAddr = '';
+                let extraAddr = '';
+
+                if(data.userSelectedType === 'R') {
+                    fullAddr = data.roadAddress;
+                } else {
+                    fullAddr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R') {
+                    if(data.bname !== '') {
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+
+                    fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+                }
+
+                document.insert.primary_address.value = fullAddr;
+                document.insert.zip_code.value = data.zonecode;
+                document.insert.address_details.focus();
+            }
+        }).open();
+    });
 </script>
 </body>
 </html>
