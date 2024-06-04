@@ -1,5 +1,7 @@
 package itbank.pethub.dto;
 
+import itbank.pethub.entity.MemberEntity;
+import itbank.pethub.vo.MemberVO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -10,12 +12,10 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User {
 
-    private final OAuth2Response oAuth2Response;
-    private final String role;
+    private MemberVO member;
 
-    public CustomOAuth2User(OAuth2Response oAuth2Response, String role) {
-        this.oAuth2Response = oAuth2Response;
-        this.role = role;
+    public CustomOAuth2User(MemberVO member) {
+        this.member = member;
     }
 
     // 모든 데이터를 다 받아옴
@@ -34,7 +34,7 @@ public class CustomOAuth2User implements OAuth2User {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return role;
+                return member.getRole();
             }
         });
 
@@ -43,11 +43,11 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return oAuth2Response.getName();
+        return member.getName();
     }
 
-    public String getUsername() {
-        return oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+    public String getUserid() {
+        return member.getUserid();
     }
 
 

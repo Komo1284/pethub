@@ -12,6 +12,15 @@ spring:
     username: root
     password: 12345678
 
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  jwt:
+    secret: vmfhaltmskdlstkfkdgodyrogkfwkdbalrogkfmkdbalaaaaaaaaaaaaaaaabbbbb
+
   #타임리프 경로 설정
   thymeleaf:
     prefix: classpath:/templates/
@@ -38,26 +47,31 @@ spring:
 #            user-info-uri: https://kapi.kakao.com/v2/user/me
 #            user-name-attribute: id
 #
-    # Naver Oauth2 설정
-    security:
-      oauth2:
-        client:
-          registration:
-            naver:
-              client-id: QpBnbk7arcmKPKD1wYrM
-              client-secret: AXFiNzxWTx
-              redirect-uri: http://localhost:8081/login/oauth2/code/naver
-              authorization-grant-type: authorization_code
-              scope:
-                name, email, nick
-          # Naver Oauth2 Provider 설정
-          provider:
-            naver:
-              authorization-uri: https://nid.naver.com/oauth2.0/authorize
-              token-uri: https://nid.naver.com/oauth2.0/token
-              user-info-uri: https://openapi.naver.com/v1/nid/me
-              user-name-attribute: response
+#    # Naver Oauth2 설정
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          naver:
+#            client-id: QpBnbk7arcmKPKD1wYrM
+#            client-secret: AXFiNzxWTx
+#            redirect-uri: http://localhost:8081/login/oauth2/code/naver
+#            authorization-grant-type: authorization_code
+#            scope:
+#              - name
+#              - email
+#              - nickname
+#
+#  # Naver Oauth2 Provider 설정
+#        provider:
+#          naver:
+#            authorization-uri: https://nid.naver.com/oauth2.0/authorize
+#            token-uri: https://nid.naver.com/oauth2.0/token
+#            user-info-uri: https://openapi.naver.com/v1/nid/me
+#            user-name-attribute: response
 
+  profiles:
+    include: oauth
 
   #Support Mail Service
   mail:
@@ -93,3 +107,4 @@ server:
 ## JWT Secret Key
 #secret:
 #  key:ThisStatementIsJwtSecretKeyDoNotUseThisStatement
+

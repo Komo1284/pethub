@@ -12,7 +12,7 @@ public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String name, address, email, phone;
     private String userid, userpw, newpw, nick;
