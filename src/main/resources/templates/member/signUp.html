@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div class="min-h-screen flex flex-col">
@@ -22,7 +23,7 @@
                         지금 바로 가입하고, 사랑스러운 반려동물과 함께 더 행복한 일상을 만들어 보세요!
                     </p>
                     <br>
-                    <form class="grid gap-6" method="post">
+                    <form class="grid gap-6" method="post" name="insert">
                         <div class="grid gap-2">
                             <label
                                     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
@@ -121,21 +122,72 @@
                                     name="email"
                             />
                         </div>
-                        <div class="grid gap-2">
-                            <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
-                                    for="address"
-                            >
-                                주소
-                            </label>
-                            <input
-                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    id="address"
-                                    placeholder="주소를 입력하세요. 배송시 기본 배송주소로 쓰입니다."
-                                    required=""
-                                    type="text"
-                                    name="address"
-                            />
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="grid gap-2">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                        for="zip_code"
+                                >
+                                    우편번호
+                                </label>
+                                <input
+                                        class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+                                        id="zip_code"
+                                        type="text"
+                                        placeholder="주소를 검색해주세요."
+                                        name="zip_code"
+                                        readonly
+                                />
+                            </div>
+                            <div class="grid gap-2 flex items-end">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                        for="search"
+                                ></label>
+                                <button
+                                        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
+                                        id="search"
+                                        style="height: 2.5rem; width: 50%;"
+                                        type="button"
+                                >
+                                    주소 검색하기
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="grid gap-2">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                        for="primary_address"
+                                >
+                                    도로명 (지번) 주소
+                                </label>
+                                <input
+                                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        id="primary_address"
+                                        placeholder="주소를 검색해주세요."
+                                        required=""
+                                        type="text"
+                                        name="primary_address"
+                                        readonly
+                                />
+                            </div>
+                            <div class="grid gap-2">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                        for="address_details"
+                                >
+                                    상세 주소
+                                </label>
+                                <input
+                                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        id="address_details"
+                                        placeholder="상세주소를 입력해주세요."
+                                        required=""
+                                        type="text"
+                                        name="address_details"
+                                />
+                            </div>
                         </div>
                         <div class="grid gap-2">
                             <label
@@ -193,14 +245,45 @@
     <script th:inline="javascript">
         let row = [[${row}]];
         let msg = "";
-        if(row == 1){
+        if (row == 1) {
             msg = "회원가입이 정상적으로 완료되었습니다.";
-        } else{
+        } else {
             msg = "회원가입에 실패하였습니다."
         }
         alert(msg);
     </script>
 </th:block>
+<script th:inline="javascript">
+    const search = document.querySelector('#search');
+    search.addEventListener("click", () => {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                let fullAddr = '';
+                let extraAddr = '';
 
+                if(data.userSelectedType === 'R') {
+                    fullAddr = data.roadAddress;
+                } else {
+                    fullAddr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R') {
+                    if(data.bname !== '') {
+                        extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+
+                    fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+                }
+
+                document.insert.primary_address.value = fullAddr;
+                document.insert.zip_code.value = data.zonecode;
+                document.insert.address_details.focus();
+            }
+        }).open();
+    });
+</script>
 </body>
 </html>
