@@ -209,18 +209,13 @@
                             <input
                                     type="checkbox"
                                     id="ad"
-                                    class="peer hidden"
+                                    value="1"
+                                    name="ad"
+                                    class="h-4 w-4 rounded-sm border border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             />
-                            <label
-                                    for="ad"
-                                    class="h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 peer-checked:bg-primary peer-checked:text-primary-foreground cursor-pointer"
-                            ></label>
-                            <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 cursor-pointer"
-                                    for="ad"
-                            >
-                                광고 수신 동의하기
-                            </label>
+                            <label  for="ad"
+                                    class="text-sm font-medium leading-none disabled:cursor-not-allowed disabled:opacity-70 text-gray-900 cursor-pointer">
+                                광고 수신 동의하기</label>
                         </div>
                         <button
                                 class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
@@ -247,6 +242,7 @@
         let msg = "";
         if (row == 1) {
             msg = "회원가입이 정상적으로 완료되었습니다.";
+            location.href = "/";
         } else {
             msg = "회원가입에 실패하였습니다."
         }
@@ -254,6 +250,7 @@
     </script>
 </th:block>
 <script th:inline="javascript">
+
     const search = document.querySelector('#search');
     search.addEventListener("click", () => {
         new daum.Postcode({

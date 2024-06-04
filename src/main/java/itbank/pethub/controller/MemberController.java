@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,6 +61,13 @@ public class MemberController {
 
         ModelAndView mav = new ModelAndView();
 
+        // 중복된 아이디 체크
+        if(ms.isUserIdExists(input.getUserid())){
+            mav.addObject("msg", "사용 불가능한 아이디입니다.");
+            mav.setViewName("member/signUp");
+            return mav;
+        }
+
         // 비밀번호와 비밀번호체크의 내용이 다를 경우
         if(!Objects.equals(input.getUserpw(), input.getPwCheck())){
             mav.addObject("msg", "입력한 두 비밀번호가 서로 다릅니다.");
@@ -67,7 +75,15 @@ public class MemberController {
             return mav;
         }
 
-        int row = ms.signUp(input);
+        input = ms.signUp(input);
+        System.out.println("input = " + input);
+        int row = ms.insertAdd(input);
+        if (row > 0 && input != null) {
+            row = 1;
+        } else {
+            row = 0;
+        }
+
         mav.addObject("row", row);
         mav.setViewName("member/signUp");
         return mav;
@@ -115,19 +131,23 @@ public class MemberController {
         input.setId(user.getId());
         input.setUserpw(input.getNewpw());
 
+        int row = 0;
         // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
         if(!file.isEmpty()){
             String url = is.imageUploadFromFile(file);
             user.setProfile(url);
-            ms.update(input);
-            ms.updateAddress(input);
+            row = ms.update(input);
         } else{ // 이미지 변경 안할 경우
-            ms.updateNoProfile(input);
-            ms.updateAddress(input);
+            row = ms.updateNoProfile(input);
         }
 
-        mav.setViewName("redirect:/member/logout");
-        return mav;
+        if (row > 0) {
+            mav.addObject("msg", "수정이 완료되었습니다.");
+            return mav;
+        } else {
+            mav.addObject("msg", "수정에 실패하였습니다.");
+            return mav;
+        }
     }
 
     // 회원탈퇴하고 홈으로 리다이렉트

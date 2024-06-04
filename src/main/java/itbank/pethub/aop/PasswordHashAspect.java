@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class PasswordHashAspect {
 
-    @Before("execution(* itbank.pethub.service.MemberService.login(..)) || " +
-            "execution(* itbank.pethub.service.MemberService.signUp(..)) || " +
-            "execution(* itbank.pethub.service.MemberService.update(..)) || " +
+    @Before("execution(* itbank.pethub.service.MemberService.login(..)) && args(input) || " +
+            "execution(* itbank.pethub.service.MemberService.update(..)) && args(input) || " +
+            "execution(* itbank.pethub.service.MemberService.signUp(..)) && args(input) || " +
             "execution(* itbank.pethub.service.MemberService.updateNoProfile(..)) && args(input)")
     public void hashPasswordBeforeAnyMethod(MemberVO input) {
         input.setUserpw(PasswordEncoder.encode(input.getUserpw()));

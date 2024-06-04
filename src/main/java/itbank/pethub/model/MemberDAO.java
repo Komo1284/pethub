@@ -9,16 +9,19 @@ import java.util.List;
 @Mapper
 public interface MemberDAO {
 
+    @Select("select * from member where userid = #{userid} and userpw = #{userpw}")
+    MemberVO selectOneNoAddress(MemberVO input);
+
     @Select("select * from member_address_view where userid = #{userid} and userpw = #{userpw}")
     MemberVO selectOne(MemberVO input);
 
-    @Insert("insert into member (name, address, email, userid, userpw, nick, phone) " +
-            "values (#{name}, #{address}, #{email}, #{userid}, #{userpw}, #{nick}, #{phone})")
+    @Insert("insert into member (name, email, userid, userpw, nick, phone) " +
+            "values (#{name}, #{email}, #{userid}, #{userpw}, #{nick}, #{phone})")
     int insert(MemberVO input);
 
     @Update("update member set userpw = #{userpw}, email = #{email}, " +
             "phone = #{phone}, profile = #{profile} where id = #{id}")
-    void update(MemberVO input);
+    int update(MemberVO input);
 
     @Delete("delete from member where id = #{id}")
     void delete(MemberVO member);
@@ -40,9 +43,15 @@ public interface MemberDAO {
 
     @Update("update address set zip_code = #{zip_code}, primary_address = #{primary_address}, address_details = #{address_details} " +
             "where member_id = #{id}")
-    void addressUpdate(MemberVO input);
+    int addressUpdate(MemberVO input);
 
     @Update("update member set userpw = #{userpw}, email = #{email}, " +
             "phone = #{phone} where id = #{id}")
-    void updateNoProfile(MemberVO user);
+    int updateNoProfile(MemberVO user);
+
+    @Insert("insert into address (member_id, zip_code, primary_address, address_details) values (#{id}, #{zip_code}, #{primary_address}, #{address_details})")
+    int insertAddress(MemberVO input);
+
+    @Update("update member set ad = 1 where userid = #{userid}")
+    void insertAd(MemberVO input);
 }

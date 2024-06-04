@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,17 +19,35 @@ public class MemberService {
     private MemberDAO dao;
 
     public MemberVO login(MemberVO input) {
-        String hash = input.getUserpw();
         return dao.selectOne(input);
     }
 
-    public int signUp(MemberVO input) {
-        return dao.insert(input);
+    @Transactional
+    public MemberVO signUp(MemberVO input) {
+        dao.insert(input);
+        if (input.getAd() == 1){
+            dao.insertAd(input);
+            input.setAd(1);
+        }
+        return input;
     }
 
-    public void update(MemberVO input) {
-        dao.update(input);
-        dao.addressUpdate(input);
+    @Transactional
+    public int insertAdd(MemberVO input){
+        MemberVO member = dao.selectOneNoAddress(input);
+        member.setAddress_details(input.getAddress_details());
+        member.setPrimary_address(input.getPrimary_address());
+        member.setZip_code(input.getZip_code());
+
+        return dao.insertAddress(member);
+    }
+
+    @Transactional
+    public int update(MemberVO input) {
+        if(updateAddress(input) == dao.update(input)){
+            return 1;
+        }
+        return 0;
     }
 
     public void delete(MemberVO member) {
@@ -61,11 +80,15 @@ public class MemberService {
         return dao.couponFindbyId(member_id);
     }
 
-    public void updateAddress(MemberVO user) {
-        dao.addressUpdate(user);
+    public int updateAddress(MemberVO user) {
+        return dao.addressUpdate(user);
     }
 
-    public void updateNoProfile(MemberVO user) {
-        dao.updateNoProfile(user);
+    @Transactional
+    public int updateNoProfile(MemberVO user) {
+        if(dao.updateNoProfile(user) == updateAddress(user)){
+            return 1;
+        }
+        return 0;
     }
 }

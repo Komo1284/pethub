@@ -106,5 +106,19 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+<script type="text/javascript" th:inline="javascript">
+    var userid = '[[${userid}]]';
+    var newPw = '[[${newPw}]]';
+
+    if (userid != 'null') {
+        alert('회원님의 아이디는 ' + userid + '입니다.');
+        location.href = '/';
+    }
+
+    if (newPw != 'null') {
+        alert('회원님의 새 비밀번호는 ' + newPw + '입니다.');
+        location.href = '/';
+    }
+</script>
 </body>
 </html>
