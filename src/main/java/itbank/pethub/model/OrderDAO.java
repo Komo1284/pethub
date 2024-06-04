@@ -2,6 +2,7 @@ package itbank.pethub.model;
 
 import itbank.pethub.vo.*;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -67,4 +68,12 @@ public interface OrderDAO {
 
     @Select("select * from modc where member_id=#{memberId}")
     List<MODCVO> selectMODC(int memberId);
+
+    /*@Update("UPDATE cart SET count = #{count} WHERE id = #{id}")
+    void updateCount(int id, int newCount);*/
+
+    @Update("UPDATE cart SET count = #{count} WHERE id = #{id}")
+    void updateCart(@Param("count") int count, @Param("id") int id);
+
+
 }

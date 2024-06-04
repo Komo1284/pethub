@@ -94,4 +94,11 @@ public class OrderService {
     public List<MODCVO> selectMODC(int memberId) {
         return od.selectMODC(memberId);
     }
+
+    public void updateCart(CartVO cart){
+        od.updateCart(cart.getCount(), cart.getId());
+    }
+
+
+
 }
