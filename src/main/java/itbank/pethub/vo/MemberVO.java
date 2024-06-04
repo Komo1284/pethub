@@ -1,20 +1,18 @@
 package itbank.pethub.vo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class MemberVO {
     private int id;
-    private String name, address, email, phone;
-    private String userid, userpw, newpw, nick;
-    private String role;
-    private int profile;
-
+    private String name;
+    private String email;
+    private String phone;
+    private String address;
+    private String userid;
+    private String userpw;
+    private String nick;
+    private String profile;
+    private int ad;
+    private String newpw;
 }
