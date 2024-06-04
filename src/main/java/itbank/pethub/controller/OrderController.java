@@ -88,7 +88,6 @@ public class OrderController {
 
         // 주문이 이미 존재하는지 확인 - order 페이지에만 있는지 확인
         int existingOrderId = os.getExistingOrderId(memberId, productId);
-        System.out.println(existingOrderId);
         if (existingOrderId != -1) {
             // 주문이 이미 존재하면 수량을 업데이트
             CartVO cartVO = new CartVO();
@@ -97,14 +96,17 @@ public class OrderController {
             os.countUp(cartVO);
 
         } else {
-            //포스트 번호 - 어케 할지 몰라 일단 300으로 고정시켜둠
-            int port=300;
-
-            String add=user.getAddress();
+            AddressVO av=os.getAddress(memberId);
             DeliveryVO dv=new DeliveryVO();
 
-            dv.setAddress(add);
-            dv.setPost(port);
+            String add=av.getPrimary_address();
+            String add_detail=av.getAddress_details();
+
+            String address=add+" "+add_detail;
+            int post=av.getZip_code();
+
+            dv.setAddress(address);
+            dv.setPost(post);
             os.makeDelivery(dv);
 
             int delivery_id=os.getdelivery_id();
@@ -137,7 +139,6 @@ public class OrderController {
     @GetMapping("/delete/{order_id}")
     public ModelAndView delete(@PathVariable("order_id") int order_id) {
         ModelAndView mav = new ModelAndView();
-        System.out.println(order_id);
 
         int d_id=os.getDeli_id(order_id);
 
@@ -167,6 +168,34 @@ public class OrderController {
 
         mav.setViewName("redirect:/order/cart");
         return mav;
+    }
+
+    @PostMapping("/cart/update")
+    public ResponseEntity<Map<String, Object>> updateCart(@RequestBody CartVO cartVO) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            os.updateCart(cartVO);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/cart/deliveryupdate")
+    public ResponseEntity<Map<String, Object>> deliveryupdate(@RequestBody MODCVO user) {
+        Map<String, Object> response = new HashMap<>();
+
+
+        try {
+            os.addressupdate(user);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/orderStatus")

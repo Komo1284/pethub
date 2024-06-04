@@ -2,7 +2,6 @@ package itbank.pethub.model;
 
 import itbank.pethub.vo.*;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -60,20 +59,21 @@ public interface OrderDAO {
     @Delete("DELETE from `order` where id=#{orderId}")
     int deleteOrder(int orderId);
 
+    @Update("UPDATE cart SET count = #{count} WHERE id = #{id}")
+    void updateCart(@Param("count") int count, @Param("id") int id);
 
+    @Update("UPDATE member SET email = #{email} WHERE id = #{id}")
+    int emailupdate(MemberVO user);
 
     @Delete("DELETE from delivery where id=#{dId}")
     int deleteDelivery(int dId);
 
-
     @Select("select * from modc where member_id=#{memberId}")
     List<MODCVO> selectMODC(int memberId);
 
-    /*@Update("UPDATE cart SET count = #{count} WHERE id = #{id}")
-    void updateCount(int id, int newCount);*/
+    @Select("SELECT * from address where member_id=#{memberId}")
+    AddressVO getAddress(int memberId);
 
-    @Update("UPDATE cart SET count = #{count} WHERE id = #{id}")
-    void updateCart(@Param("count") int count, @Param("id") int id);
-
-
+    @Update("UPDATE delivery SET address = #{delivery_address}, post = #{delivery_post} WHERE id = #{delivery_id}")
+    int addressupdate(MODCVO user);
 }

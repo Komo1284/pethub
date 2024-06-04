@@ -99,6 +99,15 @@ public class OrderService {
         od.updateCart(cart.getCount(), cart.getId());
     }
 
+    public int emailupdate(MemberVO user) {
+        return od.emailupdate(user);
+    }
 
+    public AddressVO getAddress(int memberId) {
+        return od.getAddress(memberId);
+    }
 
+    public int addressupdate(MODCVO user) {
+        return od.addressupdate(user);
+    }
 }

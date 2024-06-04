@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+
     <div class="min-h-screen flex flex-col bg-orange-50">
         <div th:replace="~{header :: header}"></div>
         <main class="flex-1 flex">
@@ -28,9 +29,9 @@
                                                  style="aspect-ratio: 100 / 100; object-fit: cover;"
                                          />-->
                                         <div>
-                                            <h3 class="text-lg font-semibold">상품 번호: <a th:text="${row.id}"></a></h3>
+                                            <h3 class="text-lg font-semibold">상품 번호: <a th:text="${row.order_id}"></a></h3>
                                             <h3 class="text-lg font-semibold">상품 명: 몰라요~~ </h3>
-                                            <p class="text-gray-500">가격: <span th:text="${row.order_price}"></span></p>
+                                            <p class="text-gray-500">합계 가격: <span th:text="${row.order_price*row.count}"></span></p>
 
                                             <div class="flex items-center gap-2">
                                                 <h3>수량:</h3>
@@ -88,6 +89,7 @@
                         </div>
                     </div>
                 </div>
+                <form method="POST">
                 <!-- Order Summary Section -->
                 <div class="bg-gray-100 p-4 rounded-md mt-8">
                     <h3 class="text-lg font-semibold mb-2">주문 요약</h3>
@@ -97,7 +99,7 @@
                     </div>
                     <div class="flex justify-between mb-2">
                         <span>배송비</span>
-                        <span>$5.99</span> <!-- Fixed shipping fee -->
+                        <span>$2500</span> <!-- Fixed shipping fee -->
                     </div>
                     <div class="flex justify-between mb-4">
                         <span class="font-semibold">합계</span>
@@ -107,6 +109,7 @@
                         결제하기
                     </button>
                 </div>
+                </form>
             </div>
         </main>
         <div th:replace="~{footer :: footer}"></div>
@@ -120,7 +123,7 @@
             document    .querySelectorAll('.text-gray-500 > span').forEach((element) => {
                 subtotal += parseFloat(element.textContent);
             });
-            return subtotal.toFixed(2); // Return subtotal with two decimal places
+            return subtotal; // Return subtotal with two decimal places
         }
 
         // Function to update subtotal and total
@@ -129,10 +132,10 @@
             const subtotal = calculateSubtotal();
 
             // Get fixed shipping fee
-            const shippingFee = 6;
+            const shippingFee = 2500;
 
             // Calculate total
-            const total = (parseFloat(subtotal) + shippingFee).toFixed(2); // Adding subtotal and shipping fee
+            const total = (parseFloat(subtotal) + shippingFee); // Adding subtotal and shipping fee
 
             // Update subtotal and total in the HTML
             document.getElementById('subtotal').textContent = subtotal;
@@ -182,7 +185,7 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert('수량이 성공적으로 수정되었습니다.');
+                                alert('수량을 성공적으로 수정되었습니다.');
                                 location.reload(); // 페이지 새로고침
                             } else {
                                 alert('수량 수정에 실패했습니다.');
@@ -193,5 +196,6 @@
             });
         });
     </script>
+
 </body>
 </html>
