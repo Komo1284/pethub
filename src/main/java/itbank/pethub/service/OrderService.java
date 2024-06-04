@@ -94,4 +94,20 @@ public class OrderService {
     public List<MODCVO> selectMODC(int memberId) {
         return od.selectMODC(memberId);
     }
+
+    public void updateCart(CartVO cart){
+        od.updateCart(cart.getCount(), cart.getId());
+    }
+
+    public int emailupdate(MemberVO user) {
+        return od.emailupdate(user);
+    }
+
+    public AddressVO getAddress(int memberId) {
+        return od.getAddress(memberId);
+    }
+
+    public int addressupdate(MODCVO user) {
+        return od.addressupdate(user);
+    }
 }

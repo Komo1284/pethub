@@ -7,5 +7,5 @@ import lombok.Setter;
 @Getter
 public class MemberVO {
     private int id;
-    private String userid, userpw, address;
+    private String userid, userpw, address, email;
 }
