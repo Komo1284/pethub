@@ -181,10 +181,20 @@
                     <span>배송비</span>
                     <span>2500</span>
                 </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-4">보유 중인 쿠폰</h2>
+                    <div>
+                        <ul id="coupon-list" class="mb-4"></ul>
+                        <div id="applied-coupon" class="mb-4"></div>
+                    </div>
+
                 <div class="flex justify-between mb-4">
                     <span class="font-semibold">합계</span>
                     <span id="total">0</span>
                 </div>
+
+                </div>
+
                 <button id="checkoutBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"  onclick="requestPay()">
                     카드 결제
                 </button>
@@ -194,8 +204,71 @@
     <div th:replace="~{footer :: footer}"></div>
 </div>
 
-<!-- JavaScript to calculate subtotal and total -->
+<!-- JavaScript to calculate coupondiscount, subtotal and total -->
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const memberId = 1; // replace with the actual member ID
+        fetch(`/order/coupons?memberId=${memberId}`)
+            .then(response => response.json())
+            .then(coupons => {
+                const couponList = document.getElementById('coupon-list');
+                couponList.innerHTML = '';
+                coupons.forEach(coupon => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Code: ${coupon.couponId}, Discount: ${coupon.discount}`;
+                    const applyButton = document.createElement('button');
+                    applyButton.textContent = '적용';
+                    applyButton.addEventListener('click', () => applyCoupon(coupon.couponId));
+                    listItem.appendChild(applyButton);
+                    couponList.appendChild(listItem);
+                });
+            });
+    });
+
+    function applyCoupon(couponId) {
+        const memberId = 1; // replace with the actual member ID
+        fetch('/order/applyCoupon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'memberId': memberId,
+                'couponId': couponId,
+            }),
+        })
+            .then(response => response.json())
+            .then(coupon => {
+                if (coupon) {
+                    document.getElementById('applied-coupon').textContent = `Applied Coupon: ${coupon.code}, Discount: ${coupon.discount}`;
+                    updateSummary();
+                } else {
+                    alert("유효하지 않은 쿠폰입니다.");
+                }
+            });
+    }
+
+    function removeCoupon(memberId, couponId) {
+        fetch('/order/removeCoupon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'memberId': memberId,
+                'couponId': couponId,
+            }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('applied-coupon').textContent = "";
+                    updateSummary();
+                } else {
+                    alert("쿠폰을 취소할 수 없습니다.");
+                }
+            });
+    }
+
     function calculateSubtotal() {
         let subtotal = 0;
         document.querySelectorAll('.text-gray-500 > span').forEach((element) => {
@@ -207,7 +280,8 @@
     function updateSummary() {
         const subtotal = calculateSubtotal();
         const shippingFee = 2500;
-        const total = (parseFloat(subtotal) + shippingFee).toFixed(2);
+        const couponDiscount = parseFloat(document.getElementById('applied-coupon').dataset.discount) || 0;
+        const total = (parseFloat(subtotal) + shippingFee - couponDiscount).toFixed(2);
 
         document.getElementById('subtotal').textContent = subtotal;
         document.getElementById('total').textContent = total;
@@ -266,7 +340,7 @@
         console.log(orderIds);
         IMP.request_pay({
             pg: "html5_inicis",
-            pay_method: selectedPayMethod,
+            pay_method: 'card',
             merchant_uid: orderItems.map(item => item.order_id).join(','),
             name: "주문 묶음",
             amount: totalOrderPrice,
@@ -345,5 +419,6 @@ $(".addressInfo_input_div_" + className).css('display', 'block');
         }).open();
     });
 </script>
+
 </body>
 </html>
