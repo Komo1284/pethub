@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -23,20 +24,21 @@ public class BoardController {
 
     // 공지사항
     @GetMapping("/notice")
-    public ModelAndView notice() {
+    public ModelAndView notice(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("list", bs.getNotices());
+        mav.addObject("map", bs.getNotices(param));
         mav.setViewName("board/notice");
 
         return mav;
     }
-    // 전체 게시판
+
+    // 자유 게시판
     @GetMapping("/list")
-    public ModelAndView list() {
+    public ModelAndView list(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("list", bs.getBoards());
+        mav.addObject("map", bs.getBoards(param));
         mav.setViewName("board/list");
 
         return mav;
@@ -44,10 +46,10 @@ public class BoardController {
 
     // 강아지 게시판
     @GetMapping("/dog")
-    public ModelAndView dog() {
+    public ModelAndView dog(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("list", bs.getDogs());
+        mav.addObject("map", bs.getDogs(param));
         mav.setViewName("board/dog");
 
         return mav;
@@ -55,10 +57,10 @@ public class BoardController {
 
     // 고양이 게시판
     @GetMapping("/cat")
-    public ModelAndView cat() {
+    public ModelAndView cat(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("list", bs.getCats());
+        mav.addObject("map", bs.getCats(param));
         mav.setViewName("board/cat");
 
         return mav;
@@ -66,10 +68,10 @@ public class BoardController {
 
     // 새 게시판
     @GetMapping("/bird")
-    public ModelAndView bird() {
+    public ModelAndView bird(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("list", bs.getBirds());
+        mav.addObject("map", bs.getBirds(param));
         mav.setViewName("board/bird");
 
         return mav;
@@ -77,10 +79,10 @@ public class BoardController {
 
     // 기타 게시판
     @GetMapping("/etc")
-    public ModelAndView etc() {
+    public ModelAndView etc(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("list", bs.getEtcs());
+        mav.addObject("map", bs.getEtcs(param));
         mav.setViewName("board/etc");
 
         return mav;
@@ -165,15 +167,11 @@ public class BoardController {
         return mav;
     }
 
-    @GetMapping("/popUp")
-    public void popUp() {}
-
     // 댓글 수정
     @GetMapping("/popUp/{id}") // replyId를 사용하도록 수정
     public ModelAndView updateReply(@PathVariable int id) { //
         ModelAndView mav = new ModelAndView();
         ReplyVO reply = bs.getReply(id);
-        System.out.println(reply.getId());
         mav.addObject("replyId", reply.getId());
         mav.setViewName("board/popUp");
         return mav;
@@ -186,12 +184,22 @@ public class BoardController {
         input.setContents(contents);
         bs.updateReply(input);
 
-        return "redirect:/board/view/" + id; // 수정 후 해당 게시글로 돌아가도록 설정
+        return "redirect:/board/view/" + id;
     }
 
     @GetMapping("/wroteBoard")
-    public void wroteBoard() {}
+    public ModelAndView wroteBoard(@RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("map", bs.getWroteBoard(param));
+        mav.setViewName("board/wroteBoard");
+        return mav;
+    }
 
     @GetMapping("/wroteReply")
-    public void wroteReply() {}
+    public ModelAndView wroteReply() {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("reply", bs.getWroteReply());
+        mav.setViewName("board/wroteReply");
+        return mav;
+    }
 }

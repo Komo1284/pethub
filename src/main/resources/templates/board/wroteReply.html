@@ -35,23 +35,15 @@
                 </tr>
                 </thead>
                 <tbody class="[&amp;_tr:last-child]:border-0">
-                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">Introducing a New Furry Friend</td>
+                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" th:each="reply : ${reply}">
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0"
+                        >Introducing a New Furry Friend</td>
                     <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                        <a class="text-orange-600 hover:underline" href="#">
+                        <a class="text-orange-600 hover:underline" th:text="${reply.contents}">
                             퍼리 프렌드를 소개한다고?
                         </a>
                     </td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2024/05/27</td>
-                </tr>
-                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">Training Tips for Puppies</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                        <a class="text-orange-600 hover:underline" href="#">
-                            강아지를 훈련시킨다라...
-                        </a>
-                    </td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2024/04/12</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${reply.w_date}">2024/05/27</td>
                 </tr>
                 </tbody>
             </table>

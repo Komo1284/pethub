@@ -25,25 +25,23 @@
     </div>
 </div>
 <script>
-    // 폼 제출 이벤트 리스너 추가
     document.getElementById("commentForm").addEventListener("submit", function(event) {
-        // 기본 동작 (폼 전송) 막기
         event.preventDefault();
-        // 폼 데이터 가져오기
         var formData = new FormData(this);
-        // 서버로 데이터 전송
         fetch(this.action, {
             method: this.method,
             body: formData
         })
             .then(response => {
-                // 서버 응답 처리 (예: 성공적인 수정 메시지 표시)
                 console.log("서버 응답:", response);
                 // 팝업 창 닫기
                 window.close();
+                // 부모 창 새로고침
+                if (window.opener && !window.opener.closed) {
+                    window.opener.location.reload();
+                }
             })
             .catch(error => {
-                // 오류 처리
                 console.error("오류:", error);
             });
     });

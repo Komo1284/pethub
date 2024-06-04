@@ -5,13 +5,20 @@ import itbank.pethub.vo.ReplyVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardDAO {
-
-    // 전체 게시판
-    @Select("select * from board_view order by id desc")
-    List<BoardVO> selectAll();
+    // 자유 게시판
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE type = 5" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAll(Map<String, Object> param);
 
     @Insert("insert into board(title, contents, type, member_id) values(#{title}, #{contents}, #{type}, 1)")
     int addWrite(BoardVO input);
@@ -26,24 +33,59 @@ public interface BoardDAO {
     int deleteBoard(int id);
 
     // 공지 사항
-    @Select("select * from board where type = 1 order by id desc")
-    List<BoardVO> selectAllNotice();
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE type = 1" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAllNotice(Map<String, Object> param);
 
     // 강아지
-    @Select("select * from board where type = 2 order by id desc")
-    List<BoardVO> selectAllDogs();
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE type = 6" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAllDogs(Map<String, Object> param);
 
     // 고양이
-    @Select("select * from board where type = 3 order by id desc")
-    List<BoardVO> selectAllCats();
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE type = 7" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAllCats(Map<String, Object> param);
 
     // 새
-    @Select("select * from board where type = 4 order by id desc")
-    List<BoardVO> selectAllBirds();
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE type = 8" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAllBirds(Map<String, Object> param);
 
     // 기타
-    @Select("select * from board where type = 5 order by id desc")
-    List<BoardVO> selectAllEtcs();
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE type = 9" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAllEtcs(Map<String, Object> param);
 
     // 조회수 증가
     @Update("update board set v_count = v_count + 1 WHERE id = #{id}")
@@ -67,4 +109,33 @@ public interface BoardDAO {
 
     @Select("select id from reply_view where id = #{id} ")
     ReplyVO selectReply(int id);
+
+    // 페이징 및 검색 관련
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM board_view where type = #{num} " +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if>" +
+            "</script>")
+    int searchboard(Map<String, Object> param);
+
+    @Select("SELECT COUNT(*) FROM board_view WHERE type = #{num}")
+    int totalboard(int num);
+
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE member_id = 1" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAllwroteBoard(Map<String, Object> param);
+
+    @Select("select * from reply_view where member_id = 1 order by id desc")
+    List<ReplyVO> selectAllwroteRely();
+
+
+    @Select("select count(*) from board_view where member_id = 1")
+    int total();
 }
