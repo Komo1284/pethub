@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 
 @Controller
@@ -101,12 +102,13 @@ public class BoardController {
 
     // 글 내용 보기
     @GetMapping("/view/{id}")
-    public ModelAndView view(@PathVariable int id) {
+    public ModelAndView view(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView();
 
         bs.viewCount(id);
         mav.addObject("row", bs.getBoard(id));
-        mav.addObject("reply", bs.getReplies(id));
+        List<ReplyVO> reply = bs.getReplies(id);
+        mav.addObject("reply", reply);
 
         mav.setViewName("board/view");
 
@@ -163,23 +165,28 @@ public class BoardController {
         return mav;
     }
 
+    @GetMapping("/popUp")
+    public void popUp() {}
+
     // 댓글 수정
-    @GetMapping("/updateReply/{replyId}") // replyId를 사용하도록 수정
-    public ModelAndView updateReply(@PathVariable int replyId) { // replyId로 수정
+    @GetMapping("/popUp/{id}") // replyId를 사용하도록 수정
+    public ModelAndView updateReply(@PathVariable int id) { //
         ModelAndView mav = new ModelAndView();
-        mav.addObject("replyId", bs.getReply(replyId));
-        mav.setViewName("board/view");
+        ReplyVO reply = bs.getReply(id);
+        System.out.println(reply.getId());
+        mav.addObject("replyId", reply.getId());
+        mav.setViewName("board/popUp");
         return mav;
     }
 
-    @PostMapping("/updateReply/{id}")
-    public ModelAndView updateReply(@PathVariable int id , ReplyVO input, @RequestParam("board_id") int boardId) {
-        ModelAndView mav = new ModelAndView();
+    @PostMapping("/popUp/{id}")
+    public String updateReply(@PathVariable("id") int id, @RequestParam("contents") String contents) {
+        ReplyVO input = new ReplyVO();
         input.setId(id);
+        input.setContents(contents);
         bs.updateReply(input);
-        mav.setViewName("redirect:/board/view/" + boardId);
 
-        return mav;
+        return "redirect:/board/view/" + id; // 수정 후 해당 게시글로 돌아가도록 설정
     }
 
     @GetMapping("/wroteBoard")

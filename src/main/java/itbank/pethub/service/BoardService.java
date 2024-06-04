@@ -80,7 +80,7 @@ public class BoardService {
     }
 
     // 댓글 수정하기 위한 댓글 선택
-    public int getReply(int id) {
+    public ReplyVO getReply(int id) {
         return bd.selectReply(id);
     }
 }

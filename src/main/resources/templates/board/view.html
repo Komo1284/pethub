@@ -5,29 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        function upReply(replyId) {
-            // Fetch API를 사용하여 서버로부터 수정 폼을 가져옵니다.
-            fetch('/board/updateReply/' + replyId, {
-                method: 'GET' // GET 메서드를 사용하도록 설정
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('서버 응답 오류: ' + response.status);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    // 성공적으로 데이터를 받으면 수정 폼을 표시합니다.
-                    var replyForm = document.getElementById('replyForm');
-                    replyForm.innerHTML = data;
-                })
-                .catch(error => {
-                    // 오류가 발생했을 때의 처리
-                    console.error('오류 발생:', error);
-                });
-        }
-    </script>
+
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
@@ -220,29 +198,19 @@
                                 불안감이나 외로움 때문에 그럴 수도 있고, 아니면 주변 소음 때문에 예민하게 반응하는 걸 수도 있어요. <br>
                                 저는 강아지에게 안정감을 주기 위해 자기 전에 충분히 놀아주고, 잠자리에 들 때는 편안한 음악을 틀어줬더니 많이 나아졌어요. 한번 시도해 보세요!
                             </p>
-                            <div id="replyForm"></div>
 
                             <div class="flex items-center justify-end gap-2 mt-2">
-                                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" onclick="upReply('${reply.id}')">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="w-4 h-4"
-                                    >
+                                <button class="update inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 update-btn"
+                                        onclick="openPopup(this.getAttribute('data-reply-id'))"
+                                        th:attr="data-reply-id=${reply.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                                         <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
                                         <path d="m15 5 4 4"></path>
                                     </svg>
                                     <span>수정</span>
                                 </button>
 
-                                <form th:action="'/board/deleteReply/' + ${reply.id}" method="post" id="deleteForm">
+                                <form th:action="@{'/board/deleteReply/' + ${reply.id}}" method="post" id="deleteForm">
                                     <input type="hidden" name="board_id" th:value="${row.id}" />
                                 <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
                                     <svg
@@ -273,5 +241,12 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+<script th:inline="javascript">
+
+    function openPopup(replyId) {
+        window.open('/board/popUp/' + replyId, 'PopUp', 'width=400,height=300');
+    }
+
+</script>
 </body>
 </html>
