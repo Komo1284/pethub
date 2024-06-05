@@ -4,6 +4,7 @@ import itbank.pethub.service.BoardService;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.ReplyVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import itbank.pethub.vo.ContactForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/board")
@@ -20,7 +24,9 @@ public class BoardController {
     private BoardService bs;
 
     @GetMapping("/help")
-    public void help() {}
+    public void help(Model model) {
+        model.addAttribute("contactForm", new ContactForm());
+    }
 
     // 공지사항
     @GetMapping("/notice")

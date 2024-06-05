@@ -26,46 +26,6 @@
                                     <h3 data-orientation="vertical" data-state="closed" class="flex">
                                         <button
                                                 type="button"
-                                                aria-controls="radix-:r5:"
-                                                aria-expanded="false"
-                                                data-state="closed"
-                                                data-orientation="vertical"
-                                                id="radix-:r4:"
-                                                class="flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&amp;[data-state=open]>svg]:rotate-180"
-                                                data-radix-collection-item=""
-                                        >
-                                            반품은 어떻게 하나요?
-                                            <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-                                            >
-                                                <path d="m6 9 6 6 6-6"></path>
-                                            </svg>
-                                        </button>
-                                    </h3>
-                                    <div
-                                            data-state="closed"
-                                            id="radix-:r5:"
-                                            role="region"
-                                            aria-labelledby="radix-:r4:"
-                                            data-orientation="vertical"
-                                            class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-                                            style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); --radix-collapsible-content-height: 148px; --radix-collapsible-content-width: 768px;"
-                                            hidden=""
-                                    ></div>
-                                </div>
-                                <div data-state="closed" data-orientation="vertical" class="border-b">
-                                    <h3 data-orientation="vertical" data-state="closed" class="flex">
-                                        <button
-                                                type="button"
                                                 aria-controls="radix-:r7:"
                                                 aria-expanded="false"
                                                 data-state="closed"
@@ -351,26 +311,36 @@
                             자주 묻는 질문에서 질문에 대한 답변을 찾을 수 없는 경우 아래에 문의사항을 남겨주시면 펫허브의
                             지원팀에서 최대한 빨리 답변해 드리겠습니다.
                         </p>
-                        <div class="grid gap-4">
+                        <form class="grid gap-4" th:action="@{/contact}" th:object="${contactForm}" method="post">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <input
                                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                         placeholder="성함"
+                                        id="name"
+                                        th:field="*{name}"
+                                        required
                                 />
                                 <input
                                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                         placeholder="이메일"
+                                        id="email"
+                                        th:field="*{email}"
+                                        required
                                 />
                             </div>
                             <textarea
                                     class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                     placeholder="남기실 말씀"
                                     rows="4"
+                                    id="message"
+                                    th:field="*{message}"
+                                    required
                             ></textarea>
-                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-primary/90 h-10 px-4 py-2">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-primary/90 h-10 px-4 py-2"
+                                    type="submit">
                                 문의 남기기
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -378,5 +348,27 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+<script th:inline="javascript">
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var accordionButtons = document.querySelectorAll('.accordion-button');
+
+        accordionButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var content = this.nextElementSibling;
+                var expanded = this.getAttribute('aria-expanded') === 'true';
+
+                this.setAttribute('aria-expanded', !expanded);
+                content.hidden = expanded;
+
+                if (!expanded) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = null;
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
