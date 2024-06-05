@@ -11,4 +11,5 @@ public class ReplyVO {
     private int id, member_id, board_id;
     private String contents, nick;
     private Date w_date;
+    private String board_title;
 }

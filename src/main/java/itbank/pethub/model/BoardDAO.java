@@ -132,10 +132,27 @@ public interface BoardDAO {
             "</script>")
     List<BoardVO> selectAllwroteBoard(Map<String, Object> param);
 
-    @Select("select * from reply_view where member_id = 1 order by id desc")
-    List<ReplyVO> selectAllwroteRely();
-
+    @Select("<script>" +
+            "SELECT * FROM reply_view WHERE member_id = 1" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<ReplyVO> selectAllwroteReply(Map<String, Object> param);
 
     @Select("select count(*) from board_view where member_id = 1")
     int total();
+
+    @Select("select count(*) from reply_view where member_id = 1")
+    int totalReply();
+
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM reply_view " +
+            "<if test='group != null and search != null'> " +
+            "where ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if>" +
+            "</script>")
+    int search(Map<String, Object> param);
 }

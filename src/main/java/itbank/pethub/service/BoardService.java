@@ -17,6 +17,7 @@ public class BoardService {
     @Autowired
     private BoardDAO bd;
 
+    // 게시판 목록
     public Map<String, Object> getBoards(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
@@ -47,23 +48,28 @@ public class BoardService {
         return result;
     }
 
+    // 글 작성
     public int addWrite(BoardVO input) {
 
         return bd.addWrite(input);
     }
 
+    // 글 하나 선택
     public BoardVO getBoard(int id) {
         return bd.selectOne(id);
     }
 
+    // 글 수정
     public int upBoard(BoardVO input) {
         return bd.updateBoard(input);
     }
 
+    // 글 삭제
     public int delBoard(int id) {
         return bd.deleteBoard(id);
     }
 
+    // 공지사항 목록
     public Map<String, Object> getNotices(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
@@ -94,6 +100,7 @@ public class BoardService {
         return result;
     }
 
+    // 강아지 목록
     public Map<String, Object> getDogs(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
@@ -105,25 +112,26 @@ public class BoardService {
         int totalcount;
         if (param.containsKey("group") || param.containsKey("search")) {
             param.put("num", boardnum);
-            totalcount = bd.searchboard(param);
-        } else {
-            totalcount = bd.totalboard(boardnum);
+                totalcount = bd.searchboard(param);
+            } else {
+                totalcount = bd.totalboard(boardnum);
+            }
+
+            Paging page = new Paging(reqPage, totalcount);
+
+            param.put("offset", page.getOffset());
+            param.put("boardCount", page.getBoardCount());
+
+
+            Map<String, Object> result = new HashMap<>();
+
+            result.put("pg", page);
+            result.put("list", bd.selectAllDogs(param));
+
+            return result;
         }
 
-        Paging page = new Paging(reqPage, totalcount);
-
-        param.put("offset", page.getOffset());
-        param.put("boardCount", page.getBoardCount());
-
-
-        Map<String, Object> result = new HashMap<>();
-
-        result.put("pg", page);
-        result.put("list", bd.selectAllDogs(param));
-
-        return result;
-    }
-
+    // 고양이 목록
     public Map<String, Object> getCats(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
@@ -155,6 +163,7 @@ public class BoardService {
         return result;
     }
 
+    // 새 목록
     public Map<String, Object> getBirds(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
@@ -186,6 +195,7 @@ public class BoardService {
         return result;
     }
 
+    // 기타 목록
     public Map<String, Object> getEtcs(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
@@ -217,11 +227,12 @@ public class BoardService {
         return result;
     }
 
+    // 조회수
     public int viewCount(int id) {
         return bd.viewUp(id);
     }
 
-    // 댓글
+    // 댓글 목록
     public List<ReplyVO> getReplies(int id) {
         return bd.getReplies(id);
     }
@@ -277,7 +288,32 @@ public class BoardService {
     }
 
 
-    public List<ReplyVO> getWroteReply() {
-        return bd.selectAllwroteRely();
+    public Map<String, Object> getWroteReply(Map<String, Object> param) {
+
+        String sint = (String) param.get("page");
+        sint = (sint == null) ? "1" : sint;
+
+        int reqPage = Integer.parseInt(sint);
+
+
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            totalcount = bd.search(param);
+        } else {
+            totalcount = bd.totalReply();
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("pg", page);
+        result.put("list", bd.selectAllwroteReply(param));
+
+        return result;
     }
 }

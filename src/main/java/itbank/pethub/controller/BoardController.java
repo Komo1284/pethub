@@ -133,7 +133,7 @@ public class BoardController {
         ModelAndView mav = new ModelAndView();
         input.setId(id);
         bs.upBoard(input);
-        mav.setViewName("redirect:/board/list");
+        mav.setViewName("redirect:/board/view/" + id);
 
         return mav;
     }
@@ -187,6 +187,7 @@ public class BoardController {
         return "redirect:/board/view/" + id;
     }
 
+    // 내가 쓴 글 조회
     @GetMapping("/wroteBoard")
     public ModelAndView wroteBoard(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
@@ -195,10 +196,11 @@ public class BoardController {
         return mav;
     }
 
+    // 내가 쓴 댓글 조회
     @GetMapping("/wroteReply")
-    public ModelAndView wroteReply() {
+    public ModelAndView wroteReply(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("reply", bs.getWroteReply());
+        mav.addObject("map", bs.getWroteReply(param));
         mav.setViewName("board/wroteReply");
         return mav;
     }
