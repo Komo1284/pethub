@@ -4,8 +4,9 @@ import itbank.pethub.dto.CustomOAuth2User;
 import itbank.pethub.dto.GoogleResponse;
 import itbank.pethub.dto.NaverResponse;
 import itbank.pethub.dto.OAuth2Response;
-import itbank.pethub.entity.MemberEntity;
-import itbank.pethub.repository.MemberRepository;
+import itbank.pethub.entity.UserEntity;
+
+import itbank.pethub.repository.UserRepository;
 import itbank.pethub.vo.MemberVO;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -16,10 +17,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
-    public CustomOAuth2UserService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    public CustomOAuth2UserService(UserRepository userRepository) {
+       this.userRepository = userRepository;
     }
 
     @Override
@@ -44,18 +45,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // DB저장 및 업데이트
         String userid = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
 
-        MemberEntity existData = memberRepository.findByUserid(userid);
+        UserEntity existData = userRepository.findByUserid(userid);
         String role = null;
 
         if (existData == null) {
-            MemberEntity memberEntity = new MemberEntity();
+            UserEntity userEntity = new UserEntity();
 
-            memberEntity.setUserid(userid);
-            memberEntity.setEmail(oAuth2Response.getEmail());
-            memberEntity.setName(oAuth2Response.getName());
-            memberEntity.setRole("ROLE_USER");
+            userEntity.setUserid(userid);
+            userEntity.setEmail(oAuth2Response.getEmail());
+            userEntity.setName(oAuth2Response.getName());
+            userEntity.setRole("ROLE_USER");
 
-            memberRepository.save(memberEntity);
+            userRepository.save(userEntity);
 
             MemberVO member = new MemberVO();
 
@@ -72,7 +73,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             existData.setEmail(oAuth2Response.getEmail());
             existData.setName(oAuth2Response.getName());
 
-            memberRepository.save(existData);
+            userRepository.save(existData);
 
             MemberVO member = new MemberVO();
 

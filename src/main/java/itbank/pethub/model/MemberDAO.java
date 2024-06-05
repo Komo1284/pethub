@@ -34,4 +34,5 @@ public interface MemberDAO {
 
     @Select("SELECT COUNT(*) FROM member WHERE userid = #{userid}")
     int countByUserId(String userid);
+
 }

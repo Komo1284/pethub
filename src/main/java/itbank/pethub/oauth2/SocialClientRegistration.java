@@ -23,16 +23,16 @@ public class SocialClientRegistration {
                 .build();
     }
 
-    // google 관련 api
-    public ClientRegistration googleclientRegistration() {
-
-        return ClientRegistration.withRegistrationId("google")
-                .clientId("287735118719-7amr2loj78mtgnglha6rhudq7ouao3j5.apps.googleusercontent.com")
-                .clientSecret("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")
-                .redirectUri("http://localhost:8081/login/oauth2/code/google")
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .scope("name", "email", "nickname")
-                .build();
-    }
+//    // google 관련 api
+//    public ClientRegistration googleclientRegistration() {
+//
+//        return ClientRegistration.withRegistrationId("google")
+//                .clientId("287735118719-7amr2loj78mtgnglha6rhudq7ouao3j5.apps.googleusercontent.com")
+//                .clientSecret("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")
+//                .redirectUri("http://localhost:8081/login/oauth2/code/google")
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .scope("name", "email", "nickname")
+//                .build();
+//    }
 
 }

@@ -1,7 +1,6 @@
 package itbank.pethub.service;
 
 import itbank.pethub.aop.PasswordEncoder;
-import itbank.pethub.entity.MemberEntity;
 import itbank.pethub.model.MemberDAO;
 import itbank.pethub.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ public class MemberService{
 
     @Autowired
     private MemberDAO dao;
-
 
     public MemberVO login(MemberVO input) {
         String hash = input.getUserpw();
