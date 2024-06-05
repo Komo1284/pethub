@@ -206,7 +206,7 @@
 <script>
     function openCouponPopup() {
         // 서버에서 쿠폰 데이터를 받아옵니다.
-        fetch('/coupon/discount')
+        fetch('/order/coupon')
             .then(response => response.json())
             .then(data => {
                 const couponList = document.getElementById('couponList');
@@ -216,7 +216,7 @@
                     const listItem = document.createElement('li');
                     listItem.className = 'flex justify-between items-center';
                     listItem.innerHTML = `
-                    <span>${coupon.code} - ${coupon.discount}% 할인</span>
+                    <span>${coupon.coupon_code} - ${coupon.discount}% 할인</span>
                     <input type="radio" name="selectedCoupon" value="${coupon.id}" data-discount="${coupon.discount}">
                 `;
                     couponList.appendChild(listItem);
@@ -271,6 +271,7 @@
         console.log('Checkout button clicked');
     });
 </script>
+
 
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>

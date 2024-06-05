@@ -1,5 +1,6 @@
 package itbank.pethub.controller;
 
+import itbank.pethub.service.MemberService;
 import itbank.pethub.service.OrderService;
 import itbank.pethub.vo.*;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/order")
 public class OrderController {
     private final OrderService os;
-
+    private final MemberService ms;
     //장바구니 - 결제전 물건 가져오기
     @GetMapping("/cart")
     public ModelAndView cart(HttpSession session) {
@@ -148,4 +150,15 @@ public class OrderController {
         mav.setViewName("/order/AfterPay");
         return mav;
     }
+
+//    @GetMapping("/coupon")
+//    @ResponseBody
+//    public List<CouponVO> getCoupons(HttpSession session) {
+//
+//        MemberVO user = (MemberVO) session.getAttribute("user");
+//        int member_id=user.getId();
+//
+//        return ms.couponFindbyId(member_id);
+//    }
+
 }
