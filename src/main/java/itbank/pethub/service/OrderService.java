@@ -60,11 +60,6 @@ public class OrderService {
         return od.countup(cartVO);
     }
 
-
-    public Object selectCart(int id) {
-        return od.selectCart(id);
-    }
-
     public int deleteCart(int orderId) {
         return od.deleteCart(orderId);
     }
@@ -97,7 +92,6 @@ public class OrderService {
         od.updateCart(cart.getCount(), cart.getId());
     }
 
-
     public AddressVO getAddress(int memberId) {
         return od.getAddress(memberId);
     }
@@ -113,5 +107,4 @@ public class OrderService {
     public List<MODCVO> selectAfterpay(int memberId) {
         return od.selectAfterpay(memberId);
     }
-
 }

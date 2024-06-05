@@ -38,8 +38,8 @@
 </head>
 <body>
 <div th:replace="~{header :: header}"></div>
-<div th:replace="~{order/shopHeader :: search}"></div>
-<div th:replace="~{order/shopHeader :: category}"></div>
+<div th:replace="~{shop/shopHeader :: search}"></div>
+<div th:replace="~{shop/shopHeader :: category}"></div>
 <main class="mx-auto max-w-[1600px] w-full">
     <div class="grid grid-cols-3 gap-4 p-4 max-w-[1600px] mx-auto">
         <!-- 이 부분은 처음에만 표시되도록 하세요 -->
@@ -65,7 +65,7 @@
                     <div class="mt-2 text-center">
                         <!-- 제품 이름에 링크를 걸어줍니다. -->
                         <p class="text-sm">
-                            <a th:href="@{'/order/DetailPage/' + ${product.id}}">Product Name</a>
+                            <a th:href="@{'/shop/DetailPage/' + ${product.id}}">Product Name</a>
                         </p>
                         <p class="text-gray-600">Product Description</p>
                     </div>
