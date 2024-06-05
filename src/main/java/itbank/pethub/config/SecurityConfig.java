@@ -7,7 +7,6 @@ import itbank.pethub.jwt.LoginFilter;
 import itbank.pethub.oauth2.CustomClientRegistrationRepo;
 import itbank.pethub.oauth2.CustomOAuth2AuthorizedClientService;
 import itbank.pethub.oauth2.CustomSuccessHandler;
-import itbank.pethub.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
