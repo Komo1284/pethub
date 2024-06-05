@@ -60,11 +60,41 @@
     </style>
 </head>
 <body>
+
 <h1>상세페이지</h1>
 <hr>
-<div th:object="${product}">
+
+
+<div th:each="product : ${product}">
     <h2>Product Information</h2>
-    <!-- 상품 정보 -->
+    <div>
+        <strong>ID:</strong> <span th:text="${product.id}"></span>
+    </div>
+    <div>
+        <strong>상품명:</strong> <span th:text="${product.name}"></span>
+    </div>
+    <div>
+        <strong>가격:</strong> <span th:text="${product.price}"></span>
+    </div>
+    <div>
+        주문수량 : <input id="quantity" name="quantity" type="text" value="1">
+        <span>
+                <button type="button"
+                        onclick="document.getElementById('quantity').value++;">+</button>
+                <button type="button"
+                        onclick="if(document.getElementById('quantity').value>1) document.getElementById('quantity').value--;">-</button>
+            </span>
+    </div>
+
+    <div>
+        <form th:action="@{'/shop/DetailPage/' + ${product.id}}" method="POST">
+            <input type="hidden" name="productId" th:value="${product.id}" />
+            <input type="hidden" id="formQuantity" name="quantity" th:value="${1}" />
+            <button type="submit">장바구니에 추가</button>
+            <button type="button" onclick="submitForm(this.getAttribute('data-product-id'))" th:attr="data-product-id=${product.id}">구매하기</button>
+
+        </form>
+    </div>
 </div>
 
 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
@@ -101,7 +131,7 @@
                 <div class="flex items-center gap-2">
                     <span class="relative flex shrink-0 overflow-hidden rounded-full w-6 h-6">
                         <img class="aspect-square h-full w-full" alt="Author" src="/placeholder-user.jpg" />
-                            구매자가 올린 첨부파일
+                            첨부파일
                     </span>
                     <span th:text="${review.nick}">닉네임</span>
                     <span th:text="${review.item}">상품명</span>
@@ -144,3 +174,70 @@
         </div>
     </div>
 </div>
+
+<script>
+    function submitForm(productId) {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/shop/onebuy/' + productId;
+        var hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'quantity';
+        hiddenInput.value = document.getElementById('quantity').value;
+        form.appendChild(hiddenInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+<script>
+    // 폼 제출 전에 숨겨진 입력 필드의 값을 업데이트합니다
+    document.querySelector('form').addEventListener('submit', function() {
+        var quantity = document.getElementById('quantity').value;
+        document.getElementById('formQuantity').value = quantity;
+    });
+
+
+
+</script>
+
+<script>
+    // 수정 버튼 클릭 시 리뷰 수정 폼 표시
+    document.querySelectorAll('.editReviewBtn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var reviewId = button.getAttribute('data-review-id');
+            var reviewContents = document.querySelector('p[data-review-id="' + reviewId + '"]').textContent.trim();
+            var reviewRating = document.querySelector('p[data-review-id="' + reviewId + '"] + p').textContent.trim();
+
+            // 수정 폼에 리뷰 내용 및 평점 설정
+            document.getElementById('editContents').value = reviewContents;
+            document.getElementById('editRating').value = reviewRating;
+            document.getElementById('reviewId').value = reviewId;
+
+            // 리뷰 수정 폼 표시
+            document.querySelector('#reviewForm').style.display = 'block';
+        });
+    });
+
+    // 리뷰 수정 완료 버튼 클릭 시
+    document.getElementById('submitEditReview').addEventListener('click', function() {
+        var reviewId = document.getElementById('reviewId').value;
+        var editContents = document.getElementById('editContents').value;
+        var editRating = document.getElementById('editRating').value;
+
+        // Ajax를 사용하여 리뷰 수정 처리
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/shop/editReview/{id}' + reviewId, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 성공적으로 수정되면 페이지 새로고침
+                window.location.reload();
+            }
+        };
+        xhr.send('contents=' + encodeURIComponent(editContents) + '&rating=' + encodeURIComponent(editRating));
+    });
+</script>
+
+</body>
+</html>
