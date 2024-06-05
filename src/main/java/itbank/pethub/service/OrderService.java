@@ -113,4 +113,5 @@ public class OrderService {
     public List<MODCVO> selectAfterpay(int memberId) {
         return od.selectAfterpay(memberId);
     }
+
 }

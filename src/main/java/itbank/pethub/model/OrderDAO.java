@@ -30,7 +30,7 @@ public interface OrderDAO {
             "WHERE o.order_status = (SELECT os.id FROM order_status os WHERE os.name = '주문 접수'))")
     int countup(CartVO cartVO);
 
-    @Select("SELECT * FROM cart WHERE order_id IN (SELECT id FROM `order` WHERE member_id = #{memberId})")
+    @Select("SELECT c.* FROM cart c INNER JOIN `order` o ON c.order_id = o.id WHERE o.member_id = #{memberId} AND o.order_status = 1")
     public List<CartVO> getCarts(int memberId);
 
     @Select("select * from item order by id desc")
@@ -38,6 +38,7 @@ public interface OrderDAO {
 
     @Select("select * from item where id = #{id}")
     ItemVO selectOne(int id);
+
 
     @Select("SELECT id FROM cart WHERE order_id IN (SELECT id FROM `order` WHERE member_id=#{memberId} and order_status in (select id from order_status where name ='주문 접수')) AND order_item=#{id}")
     @ResultType(Integer.class)
@@ -72,12 +73,9 @@ public interface OrderDAO {
     @Update("UPDATE delivery SET address = #{delivery_address}, post = #{delivery_post} WHERE id = #{delivery_id}")
     int addressupdate(MODCVO user);
 
-
-
     @Select("select * from modc where member_id=#{memberId} and order_status != '주문 접수'")
     List<MODCVO> selectAfterpay(int memberId);
 
     @Update("update `order` set order_status=2 where id=#{orderId}")
     int updateorder(int orderId);
-
 }

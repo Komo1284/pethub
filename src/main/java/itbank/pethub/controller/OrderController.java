@@ -135,8 +135,6 @@ public class OrderController {
         ModelAndView mav = new ModelAndView();
 
         int d_id=os.getDeli_id(order_id);
-
-
         os.deleteCart(order_id);
         os.deleteOrder(order_id);
         int row =os.deleteDelivery(d_id);
@@ -158,8 +156,6 @@ public class OrderController {
     @PostMapping("/cart")
     public ModelAndView orderStatus() {
         ModelAndView mav = new ModelAndView();
-
-
 
 
         mav.setViewName("redirect:/order/orderStatus");
