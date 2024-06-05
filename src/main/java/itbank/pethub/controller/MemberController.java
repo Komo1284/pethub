@@ -55,5 +55,4 @@ public class MemberController {
 
     @GetMapping("/signUp")
     public void signUp() {}
-
 }

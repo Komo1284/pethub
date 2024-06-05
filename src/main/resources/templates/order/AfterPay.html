@@ -32,7 +32,7 @@
                                                                                        th:text="${row.order_id}"></span>
                                         </h3>
                                         <h3 class="text-lg font-semibold">상품 번호: <span
-                                                th:text="${row.member_id}"></span></h3>
+                                                th:text="${row.order_item}"></span></h3>
                                         <h3 class="text-lg font-semibold">상품 명: 몰라요~~ </h3>
                                         <p class="text-gray-500">합계 가격: <span
                                                 th:text="${row.order_price*row.count}"></span></p>
@@ -40,6 +40,12 @@
                                             <h3>수량: <span th:text="${row.count}"></span></h3>
                                             <div class="flex items-center gap-2">
                                                 <h3>운송장 번호: <span th:text="${row.delivery_id}"></span></h3>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <h3>주문 상태: <span th:text="${row.order_status}"></span></h3>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <h3>배송 상태: <span th:text="${row.delivery_status}"></span></h3>
                                             </div>
                                         </div>
                                     </div>
@@ -68,6 +74,7 @@
                                                 th:text="${list[0].member_email}"></span></h3>
                                         <h3 class="text-lg font-semibold">배송 주소: <span
                                                 th:text="${list[0].delivery_address}"></span></h3>
+
                                     </div>
                                 </div>
                             </li>
