@@ -15,25 +15,41 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 @Controller
 @ResponseBody
 @RequestMapping("/member")
 public class MemberController {
+    private final MemberService ms;
 
     @Autowired
-    private MemberService ms;
+    public MemberController(MemberService ms) {
+        this.ms = ms;
+    }
 
-    private String userid = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-    Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-    GrantedAuthority auth = iter.next();
-    private String role = auth.getAuthority();
+    // 사용자 Id을 가져오는 메서드
+    public String getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return null; // 또는 적절한 예외 처리
+    }
+
+    // 사용자의 권한(Role)을 가져오는 메서드
+    public String getUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            if (!authorities.isEmpty()) {
+                return authorities.iterator().next().getAuthority();
+            }
+        }
+        return null; // 또는 적절한 예외 처리
+    }
 
     @GetMapping("/login")
     public void login() {}

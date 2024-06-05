@@ -3,11 +3,12 @@ package itbank.pethub.model;
 import itbank.pethub.vo.MemberVO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
-public interface MemberDAO extends JpaRepository<MemberVO, Integer> {
+public interface MemberDAO {
 
     @Select("select * from member where userid = #{userid} and userpw = #{userpw}")
     MemberVO selectOne(MemberVO input);
@@ -36,7 +37,5 @@ public interface MemberDAO extends JpaRepository<MemberVO, Integer> {
     int countByUserId(String userid);
 
 
-    MemberVO findByUserid(String userid);
 
-    Boolean existsByUserid(String userid);
 }

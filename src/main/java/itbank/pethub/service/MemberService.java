@@ -1,9 +1,9 @@
 package itbank.pethub.service;
 
 import itbank.pethub.aop.PasswordEncoder;
-import itbank.pethub.dto.CustomUserDetails;
 import itbank.pethub.dto.MemberDetails;
 import itbank.pethub.model.MemberDAO;
+import itbank.pethub.repository.MemberRepository;
 import itbank.pethub.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +20,12 @@ public class MemberService implements UserDetailsService {
     @Autowired
     private MemberDAO dao;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MemberVO memberData = dao.findByUserid(username);
+        MemberVO memberData = memberRepository.findByUserid(username);
 
         if (memberData != null) {
             return new MemberDetails(memberData);
