@@ -1,7 +1,7 @@
 package itbank.pethub.jwt;
 
-import itbank.pethub.dto.CustomOAuth2User;
-import itbank.pethub.vo.MemberVO;
+import itbank.pethub.dto.UserDTO;
+import itbank.pethub.oauth2.CustomOAuth2User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -26,24 +26,8 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        //request에서 Authorization 헤더를 찾음
-        String authorization= request.getHeader("Authorization");
-
-        //Authorization 헤더 검증
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-
-            System.out.println("token null");
-            filterChain.doFilter(request, response);
-
-            //조건이 해당되면 메소드 종료 (필수)
-            return;
-        }
-
-        System.out.println("authorization now");
-        //Bearer 부분 제거 후 순수 토큰만 획득
-        String token = authorization.split(" ")[1];
-
         //cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
+        String authorization = null;
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
 
@@ -65,7 +49,7 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         //토큰
-        token = authorization;
+        String token = authorization;
 
         //토큰 소멸 시간 검증
         if (jwtUtil.isExpired(token)) {
@@ -77,17 +61,17 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        //토큰에서 userid과 role 획득
-        String userid = jwtUtil.getUserid(token);
+        //토큰에서 username과 role 획득
+        String userid = jwtUtil.getUsername(token);
         String role = jwtUtil.getRole(token);
 
-        //MemberVO를 생성하여 값 set
-        MemberVO member = new MemberVO();
-        member.setUserid(userid);
-        member.setRole(role);
+        //userDTO를 생성하여 값 set
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserid(userid);
+        userDTO.setRole(role);
 
         //UserDetails에 회원 정보 객체 담기
-        CustomOAuth2User customOAuth2User = new CustomOAuth2User(member);
+        CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDTO);
 
         //스프링 시큐리티 인증 토큰 생성
         Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());

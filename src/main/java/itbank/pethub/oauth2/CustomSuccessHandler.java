@@ -1,6 +1,5 @@
 package itbank.pethub.oauth2;
 
-import itbank.pethub.dto.CustomOAuth2User;
 import itbank.pethub.jwt.JWTUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
