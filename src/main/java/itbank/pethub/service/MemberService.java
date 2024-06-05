@@ -13,12 +13,29 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     @Autowired
     private MemberDAO dao;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        MemberVO memberData = memberRepository.findByUserid(username);
+
+        if (memberData != null) {
+            return new MemberDetails(memberData);
+
+        }
+
+        return null;
+    }
+
     public MemberVO login(MemberVO input) {
+        String hash = input.getUserpw();
+        System.out.println(hash);
         return dao.selectOne(input);
     }
 

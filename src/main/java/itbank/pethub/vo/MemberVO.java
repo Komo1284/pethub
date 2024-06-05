@@ -1,12 +1,19 @@
 package itbank.pethub.vo;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
+@Entity
+@Table(name = "member")
 public class MemberVO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String email;
     private String phone;
@@ -18,4 +25,5 @@ public class MemberVO {
     private String profile;
     private int ad;
     private String newpw;
+    private String role;
 }

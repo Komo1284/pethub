@@ -10,13 +10,18 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +37,27 @@ public class MemberController {
     private final ImageService is;
     private final EmailService es;
 
+
+    // 사용자 Id을 가져오는 메서드
+    public String getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return null; // 또는 적절한 예외 처리
+    }
+
+    // 사용자의 권한(Role)을 가져오는 메서드
+    public String getUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            if (!authorities.isEmpty()) {
+                return authorities.iterator().next().getAuthority();
+            }
+        }
+        return null; // 또는 적절한 예외 처리
+    }
 
     @GetMapping("/login")
     public void login() {}
@@ -183,6 +209,10 @@ public class MemberController {
         }
         return mav;
     }
+
+    // 비밀번호 찾기 페이지로 전송
+    @GetMapping("/findPw")
+    public void findPw() {}
 
     // 아이디와 폰번호로 해당 계정을 찾은 뒤 랜덤한 새로운 비밀번호를 발행.
     // 새로 발행된 비밀번호를 유저에게 alert로 전달해주고 새로운 비밀번호를 db에 저장
