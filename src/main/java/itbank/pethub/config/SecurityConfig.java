@@ -93,10 +93,6 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 // 세션 관리
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 권한 요구 사항
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/member/login", "/", "/oauth2/**", "/member/signUp", "/member/join").permitAll()
-                        .anyRequest().authenticated())
                 // OAuth2 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/member/login")
@@ -104,6 +100,10 @@ public class SecurityConfig {
                         .authorizedClientService(customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate, customClientRegistrationRepo.clientRegistrationRepository()))
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService))
                         .successHandler(customSuccessHandler))
+                // 권한 요구 사항
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/member/login", "/", "/oauth2/**", "/member/signUp", "/member/join").permitAll()
+                        .anyRequest().authenticated())
                 // 사용자 정의 필터 추가
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
