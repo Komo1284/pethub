@@ -1,13 +1,13 @@
 package itbank.pethub.vo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+import java.sql.Date;
 
-@Getter
-@Setter
+@Data
 public class CouponVO {
-    private int id, discount, min_price, discount_limit;
-    private String code;
 
+    private int member_id, coupon_id, discount, minimum_price, discount_limit;
+    private String member_name, user_id, nickname, email, coupon_code;
+    private Date coupon_reg_date, coupon_end_date;
 }
