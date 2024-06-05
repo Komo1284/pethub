@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.service.OrderService;
+import itbank.pethub.service.ReviewService;
 import itbank.pethub.vo.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/shop")
 public class ShopController {
 
     private final OrderService os;
+    private final ReviewService rs;
 
     // 상품 리스트 불러오기
     @GetMapping("/Items")
@@ -31,9 +35,72 @@ public class ShopController {
     public ModelAndView detailPage(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("product", os.selectOne(id));
+
+        // 상품 리뷰 불러오기
+        List<ReviewVO> review = rs.getReviews(id);
+        mav.addObject("review", review);
+
         mav.setViewName("/shop/DetailPage");
         return mav;
     }
+
+    // 리뷰 추가
+    @PostMapping("/addReview")
+    public ModelAndView addReview(ReviewVO input, HttpSession session) {
+        ModelAndView mav = new ModelAndView();
+
+        if (session.getAttribute("user") == null) {
+            // 로그인 페이지로 리다이렉트
+            mav.setViewName("redirect:/member/login");
+            return mav;
+        }
+
+        // 로그인 한 멤버 정보 + 아이디 + 주소 가져오기
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        int member_id = user.getId();
+
+        input.setMember_id(member_id);
+
+        rs.addReview(input);
+
+        mav.setViewName("redirect:/shop/DetailPage/" + input.getItem_id());
+
+        return mav;
+    }
+
+    // 리뷰 삭제
+    @PostMapping("/deleteReview/{id}")
+    public ModelAndView deleteReview(@PathVariable int id, @RequestParam("item_id") int itemId) {
+        ModelAndView mav = new ModelAndView();
+            rs.deleteReview(id);
+        mav.setViewName("redirect:/shop/DetailPage/" + itemId);
+
+        return mav;
+    }
+
+    // 수정 버튼 클릭시
+    @GetMapping("/editReview/{id}") 
+    public ModelAndView editReview(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView();
+        ReviewVO review = rs.getReview(id);
+        mav.addObject("review", review);
+        mav.setViewName("shop/editReview");
+        return mav;
+    }
+
+    // 수정 완료 버튼 클릭시
+    @PostMapping("/editReview/{id}")
+    public String processEditReview(@PathVariable("id") int id, @RequestParam("contents") String contents,
+                                    @RequestParam("rating") int rating) {
+        ReviewVO input = new ReviewVO();
+        input.setId(id);
+        input.setContents(contents);
+        input.setRating(rating);
+        rs.updateReview(input);
+
+        return "redirect:/shop/DetailPage/" + id;
+    }
+
 
 
     // 상세페이지 정보를 받아 주문페이지로 이동
@@ -101,14 +168,6 @@ public class ShopController {
 
         return mav;
     }
-
-
-
-
-
-
-
-
 
 
 }

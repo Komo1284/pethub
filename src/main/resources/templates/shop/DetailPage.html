@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>상세 페이지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,51 +60,87 @@
     </style>
 </head>
 <body>
-
 <h1>상세페이지</h1>
 <hr>
-
-
-<div th:each="product : ${product}">
+<div th:object="${product}">
     <h2>Product Information</h2>
-    <div>
-        <strong>ID:</strong> <span th:text="${product.id}"></span>
-    </div>
-    <div>
-        <strong>상품명:</strong> <span th:text="${product.name}"></span>
-    </div>
-    <div>
-        <strong>가격:</strong> <span th:text="${product.price}"></span>
-    </div>
-    <div>
-        주문수량 : <input id="quantity" name="quantity" type="text" value="1">
-        <span>
-                <button type="button"
-                        onclick="document.getElementById('quantity').value++;">+</button>
-                <button type="button"
-                        onclick="if(document.getElementById('quantity').value>1) document.getElementById('quantity').value--;">-</button>
-            </span>
-    </div>
+    <!-- 상품 정보 -->
+</div>
 
-    <div>
-        <form th:action="@{'/shop/DetailPage/' + ${product.id}}" method="POST">
-            <input type="hidden" name="productId" th:value="${product.id}" />
-            <input type="hidden" id="formQuantity" name="quantity" th:value="${1}" />
-            <button type="submit">구매</button>
+<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-xl font-bold mb-4">리뷰 작성</h3>
+    <div class="flex flex-col gap-4">
+        <form th:action="@{/shop/addReview}" method="post">
+                        <textarea
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                placeholder="리뷰를 작성하세요..."
+                                th:name="contents" th:value="${row?.contents}" th:required
+                        ></textarea>
+            <label for="rating">평점:</label>
+            <select name="rating" id="rating" required>
+                <option value="">별로 만들어줘</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="hidden" name="item_id" th:value="${product.id}" />
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
+                리뷰 작성
+            </button>
         </form>
     </div>
 </div>
 
-<script>
-    // 폼 제출 전에 숨겨진 입력 필드의 값을 업데이트합니다
-    document.querySelector('form').addEventListener('submit', function() {
-        var quantity = document.getElementById('quantity').value;
-        document.getElementById('formQuantity').value = quantity;
-    });
+<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-xl font-bold mb-4">리뷰</h3>
+    <div class="grid gap-4">
+        <div class="bg-gray-100 p-4 rounded-md" th:each="review : ${review}">
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex shrink-0 overflow-hidden rounded-full w-6 h-6">
+                        <img class="aspect-square h-full w-full" alt="Author" src="/placeholder-user.jpg" />
+                            구매자가 올린 첨부파일
+                    </span>
+                    <span th:text="${review.nick}">닉네임</span>
+                    <span th:text="${review.item}">상품명</span>
+                </div>
+
+                <!-- 리뷰 수정 폼 -->
+                <div id="reviewForm" style="display: none;">
+                    <form id="editReviewForm" method="post">
+                        <textarea id="editContents" class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"></textarea>
+                        <label for="editRating">평점:</label>
+                        <select id="editRating" required>
+                            <option value="">별로 만들어줘</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <input type="hidden" id="reviewId" />
+                        <button type="button" id="submitEditReview">수정 완료</button>
+                    </form>
+                </div>
 
 
+                <div class="flex items-center gap-2">
+                    <p class="text-sm" th:text="${review.rating}">평점</p>
+                    <div th:if="${review.member_id} == 0">
+                        <!-- 수정 버튼 -->
+                        <button class="editReviewBtn" data-review-id="${review.id}">수정</button>
+                        <!-- 삭제 버튼 -->
+                        <form th:action="@{/shop/deleteReview/{id}(id=${review.id})}" method="post">
+                            <input type="hidden" name="item_id" th:value="${product.id}" />
+                            <button type="submit" class="deleteReviewBtn">삭제</button>
+                        </form>
+                    </div>
+                </div>
 
-</script>
-
-</body>
-</html>
+                <p class="text-sm" th:text="${review.contents}">리뷰 내용</p>
+            </div>
+        </div>
+    </div>
+</div>
