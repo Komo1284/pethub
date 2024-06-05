@@ -40,6 +40,7 @@
                                             <h3>수량: <span th:text="${row.count}"></span></h3>
                                             <div class="flex items-center gap-2">
                                                 <h3>운송장 번호: <span th:text="${row.delivery_id}"></span></h3>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +68,6 @@
                                                 th:text="${list[0].member_email}"></span></h3>
                                         <h3 class="text-lg font-semibold">배송 주소: <span
                                                 th:text="${list[0].delivery_address}"></span></h3>
-
                                     </div>
                                 </div>
                             </li>
@@ -77,12 +77,10 @@
                 </div>
             </div>
 
-
         </div>
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
-
 
 
 </body>
