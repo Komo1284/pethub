@@ -47,6 +47,9 @@
                                             <div class="flex items-center gap-2">
                                                 <h3>배송 상태: <span th:text="${row.delivery_status}"></span></h3>
                                             </div>
+                                            <div class="flex items-center gap-2">
+                                                <h3>배송지: <span th:text="${row.delivery_address}"></span></h3>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -72,8 +75,7 @@
                                                 th:text="${list[0].member_phone}"></span></h3>
                                         <h3 id="customerEmail" class="text-lg font-semibold">고객 이메일: <span
                                                 th:text="${list[0].member_email}"></span></h3>
-                                        <h3 class="text-lg font-semibold">배송 주소: <span
-                                                th:text="${list[0].delivery_address}"></span></h3>
+
 
                                     </div>
                                 </div>
