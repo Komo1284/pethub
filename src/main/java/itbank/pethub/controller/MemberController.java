@@ -58,7 +58,7 @@ public class MemberController {
     public void signUp() {}
 
     @PostMapping("/signUp")
-    public ModelAndView signUp(MemberVO input) {
+    public ModelAndView signUp(MemberVO input, @RequestParam("authNum") String authNum, HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
 
@@ -72,6 +72,13 @@ public class MemberController {
         // 비밀번호와 비밀번호체크의 내용이 다를 경우
         if(!Objects.equals(input.getUserpw(), input.getPwCheck())){
             mav.addObject("msg", "입력한 두 비밀번호가 서로 다릅니다.");
+            mav.setViewName("member/signUp");
+            return mav;
+        }
+
+        // 이메일 인증번호가 틀린경우
+        if (!Objects.equals(authNum, session.getAttribute("authNum"))){
+            mav.addObject("msg", "이메일 인증번호가 올바르지 않습니다.");
             mav.setViewName("member/signUp");
             return mav;
         }
@@ -167,7 +174,7 @@ public class MemberController {
     @PostMapping("/findId")
     public ModelAndView findId(MemberVO input, @RequestParam("authNum") String authNum, HttpSession session) {
         ModelAndView mav = new ModelAndView("member/findAcc");
-        if (Objects.equals(authNum, (String) session.getAttribute("authNum"))){
+        if (Objects.equals(authNum, session.getAttribute("authNum"))){
             mav.addObject("userid", ms.findId(input));
             session.removeAttribute("authNum");
         }
@@ -182,7 +189,7 @@ public class MemberController {
     @PostMapping("/findPw")
     public ModelAndView findPw(MemberVO input, @RequestParam("authNum") String authNum, HttpSession session) {
         ModelAndView mav = new ModelAndView("member/findAcc");
-        if (Objects.equals(authNum, (String) session.getAttribute("authNum"))){
+        if (Objects.equals(authNum, session.getAttribute("authNum"))){
             String newPw = ms.findPw(input);
             if (newPw != null) {
                 mav.addObject("newPw", newPw);
@@ -222,6 +229,16 @@ public class MemberController {
     public ResponseEntity<Map<String, Boolean>> checkUserId(@RequestBody Map<String, String> request) {
         String userid = request.get("userid");
         boolean exists = ms.isUserIdExists(userid);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/checkAuthNumUrl")
+    public ResponseEntity<Map<String, Boolean>> checkAuthNumUrl(@RequestBody Map<String, String> request, HttpSession session) {
+        String authNum = request.get("authNum");
+        boolean exists = session.getAttribute("authNum").equals(authNum);
+        System.out.println("exists = " + exists);
         Map<String, Boolean> response = new HashMap<>();
         response.put("exists", exists);
         return ResponseEntity.ok(response);

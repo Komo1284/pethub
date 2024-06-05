@@ -38,7 +38,9 @@
                                     required=""
                                     type="text"
                                     name="userid"
+                                    onblur="checkUserId()"
                             />
+                            <span id="userid-check"></span>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="grid gap-2">
@@ -106,22 +108,56 @@
                                     name="nick"
                             />
                         </div>
-                        <div class="grid gap-2">
-                            <label
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
-                                    for="email"
-                            >
-                                이메일
-                            </label>
-                            <input
-                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    id="email"
-                                    placeholder="이메일을 입력하세요."
-                                    required=""
-                                    type="email"
-                                    name="email"
-                            />
+                        <div class="grid grid-cols-4 gap-2">
+                            <div class="grid gap-2" style="grid-column: span 2;">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                        for="email"
+                                >
+                                    이메일
+                                </label>
+                                <input
+                                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        id="email"
+                                        placeholder="이메일을 입력하세요."
+                                        required=""
+                                        type="email"
+                                        name="email"
+                                />
+                            </div>
+                            <div class="grid gap-2 items-end">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                        for="auth"
+                                ></label>
+                                <button
+                                        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
+                                        id="auth"
+                                        style="height: 2.5rem;"
+                                        type="button"
+                                >
+                                    인증번호 발송
+                                </button>
+                            </div>
+                            <div class="grid gap-2">
+                                <label
+                                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                        for="auth_num"
+                                >
+                                    인증번호
+                                </label>
+                                <input
+                                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                        id="auth_num"
+                                        placeholder="인증번호를 입력하세요."
+                                        required=""
+                                        type="text"
+                                        name="authNum"
+                                        onblur="checkauthNum()"
+                                />
+                            </div>
                         </div>
+                        <span id="auth_num-check"></span>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="grid gap-2">
                                 <label
@@ -213,8 +249,8 @@
                                     name="ad"
                                     class="h-4 w-4 rounded-sm border border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             />
-                            <label  for="ad"
-                                    class="text-sm font-medium leading-none disabled:cursor-not-allowed disabled:opacity-70 text-gray-900 cursor-pointer">
+                            <label for="ad"
+                                   class="text-sm font-medium leading-none disabled:cursor-not-allowed disabled:opacity-70 text-gray-900 cursor-pointer">
                                 광고 수신 동의하기</label>
                         </div>
                         <button
@@ -223,6 +259,8 @@
                         >
                             계정 생성하기
                         </button>
+                        <input type="hidden" id="checkUserIdUrl" th:value="@{/member/checkUserId}"/>
+                        <input type="hidden" id="checkAuthNumUrl" th:value="@{/member/checkAuthNumUrl}"/>
                     </form>
                 </div>
             </div>
@@ -251,6 +289,64 @@
 </th:block>
 <script th:inline="javascript">
 
+    // 아이디 중복확인 비동기
+    function checkUserId() {
+        var userid = document.getElementById('userid').value;
+        var url = document.getElementById('checkUserIdUrl').value;
+        if (userid.length > 0) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.exists) {
+                        // 중복된 아이디가 있을 경우
+                        document.getElementById('userid-check').textContent = '이미 사용 중인 아이디입니다.';
+                        document.getElementById('userid-check').style.color = 'red'; // 텍스트 색상을 빨간색으로 변경
+                    } else {
+                        // 중복된 아이디가 없을 경우
+                        document.getElementById('userid-check').textContent = '사용 가능한 아이디입니다.';
+                        document.getElementById('userid-check').style.color = 'green'; // 텍스트 색상을 초록색으로 변경
+                    }
+                } else if (xhr.readyState === 4) {
+                    document.getElementById('userid-check').textContent = '아이디 중복 체크 중 오류가 발생했습니다.';
+                    document.getElementById('userid-check').style.color = 'red'; // 오류 발생 시 텍스트 색상을 기본값으로 변경
+                }
+            };
+            xhr.send(JSON.stringify({userid: userid}));
+        }
+    }
+    // 인증번호 확인 비동기 표시
+    function checkauthNum() {
+        console.log('호출');
+        var authNum = document.getElementById('auth_num').value;
+        var url = document.getElementById('checkAuthNumUrl').value;
+        if (authNum.length > 0) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.exists) {
+                        // 인증번호가 일치할 경우
+                        document.getElementById('auth_num-check').textContent = '인증이 완료되었습니다.';
+                        document.getElementById('auth_num-check').style.color = 'green'; // 텍스트 색상을 빨간색으로 변경
+                    } else {
+                        // 인증번호가 일치하지 않을 경우
+                        document.getElementById('auth_num-check').textContent = '인증번호가 일치하지 않습니다.';
+                        document.getElementById('auth_num-check').style.color = 'red'; // 텍스트 색상을 초록색으로 변경
+                    }
+                } else if (xhr.readyState === 4) {
+                    document.getElementById('auth_num-check').textContent = '인증 체크 중 오류가 발생했습니다.';
+                    document.getElementById('auth_num-check').style.color = 'red'; // 오류 발생 시 텍스트 색상을 기본값으로 변경
+                }
+            };
+            xhr.send(JSON.stringify({authNum: authNum}));
+        }
+    }
+
     const search = document.querySelector('#search');
     search.addEventListener("click", () => {
         new daum.Postcode({
@@ -258,17 +354,17 @@
                 let fullAddr = '';
                 let extraAddr = '';
 
-                if(data.userSelectedType === 'R') {
+                if (data.userSelectedType === 'R') {
                     fullAddr = data.roadAddress;
                 } else {
                     fullAddr = data.jibunAddress;
                 }
 
-                if(data.userSelectedType === 'R') {
-                    if(data.bname !== '') {
+                if (data.userSelectedType === 'R') {
+                    if (data.bname !== '') {
                         extraAddr += data.bname;
                     }
-                    if(data.buildingName !== '') {
+                    if (data.buildingName !== '') {
                         extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                     }
 
@@ -280,6 +376,33 @@
                 document.insert.address_details.focus();
             }
         }).open();
+    });
+
+    function sendAuthNum(emailFieldId, alertMessage
+    ) {
+        var email = document.getElementById(emailFieldId).value;
+        fetch('/member/AuthNum', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: email})
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert(alertMessage);
+                } else {
+                    alert('인증번호 전송에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('인증번호 전송에 실패했습니다.');
+            });
+    }
+
+    document.getElementById('auth').addEventListener('click', function () {
+        sendAuthNum('email', '인증번호가 전송되었습니다.');
     });
 </script>
 </body>
