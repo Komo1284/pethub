@@ -1,17 +1,16 @@
 package itbank.pethub.service;
 
 import itbank.pethub.model.CouponDAO;
-import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.Member_CouponVO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 
+@RequiredArgsConstructor
 @Service
 public class CouponService {
-    @Autowired
-    private CouponDAO cd;
+    private final CouponDAO cd;
 
     public List<Member_CouponVO> getCouponsByMemberId(int member_id) {
 

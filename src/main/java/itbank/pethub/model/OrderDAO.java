@@ -2,9 +2,7 @@ package itbank.pethub.model;
 
 import itbank.pethub.vo.*;
 import org.apache.ibatis.annotations.*;
-
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface OrderDAO {

@@ -3,21 +3,19 @@ package itbank.pethub.controller;
 import itbank.pethub.service.OrderService;
 import itbank.pethub.vo.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.HashMap;
 import java.util.Map;
 
-
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/order")
 public class OrderController {
-    @Autowired
-    private OrderService os;
+    private final OrderService os;
 
     //장바구니 - 결제전 물건 가져오기
     @GetMapping("/cart")
