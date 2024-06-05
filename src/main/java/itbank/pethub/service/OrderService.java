@@ -2,17 +2,14 @@ package itbank.pethub.service;
 
 import itbank.pethub.model.OrderDAO;
 import itbank.pethub.vo.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+@RequiredArgsConstructor
 @Service
 public class OrderService {
-    @Autowired
-    private OrderDAO od;
+    private final OrderDAO od;
 
     public List<CartVO> getCarts(int memberId) {
         return od.getCarts(memberId);
@@ -60,11 +57,6 @@ public class OrderService {
         return od.countup(cartVO);
     }
 
-
-    public Object selectCart(int id) {
-        return od.selectCart(id);
-    }
-
     public int deleteCart(int orderId) {
         return od.deleteCart(orderId);
     }
@@ -97,7 +89,6 @@ public class OrderService {
         od.updateCart(cart.getCount(), cart.getId());
     }
 
-
     public AddressVO getAddress(int memberId) {
         return od.getAddress(memberId);
     }
@@ -113,5 +104,4 @@ public class OrderService {
     public List<MODCVO> selectAfterpay(int memberId) {
         return od.selectAfterpay(memberId);
     }
-
 }
