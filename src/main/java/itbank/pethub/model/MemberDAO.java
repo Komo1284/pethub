@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 @Mapper
-public interface MemberDAO {
+public interface MemberDAO extends JpaRepository<MemberVO, Integer> {
 
     @Select("select * from member where userid = #{userid} and userpw = #{userpw}")
     MemberVO selectOne(MemberVO input);
@@ -35,4 +35,8 @@ public interface MemberDAO {
     @Select("SELECT COUNT(*) FROM member WHERE userid = #{userid}")
     int countByUserId(String userid);
 
+
+    MemberVO findByUserid(String userid);
+
+    Boolean existsByUserid(String userid);
 }

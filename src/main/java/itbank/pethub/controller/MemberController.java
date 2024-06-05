@@ -6,11 +6,16 @@ import itbank.pethub.vo.MemberVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Controller
@@ -21,6 +26,14 @@ public class MemberController {
     @Autowired
     private MemberService ms;
 
+    private String userid = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+    GrantedAuthority auth = iter.next();
+    private String role = auth.getAuthority();
 
     @GetMapping("/login")
     public void login() {}
