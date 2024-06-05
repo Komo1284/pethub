@@ -140,7 +140,6 @@ public class OrderController {
         os.deleteCart(order_id);
         os.deleteOrder(order_id);
         int row =os.deleteDelivery(d_id);
-        System.out.println(row);
 
 
 
@@ -159,6 +158,9 @@ public class OrderController {
     @PostMapping("/cart")
     public ModelAndView orderStatus() {
         ModelAndView mav = new ModelAndView();
+
+
+
 
         mav.setViewName("redirect:/order/orderStatus");
         return mav;
@@ -206,6 +208,34 @@ public class OrderController {
 
         mav.addObject("list", os.selectMODC(member_id));
         mav.setViewName("/order/orderStatus");
+        return mav;
+    }
+
+    @PostMapping("/updateDeliveryInfo")
+    public ModelAndView updateDeliveryInfo(@RequestBody CartVO deliveryInfo, HttpSession session) {
+
+        ModelAndView mav = new ModelAndView();
+        int order_id=deliveryInfo.getOrder_id();
+
+        os.updateorder(order_id);
+        mav.setViewName("redirect:/order/cart");
+        return mav;
+    }
+
+    @GetMapping("/AfterPay")
+    public ModelAndView AfterPay(HttpSession session) {
+        ModelAndView mav= new ModelAndView();
+        if (session.getAttribute("user") == null) {
+            // 로그인 페이지로 리다이렉트
+            mav.setViewName("redirect:/member/login");
+            return mav;
+        }
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        int member_id=user.getId();
+
+        mav.addObject("list", os.selectAfterpay(member_id));
+        mav.setViewName("/order/AfterPay");
         return mav;
     }
 }

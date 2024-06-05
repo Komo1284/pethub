@@ -5,7 +5,9 @@ import itbank.pethub.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -31,9 +33,7 @@ public class OrderService {
         return existingOrderId != null ? existingOrderId.intValue() : -1;
     }
 
-    public int getdelivery_status_id() {
-        return od.getdelivery_status_id();
-    }
+
 
     public int getdelivery_id() {
         return od.getdelivery_id();
@@ -49,7 +49,7 @@ public class OrderService {
     }
 
     public int getorderid() {
-        return  od.getorderid();
+        return od.getorderid();
     }
 
     public int makeCart(CartVO cv) {
@@ -75,7 +75,6 @@ public class OrderService {
     }
 
 
-
     public int deleteOrder(int orderId) {
         return od.deleteOrder(orderId);
     }
@@ -86,7 +85,6 @@ public class OrderService {
     }
 
 
-
     public int makeDelivery(DeliveryVO dsv) {
         return od.makedelivery(dsv);
     }
@@ -95,13 +93,10 @@ public class OrderService {
         return od.selectMODC(memberId);
     }
 
-    public void updateCart(CartVO cart){
+    public void updateCart(CartVO cart) {
         od.updateCart(cart.getCount(), cart.getId());
     }
 
-    public int emailupdate(MemberVO user) {
-        return od.emailupdate(user);
-    }
 
     public AddressVO getAddress(int memberId) {
         return od.getAddress(memberId);
@@ -109,5 +104,13 @@ public class OrderService {
 
     public int addressupdate(MODCVO user) {
         return od.addressupdate(user);
+    }
+
+    public int updateorder(int orderId) {
+        return od.updateorder(orderId);
+    }
+
+    public List<MODCVO> selectAfterpay(int memberId) {
+        return od.selectAfterpay(memberId);
     }
 }

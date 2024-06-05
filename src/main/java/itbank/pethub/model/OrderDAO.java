@@ -4,12 +4,10 @@ import itbank.pethub.vo.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderDAO {
-    @Select("SELECT id FROM delivery_status ORDER BY id DESC LIMIT 1")
-    int getdelivery_status_id();
-
     @Insert("Insert into delivery(address, post, status_id) values (#{address}, #{post},1)")
     int makedelivery(DeliveryVO dsv);
 
@@ -54,16 +52,12 @@ public interface OrderDAO {
     @Select("select delivery_id from `order` where id=#{order_id}")
     int getDeli_id(int order_id);
 
-
-
     @Delete("DELETE from `order` where id=#{orderId}")
     int deleteOrder(int orderId);
 
     @Update("UPDATE cart SET count = #{count} WHERE id = #{id}")
     void updateCart(@Param("count") int count, @Param("id") int id);
 
-    @Update("UPDATE member SET email = #{email} WHERE id = #{id}")
-    int emailupdate(MemberVO user);
 
     @Delete("DELETE from delivery where id=#{dId}")
     int deleteDelivery(int dId);
@@ -76,4 +70,13 @@ public interface OrderDAO {
 
     @Update("UPDATE delivery SET address = #{delivery_address}, post = #{delivery_post} WHERE id = #{delivery_id}")
     int addressupdate(MODCVO user);
+
+
+
+    @Select("select * from modc where member_id=#{memberId} and order_status != '주문 접수'")
+    List<MODCVO> selectAfterpay(int memberId);
+
+    @Update("update `order` set order_status=2 where id=#{orderId}")
+    int updateorder(int orderId);
+
 }

@@ -139,7 +139,7 @@
                                         </form>
 
 
-                                        <a class="quantity_modify_btn" th:data-product-id="${list[0].delivery_id}">
+                                        <a class="delivery_modify_btn" th:data-product-id="${list[0].delivery_id}">
                                             배송지 수정 </a>
                                     </div>
                                 </div>
@@ -163,6 +163,7 @@
                     <span>배송비</span>
                     <span>2500</span>
                 </div>
+
                 <div class="flex justify-between mb-4">
                     <span class="font-semibold">합계</span>
                     <span id="total">0</span>
@@ -343,6 +344,51 @@
             }
         });
     }
+
+
+</script>
+<script>
+
+    // Call updateSummary function when the page loads
+    window.onload = updateSummary;
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        const modifyButtons = document.querySelectorAll('.delivery_modify_btn');
+
+        modifyButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const productId = e.target.getAttribute('data-product-id');
+                let primaryAddressValue = document.getElementById('primary_address').value;
+                let addressdetail = document.getElementById('address_details').value;
+                let zipcode = document.getElementById('zip_code').value;
+                let realadd = primaryAddressValue + addressdetail;
+
+
+                fetch(`/order/cart/deliveryupdate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        delivery_id: productId,
+                        delivery_post: zipcode,
+                        delivery_address: realadd
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('배송지가 성공적으로 수정되었습니다.');
+                            location.reload(); // 페이지 새로고침
+                        } else {
+                            alert('배송지 수정에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    });
 
 
 </script>
