@@ -19,8 +19,7 @@ public class ShopController {
     @Autowired
     private OrderService os;
 
-    @Autowired
-    private ShopService ss;
+
 
 
     // 상품 리스트 불러오기
