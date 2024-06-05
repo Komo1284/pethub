@@ -15,12 +15,47 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
+  security:
+    oauth2:
+      client:
+        registration:
+          naver:
+            client-name: naver
+            client-id: QpBnbk7arcmKPKD1wYrM
+            client-secret: AXFiNzxWTx
+            redirect-uri: http://localhost:8081/login/oauth2/code/naver
+            authorization-grant-type: authorization_code
+            scope:
+              - name
+              - email
+              - nickname
+              - address
+        provider:
+          naver:
+            authorization-uri: //nid.naver.com/oauth2.0/authorize
+            token-uri: //nid.naver.com/oauth2.0/token
+            user-info-uri: //openapi.naver.com/v1/nid/me
+            user-name-attribute: response
+
+  jwt:
+    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb
+
 #s3
 cloud:
   aws:
+    credentials:
+      access-key: AKIA2UC3C7EED3L3ZOMW
+      secret-key: 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
     region:
       static: ap-northeast-2
     stack:
       auto: false
     s3:
       bucket: itbank-pethub-s3
+
+server:
+  port: 8081
+
+
+# QpBnbk7arcmKPKD1wYrM
+# AXFiNzxWTx
