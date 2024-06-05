@@ -32,7 +32,7 @@
                                                                                        th:text="${row.order_id}"></span>
                                         </h3>
                                         <h3 class="text-lg font-semibold">상품 번호: <span
-                                                th:text="${row.member_id}"></span></h3>
+                                                th:text="${row.order_item}"></span></h3>
                                         <h3 class="text-lg font-semibold">상품 명: 몰라요~~ </h3>
                                         <p class="text-gray-500">합계 가격: <span
                                                 th:text="${row.order_price*row.count}"></span></p>
@@ -65,7 +65,7 @@
                                         <h3 id="customerEmail" class="text-lg font-semibold">고객 이메일: <span
                                                 th:text="${list[0].member_email}"></span></h3>
 
-                                        <h3>배송 주소:</h3>
+                                        <h3>배송 주소: 미입력시 회원가입시 기입한 주소로 배송됩니다.</h3>
                                         <form name="insert">
                                             <div class="addressInfo_input_div addressInfo_input_div_2">
                                                 <div class="grid grid-cols-2 gap-2">
@@ -144,7 +144,6 @@
                                     </div>
                                 </div>
                             </li>
-                            <hr>
                         </ul>
                     </div>
                 </div>
@@ -186,10 +185,16 @@
                         </div>
                     </div>
                 </div>
+                <!-- 결제 옵션 및 버튼 -->
+                <div class="payment-options">
+                    <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
+                    <label><input type="radio" name="pay_method" value="trans">실시간 계좌이체</label>
+                    <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
+                </div>
                 <button id="checkoutBtn"
                         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
                         onclick="requestPay()">
-                    카드 결제
+                    결제 하기
                 </button>
             </div>
         </div>
@@ -276,7 +281,7 @@
     IMP.init("imp01786831");
 
     function requestPay() {
-        var selectedPayMethod = 'vbank';
+        var selectedPayMethod = document.querySelector('input[name="pay_method"]:checked').value;
         var totalOrderPrice = parseFloat(document.getElementById('total').textContent);
         if (isNaN(totalOrderPrice) || totalOrderPrice <= 0) {
             alert("총 주문 가격이 올바르지 않습니다.");
@@ -322,13 +327,13 @@
         }, function (rsp) {
             if (rsp.success) {
                 // 결제가 성공했을 때만 AJAX 요청을 보냄
-                orderItems.forEach(function(orderItem) {
+                orderItems.forEach(function (orderItem) {
                     var xhr = new XMLHttpRequest();
 
                     xhr.open("POST", "/order/updateDeliveryInfo", true);
 
                     xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.onreadystatechange = function() {
+                    xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             alert("배송 정보가 업데이트되었습니다.");
 
@@ -347,14 +352,14 @@
 
 
 </script>
+
+
 <script>
 
     // Call updateSummary function when the page loads
-    window.onload = updateSummary;
-
     document.addEventListener('DOMContentLoaded', (event) => {
-
         const modifyButtons = document.querySelectorAll('.delivery_modify_btn');
+
 
         modifyButtons.forEach(button => {
             button.addEventListener('click', (e) => {
