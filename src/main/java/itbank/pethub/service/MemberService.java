@@ -2,11 +2,14 @@ package itbank.pethub.service;
 
 import itbank.pethub.aop.PasswordEncoder;
 import itbank.pethub.model.MemberDAO;
+import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -16,17 +19,35 @@ public class MemberService {
     private MemberDAO dao;
 
     public MemberVO login(MemberVO input) {
-        String hash = input.getUserpw();
-        System.out.println(hash);
         return dao.selectOne(input);
     }
 
-    public int signUp(MemberVO input) {
-        return dao.insert(input);
+    @Transactional
+    public MemberVO signUp(MemberVO input) {
+        dao.insert(input);
+        if (input.getAd() == 1){
+            dao.insertAd(input);
+            input.setAd(1);
+        }
+        return input;
     }
 
-    public void update(MemberVO input) {
-        dao.update(input);
+    @Transactional
+    public int insertAdd(MemberVO input){
+        MemberVO member = dao.selectOneNoAddress(input);
+        member.setAddress_details(input.getAddress_details());
+        member.setPrimary_address(input.getPrimary_address());
+        member.setZip_code(input.getZip_code());
+
+        return dao.insertAddress(member);
+    }
+
+    @Transactional
+    public int update(MemberVO input) {
+        if(updateAddress(input) == dao.update(input)){
+            return 1;
+        }
+        return 0;
     }
 
     public void delete(MemberVO member) {
@@ -53,5 +74,21 @@ public class MemberService {
 
     public boolean isUserIdExists(String userid) {
         return dao.countByUserId(userid) > 0;
+    }
+
+    public List<CouponVO> couponFindbyId(int member_id) {
+        return dao.couponFindbyId(member_id);
+    }
+
+    public int updateAddress(MemberVO user) {
+        return dao.addressUpdate(user);
+    }
+
+    @Transactional
+    public int updateNoProfile(MemberVO user) {
+        if(dao.updateNoProfile(user) == updateAddress(user)){
+            return 1;
+        }
+        return 0;
     }
 }
