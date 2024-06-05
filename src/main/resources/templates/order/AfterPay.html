@@ -13,7 +13,7 @@
         <div th:replace="~{member/myPageAside :: aside}"></div>
         <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-semibold mb-4">주문 현황</h2><br>
+                <h2 class="text-2xl font-semibold mb-4">아몰랑</h2><br>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6" th:each="row : ${list}">
                     <div class="md:col-span-2 mr-12">
                         <ul class="space-y-4">
@@ -38,10 +38,11 @@
                                                 th:text="${row.order_price*row.count}"></span></p>
                                         <div class="flex items-center gap-2">
                                             <h3>수량: <span th:text="${row.count}"></span></h3>
-
+                                            <div class="flex items-center gap-2">
+                                                <h3>운송장 번호: <span th:text="${row.delivery_id}"></span></h3>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </li>
                             <hr>
                         </ul>
@@ -64,83 +65,9 @@
                                                 th:text="${list[0].member_phone}"></span></h3>
                                         <h3 id="customerEmail" class="text-lg font-semibold">고객 이메일: <span
                                                 th:text="${list[0].member_email}"></span></h3>
+                                        <h3 class="text-lg font-semibold">배송 주소: <span
+                                                th:text="${list[0].delivery_address}"></span></h3>
 
-                                        <h3>배송 주소:</h3>
-                                        <form name="insert">
-                                            <div class="addressInfo_input_div addressInfo_input_div_2">
-                                                <div class="grid grid-cols-2 gap-2">
-                                                    <div class="grid gap-2">
-                                                        <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
-                                                                for="zip_code"
-                                                        >
-                                                            우편번호
-                                                        </label>
-                                                        <input
-                                                                class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
-                                                                id="zip_code"
-                                                                type="text"
-                                                                placeholder="주소를 검색해주세요."
-                                                                name="zip_code"
-                                                                readonly
-                                                        />
-                                                    </div>
-                                                    <div class="grid gap-2 flex items-end">
-                                                        <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
-                                                                for="search">
-
-                                                        </label>
-                                                        <button
-                                                                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
-                                                                id="search"
-                                                                style="height: 2.5rem; width: 50%;"
-                                                                type="button"
-                                                        >
-                                                            주소 검색하기
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="grid grid-cols-2 gap-2">
-                                                    <div class="grid gap-2">
-                                                        <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
-                                                                for="primary_address"
-                                                        >
-                                                            도로명 (지번) 주소
-                                                        </label>
-                                                        <input
-                                                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                id="primary_address"
-                                                                placeholder="주소를 검색해주세요."
-                                                                required=""
-                                                                type="text"
-                                                                name="primary_address"
-                                                                readonly
-                                                        />
-                                                    </div>
-                                                    <div class="grid gap-2">
-                                                        <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
-                                                                for="address_details"
-                                                        >
-                                                            상세 주소
-                                                        </label>
-                                                        <input
-                                                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                                                id="address_details"
-                                                                placeholder="상세주소를 입력해주세요."
-                                                                required=""
-                                                                type="text"
-                                                                name="address_details">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-
-                                        <a class="quantity_modify_btn" th:data-product-id="${list[0].delivery_id}">
-                                            배송지 수정 </a>
                                     </div>
                                 </div>
                             </li>
@@ -149,237 +76,14 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-gray-100 p-4 rounded-md mt-8">
-                <h3 class="text-lg font-semibold mb-2">주문 요약</h3>
-                <div class="flex justify-between mb-2">
-                    <span>소계</span>
-                    <span id="subtotal">0</span>
-                </div>
-                <div class="flex justify-between mb-2">
-                    <span>배송비</span>
-                    <span>2500</span>
-                </div>
-                <div class="flex justify-between mb-4">
-                    <span class="font-semibold">합계</span>
-                    <span id="total">0</span>
-                </div>
-                <button id="checkoutBtn"
-                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
-                        onclick="requestPay()">
-                    카드 결제
-                </button>
-            </div>
+
+
         </div>
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
 
-<!-- JavaScript to calculate subtotal and total -->
-<script>
-    function calculateSubtotal() {
-        let subtotal = 0;
-        document.querySelectorAll('.text-gray-500 > span').forEach((element) => {
-            subtotal += parseFloat(element.textContent) || 0;
-        });
-        return subtotal;
-    }
-
-    function updateSummary() {
-        const subtotal = calculateSubtotal();
-        const shippingFee = 2500;
-        const total = (parseFloat(subtotal) + shippingFee);
-
-        document.getElementById('subtotal').textContent = subtotal;
-        document.getElementById('total').textContent = total;
-    }
-
-    window.onload = updateSummary;
-
-    document.querySelectorAll('input[type="number"]').forEach((input) => {
-        input.addEventListener('change', updateSummary);
-    });
-
-    document.getElementById('checkoutBtn').addEventListener('click', function () {
-        console.log('Checkout button clicked');
-    });
-</script>
-
-<!-- jQuery -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<script>
-    var IMP = window.IMP;
-    IMP.init("imp01786831");
-
-    function requestPay() {
-        var selectedPayMethod = 'card';
-        var totalOrderPrice = parseFloat(document.getElementById('total').textContent);
-        if (isNaN(totalOrderPrice) || totalOrderPrice <= 0) {
-            alert("총 주문 가격이 올바르지 않습니다.");
-            return;
-        }
-        let primaryAddressValue = document.getElementById('primary_address').value;
-        let addressdetail = document.getElementById('address_details').value;
-        let realadd = primaryAddressValue + addressdetail;
-
-        var orderItems = [];
-        const orderIds2 = Array.from(document.querySelectorAll('.order_id')).map(element => element.textContent);
-        var customerName = document.getElementById('customerName').textContent.trim().split(": ")[1];
-        var customerPhone = document.getElementById('customerPhone').textContent.trim().split(": ")[1];
-        var customerEmail = document.getElementById('customerEmail').textContent.trim().split(": ")[1];
-        var deliveryAddress = realadd;
 
 
-
-
-
-        orderIds2.forEach(function (orderIdElement) {
-            var orderItem = {
-                order_id: orderIds2,
-                member_name: customerName,
-                member_phone: customerPhone,
-                member_email: customerEmail,
-                address: deliveryAddress,
-            };
-            orderItems.push(orderItem);
-        });
-
-
-        if (orderItems.length === 0) {
-            alert("주문 항목이 없습니다.");
-            return;
-        }
-        IMP.request_pay({
-            pg: "html5_inicis",
-            pay_method: selectedPayMethod,
-            merchant_uid: orderItems.map(item => item.order_id).join(','),
-            name: "주문 묶음",
-            amount: totalOrderPrice,
-            buyer_email: orderItems[0].member_email,
-            buyer_name: orderItems[0].member_name,
-            buyer_tel: orderItems[0].member_phone,
-            buyer_addr: orderItems[0].address
-        }, function (rsp) {
-            if (rsp.success) {
-                orderItems.forEach(function (orderItem) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/order/cart", true);
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            alert("배송 정보가 업데이트되었습니다.");
-                            // 결제 성공 후 페이지 이동
-                            window.location.href = "/order/cart"; // 이동할 페이지 URL
-                        }
-                    };
-                    var data = {
-                        order_id: orderItem.order_id,
-                        delivery_id: orderItem.delivery_id,
-                    };
-                    xhr.send(JSON.stringify(data));
-                });
-            } else {
-                alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-            }
-        });
-
-    }
-
-    // Call updateSummary function when the page loads
-    window.onload = updateSummary;
-
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const plusButtons = document.querySelectorAll('.plus_btn');
-        const minusButtons = document.querySelectorAll('.minus_btn');
-        const modifyButtons = document.querySelectorAll('.quantity_modify_btn');
-
-        plusButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const input = e.target.previousElementSibling;
-                input.value = parseInt(input.value) + 1;
-            });
-        });
-
-        minusButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const input = e.target.nextElementSibling;
-                if (input.value > 1) {
-                    input.value = parseInt(input.value) - 1;
-                }
-            });
-        });
-
-        modifyButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const productId = e.target.getAttribute('data-product-id');
-                let primaryAddressValue = document.getElementById('primary_address').value;
-                let addressdetail = document.getElementById('address_details').value;
-                let zipcode = document.getElementById('zip_code').value;
-                let realadd = primaryAddressValue + addressdetail;
-
-
-                fetch(`/order/cart/deliveryupdate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        delivery_id: productId,
-                        delivery_post: zipcode,
-                        delivery_address: realadd
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('배송지가 성공적으로 수정되었습니다.');
-                            location.reload(); // 페이지 새로고침
-                        } else {
-                            alert('배송지 수정에 실패했습니다.');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            });
-        });
-    });
-
-
-</script>
-
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-
-    const search = document.querySelector('#search');
-    search.addEventListener("click", () => {
-        new daum.Postcode({
-            oncomplete: function (data) {
-                let fullAddr = '';
-                let extraAddr = '';
-
-                if (data.userSelectedType === 'R') {
-                    fullAddr = data.roadAddress;
-                } else {
-                    fullAddr = data.jibunAddress;
-                }
-
-                if (data.userSelectedType === 'R') {
-                    if (data.bname !== '') {
-                        extraAddr += data.bname;
-                    }
-                    if (data.buildingName !== '') {
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-
-                    fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
-                }
-
-                document.insert.primary_address.value = fullAddr;
-                document.insert.zip_code.value = data.zonecode;
-                document.insert.address_details.focus();
-            }
-        }).open();
-    });
-</script>
 </body>
 </html>
