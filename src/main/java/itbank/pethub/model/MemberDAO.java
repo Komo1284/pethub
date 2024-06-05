@@ -26,10 +26,10 @@ public interface MemberDAO {
     @Delete("delete from member where id = #{id}")
     void delete(MemberVO member);
 
-    @Select("select userid from member where phone = #{phone}")
+    @Select("select userid from member where email = #{email}")
     String findId(MemberVO input);
 
-    @Select("select * from member where userid = #{userid} and phone = #{phone}")
+    @Select("select * from member where userid = #{userid} and email = #{email}")
     MemberVO findPw(MemberVO input);
 
     @Update("update member set userpw = #{userpw} where id = #{id}")

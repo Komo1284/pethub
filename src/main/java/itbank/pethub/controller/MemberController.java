@@ -1,9 +1,11 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.service.EmailService;
 import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.MemberVO;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/member")
@@ -30,6 +30,7 @@ public class MemberController {
 
     private final MemberService ms;
     private final ImageService is;
+    private final EmailService es;
 
 
     @GetMapping("/login")
@@ -164,20 +165,56 @@ public class MemberController {
 
     // 아이디를 찾아서 userid로 데이터를 전송하여 해당페이지에서 userid가 있으면 userid를 alert하도록 설정
     @PostMapping("/findId")
-    public ModelAndView findId(MemberVO input) {
+    public ModelAndView findId(MemberVO input, @RequestParam("authNum") String authNum, HttpSession session) {
         ModelAndView mav = new ModelAndView("member/findAcc");
-        mav.addObject("userid", ms.findId(input));
+        if (Objects.equals(authNum, (String) session.getAttribute("authNum"))){
+            mav.addObject("userid", ms.findId(input));
+            session.removeAttribute("authNum");
+        }
+        else {
+            mav.addObject("msg","인증번호가 일치하지 않습니다.");
+        }
         return mav;
     }
 
     // 아이디와 폰번호로 해당 계정을 찾은 뒤 랜덤한 새로운 비밀번호를 발행.
     // 새로 발행된 비밀번호를 유저에게 alert로 전달해주고 새로운 비밀번호를 db에 저장
     @PostMapping("/findPw")
-    public ModelAndView findPw(MemberVO input) {
+    public ModelAndView findPw(MemberVO input, @RequestParam("authNum") String authNum, HttpSession session) {
         ModelAndView mav = new ModelAndView("member/findAcc");
-        String newPw = ms.findPw(input);
-        mav.addObject("newPw", newPw);
+        if (Objects.equals(authNum, (String) session.getAttribute("authNum"))){
+            String newPw = ms.findPw(input);
+            if (newPw != null) {
+                mav.addObject("newPw", newPw);
+                session.removeAttribute("authNum");
+            }else{
+                mav.addObject("msg", "해당 아이디와 이메일이 일치하는 계정이 없습니다.");
+            }
+        }
+        else {
+            mav.addObject("msg","인증번호가 일치하지 않습니다.");
+        }
         return mav;
+    }
+
+    // 메일로 인증번호 보내기
+    @PostMapping("/AuthNum")
+    @ResponseBody
+    ResponseEntity<?> sendAuthNum(@RequestBody Map<String, String> request, HttpSession session) throws MessagingException {
+
+        String email = request.get("email");
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.badRequest().body("이메일을 입력해주세요.");
+        }
+
+        // 랜덤 인증번호 발생 및 세션에 추가
+        String random = UUID.randomUUID().toString().substring(0, 8);
+        session.setAttribute("authNum", random);
+
+        // 메일 발송
+        es.sendAuthNum(email,random);
+
+        return ResponseEntity.ok("인증번호가 전송되었습니다.");
     }
 
     // 회원가입시 중복아이디 체크를 위한 비동기통신 메서드

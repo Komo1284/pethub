@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .accordion-content {
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .accordion-button {
+            background-color: #f1f1f1;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+        .accordion-button:after {
+            content: '\002B'; /* '+' 기호 */
+            color: #777;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .accordion-button[aria-expanded="true"]:after {
+            content: "\2212"; /* '-' 기호 */
+        }
+    </style>
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
@@ -22,46 +52,6 @@
                         <h2 class="text-2xl font-bold mb-4">자주 묻는 질문 (FAQ)</h2>
                         <div class="grid gap-4">
                             <div data-orientation="vertical">
-                                <div data-state="closed" data-orientation="vertical" class="border-b">
-                                    <h3 data-orientation="vertical" data-state="closed" class="flex">
-                                        <button
-                                                type="button"
-                                                aria-controls="radix-:r5:"
-                                                aria-expanded="false"
-                                                data-state="closed"
-                                                data-orientation="vertical"
-                                                id="radix-:r4:"
-                                                class="flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&amp;[data-state=open]>svg]:rotate-180"
-                                                data-radix-collection-item=""
-                                        >
-                                            반품은 어떻게 하나요?
-                                            <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200"
-                                            >
-                                                <path d="m6 9 6 6 6-6"></path>
-                                            </svg>
-                                        </button>
-                                    </h3>
-                                    <div
-                                            data-state="closed"
-                                            id="radix-:r5:"
-                                            role="region"
-                                            aria-labelledby="radix-:r4:"
-                                            data-orientation="vertical"
-                                            class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
-                                            style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); --radix-collapsible-content-height: 148px; --radix-collapsible-content-width: 768px;"
-                                            hidden=""
-                                    ></div>
-                                </div>
                                 <div data-state="closed" data-orientation="vertical" class="border-b">
                                     <h3 data-orientation="vertical" data-state="closed" class="flex">
                                         <button
@@ -388,5 +378,27 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+<script th:inline="javascript">
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var accordionButtons = document.querySelectorAll('.accordion-button');
+
+        accordionButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var content = this.nextElementSibling;
+                var expanded = this.getAttribute('aria-expanded') === 'true';
+
+                this.setAttribute('aria-expanded', !expanded);
+                content.hidden = expanded;
+
+                if (!expanded) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = null;
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
