@@ -3,7 +3,7 @@ package itbank.pethub.controller;
 import itbank.pethub.service.BoardService;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.ReplyVO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import itbank.pethub.vo.ContactForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/board")
+@RequiredArgsConstructor
 public class BoardController {
 
-    @Autowired
-    private BoardService bs;
+    private final BoardService bs;
 
     @GetMapping("/help")
     public void help(Model model) {
@@ -112,7 +112,6 @@ public class BoardController {
     @GetMapping("/view/{id}")
     public ModelAndView view(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView();
-
         bs.viewCount(id);
         mav.addObject("row", bs.getBoard(id));
         List<ReplyVO> reply = bs.getReplies(id);

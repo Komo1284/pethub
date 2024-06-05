@@ -4,6 +4,7 @@ import itbank.pethub.components.Paging;
 import itbank.pethub.model.BoardDAO;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.ReplyVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
 
-    @Autowired
-    private BoardDAO bd;
+    private final BoardDAO bd;
 
     // 게시판 목록
     public Map<String, Object> getBoards(Map<String, Object> param) {
