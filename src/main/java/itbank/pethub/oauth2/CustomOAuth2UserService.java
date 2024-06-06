@@ -1,75 +1,52 @@
 package itbank.pethub.oauth2;
 
-import itbank.pethub.dto.NaverResponse;
-import itbank.pethub.dto.OAuth2Response;
-import itbank.pethub.dto.UserDTO;
-import itbank.pethub.entity.UserEntity;
-import itbank.pethub.repository.UserRepository;
+
+import itbank.pethub.exception.OAuth2AuthenticationProcessingException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+@RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final UserRepository userRepository;
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
 
-    public CustomOAuth2UserService(UserRepository userRepository) {
+        OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
-        this.userRepository = userRepository;
+        try {
+            return processOAuth2User(oAuth2UserRequest, oAuth2User);
+        } catch (AuthenticationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            // Throwing an instance of AuthenticationException will trigger the OAuth2AuthenticationFailureHandler
+            throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
+        }
     }
 
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 
-        OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println(oAuth2User);
+        String registrationId = userRequest.getClientRegistration()
+                .getRegistrationId();
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        OAuth2Response oAuth2Response = null;
-        if (registrationId.equals("naver")) {
+        String accessToken = userRequest.getAccessToken().getTokenValue();
 
-            oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
+        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(registrationId,
+                accessToken,
+                oAuth2User.getAttributes());
+
+        // OAuth2UserInfo field value validation
+        if (!StringUtils.hasText(oAuth2UserInfo.getEmail())) {
+            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-        else {
 
-            return null;
-        }
-        String userid = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
-        UserEntity existData = userRepository.findByUserid(userid);
-
-        if (existData == null) {
-
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserid(userid);
-            userEntity.setEmail(oAuth2Response.getEmail());
-            userEntity.setName(oAuth2Response.getName());
-            userEntity.setRole("ROLE_USER");
-
-            userRepository.save(userEntity);
-
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUserid(userid);
-            userDTO.setName(oAuth2Response.getName());
-            userDTO.setRole("ROLE_USER");
-
-            return new CustomOAuth2User(userDTO);
-        }
-        else {
-
-            existData.setEmail(oAuth2Response.getEmail());
-            existData.setName(oAuth2Response.getName());
-
-            userRepository.save(existData);
-
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUserid(existData.getUserid());
-            userDTO.setName(oAuth2Response.getName());
-            userDTO.setRole(existData.getRole());
-
-            return new CustomOAuth2User(userDTO);
-        }
+        return new OAuth2UserPrincipal(oAuth2UserInfo);
     }
 }

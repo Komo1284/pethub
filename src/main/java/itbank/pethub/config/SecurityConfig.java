@@ -1,114 +1,63 @@
 package itbank.pethub.config;
 
-import itbank.pethub.jwt.JWTFilter;
-import itbank.pethub.jwt.JWTUtil;
+import itbank.pethub.handler.OAuth2AuthenticationFailureHandler;
+import itbank.pethub.handler.OAuth2AuthenticationSuccessHandler;
 import itbank.pethub.oauth2.CustomOAuth2UserService;
-import itbank.pethub.jwt.LoginFilter;
-import itbank.pethub.oauth2.CustomClientRegistrationRepo;
-import itbank.pethub.oauth2.CustomOAuth2AuthorizedClientService;
-import itbank.pethub.oauth2.CustomSuccessHandler;
-import jakarta.servlet.http.HttpServletRequest;
+import itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.Collections;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-
-        return new BCryptPasswordEncoder();
-    }
-
-    private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomClientRegistrationRepo customClientRegistrationRepo;
-    private final CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService;
-    private final CustomSuccessHandler customSuccessHandler;
-    private final JdbcTemplate jdbcTemplate;
-    private final JWTUtil jwtUtil;
-
-
-    public SecurityConfig(
-            CustomOAuth2UserService customOAuth2UserService,
-            CustomClientRegistrationRepo customClientRegistrationRepo,
-            CustomOAuth2AuthorizedClientService customOAuth2AuthorizedClientService,
-            CustomSuccessHandler customSuccessHandler,
-            JdbcTemplate jdbcTemplate,
-            JWTUtil jwtUtil,
-            AuthenticationConfiguration authenticationConfiguration) {
-        this.customOAuth2UserService = customOAuth2UserService;
-        this.customClientRegistrationRepo = customClientRegistrationRepo;
-        this.customOAuth2AuthorizedClientService =  customOAuth2AuthorizedClientService;
-        this.customSuccessHandler = customSuccessHandler;
-        this.jdbcTemplate = jdbcTemplate;
-        this.jwtUtil = jwtUtil;
-        this.authenticationConfiguration = authenticationConfiguration;
-    }
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-
-        return configuration.getAuthenticationManager();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                // CORS 설정
-                .cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
-                    CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8081"));
-                    configuration.setAllowedMethods(Collections.singletonList("*"));
-                    configuration.setAllowCredentials(true);
-                    configuration.setAllowedHeaders(Collections.singletonList("*"));
-                    configuration.setMaxAge(3600L);
-                    configuration.setExposedHeaders(Arrays.asList("Set-Cookie", "Authorization"));
-                    return configuration;
-                }))
-                // CSRF 비활성화
-                .csrf(csrf -> csrf.disable())
-                // Form 로그인 비활성화
-                .formLogin(form -> form.disable())
-                // HTTP Basic 인증 비활성화
-                .httpBasic(httpBasic -> httpBasic.disable())
-                // 세션 관리
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // OAuth2 로그인 설정
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/member/login")
-                        .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
-                        .authorizedClientService(customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate, customClientRegistrationRepo.clientRegistrationRepository()))
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService))
-                        .successHandler(customSuccessHandler))
-                // 권한 요구 사항
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/member/login", "/", "/oauth2/**", "/member/signUp", "/member/join").permitAll()
-                        .anyRequest().authenticated())
-                // 사용자 정의 필터 추가
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+        http.csrf(AbstractHttpConfigurer::disable)
+                .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // For H2 DB
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN")
+                        .requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
+                        .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2Login(configure ->
+                        configure.authorizationEndpoint(config -> config.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
+                                .userInfoEndpoint(config -> config.userService(customOAuth2UserService))
+                                .successHandler(oAuth2AuthenticationSuccessHandler)
+                                .failureHandler(oAuth2AuthenticationFailureHandler)
+                );
 
         return http.build();
     }
+}
 
 //    @Bean
 //    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -256,4 +205,3 @@ public class SecurityConfig {
 //    }
 //}
 
-}
