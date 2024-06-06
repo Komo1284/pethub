@@ -38,7 +38,7 @@ public class ShopController {
 
         // 상품 리뷰 불러오기
         List<ReviewVO> review = rs.getReviews(id);
-        mav.addObject("review", review);
+        mav.addObject("review", review.isEmpty() ? null : review);
 
         mav.setViewName("/shop/DetailPage");
         return mav;

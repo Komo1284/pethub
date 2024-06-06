@@ -115,7 +115,7 @@
     </div>
 </div>
 
-<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+<div class="mt-8 bg-white rounded-lg shadow-md p-6" th:if="${review != null && !review.isEmpty()}">
     <h3 class="text-xl font-bold mb-4">리뷰</h3>
     <div class="grid gap-4">
         <div class="bg-gray-100 p-4 rounded-md" th:each="review : ${review}">
@@ -148,6 +148,31 @@
     </div>
 </div>
 
+<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-xl font-bold mb-4">리뷰 작성</h3>
+    <div class="flex flex-col gap-4">
+        <form th:action="@{/shop/addReview}" method="post">
+                        <textarea
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                placeholder="리뷰를 작성하세요..."
+                                th:name="contents" th:value="${row?.contents}" th:required
+                        ></textarea>
+            <label for="rating">평점:</label>
+            <select name="rating" id="rating" required>
+                <option value="">별로 만들어줘</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="hidden" name="item_id" th:value="${product.id}" />
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
+                리뷰 작성
+            </button>
+        </form>
+    </div>
+</div>
 <script>
     function submitForm(productId) {
         var form = document.createElement('form');

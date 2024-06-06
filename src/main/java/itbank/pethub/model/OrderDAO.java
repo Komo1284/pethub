@@ -78,7 +78,5 @@ public interface OrderDAO {
     @Update("update `order` set order_status=2 where id=#{orderId}")
     int updateorder(int orderId);
 
-    @Select("select * from member_coupons_view where member_id = #{member_id}")
-    List<CouponVO> couponFindbyId(int member_id);
 
 }
