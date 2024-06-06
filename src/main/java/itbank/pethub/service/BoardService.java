@@ -5,9 +5,11 @@ import itbank.pethub.model.BoardDAO;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.ReplyVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ import java.util.Map;
 public class BoardService {
 
     private final BoardDAO bd;
+    private final ImageService imageService;
 
     // 게시판 목록
     public Map<String, Object> getBoards(Map<String, Object> param) {
@@ -49,9 +52,11 @@ public class BoardService {
         return result;
     }
 
-    // 글 작성
-    public int addWrite(BoardVO input) {
-
+    // 글작성
+    public int addWrite(BoardVO input, @RequestParam("file") MultipartFile file) throws IOException {
+        String imageUrl = imageService.UploadFromFile(file); // 이미지 업로드
+        input.setUpload(imageUrl);
+        // System.out.println(imageUrl);
         return bd.addWrite(input);
     }
 

@@ -20,7 +20,7 @@ public interface BoardDAO {
             "</script>")
     List<BoardVO> selectAll(Map<String, Object> param);
 
-    @Insert("insert into board(title, contents, type, member_id) values(#{title}, #{contents}, #{type}, 1)")
+    @Insert("insert into board(title, contents, type, upload, member_id) values(#{title}, #{contents}, #{type}, #{upload}, 1)")
     int addWrite(BoardVO input);
 
     @Select("select * from board_view where id = #{id}")
@@ -155,4 +155,7 @@ public interface BoardDAO {
             "</if>" +
             "</script>")
     int search(Map<String, Object> param);
+
+    @Select("select id from board order by id DESC LIMIT 1 OFFSET 0")
+    int selectLast();
 }

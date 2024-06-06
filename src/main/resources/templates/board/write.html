@@ -22,7 +22,7 @@
             <div class="container mx-auto px-4 md:px-6">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4 text-center">허브에 정보 공유하기!</h1>
                 <form class="max-w-3xl mx-auto grid gap-6" th:action="${row != null} ? @{'/board/updateBd/' + ${row.id}} : @{'/board/write'}"
-                      method="POST">
+                      method="POST" enctype="multipart/form-data">
                     <div>
                         <label
                                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2"
@@ -73,6 +73,7 @@
                                 th:name="contents" th:value="${row?.contents}" th:required
                         ></textarea>
                     </div>
+                    <p><input type="file" name="file" th:value="${row?.upload}" th:required></p>
                     <p><input type="hidden" th:name="member_id" th:value="${row?.member_id != null ? row?.member_id : 0}" required></p>
                     <div class="flex justify-end">
                         <button

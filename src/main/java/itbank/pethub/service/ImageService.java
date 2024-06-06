@@ -68,4 +68,21 @@ public class ImageService {
 
         return s3Url;
     }
+
+    public String UploadFromFile(MultipartFile file) throws IOException {
+        // 뽑아낸 이미지 파일에서 이름 및 확장자 추출
+        String fileName = file.getOriginalFilename();
+        String ext = fileName.substring(fileName.lastIndexOf("."));
+
+        // 이미지 파일 이름 유일성을 위해 uuid 생성
+        String uuidFileName = UUID.randomUUID() + ext;
+
+        // 서버 환경에서 이미지 파일을 저장하지 않고 S3에 직접 업로드
+        s3Config.amazonS3Client().putObject(
+                new PutObjectRequest(bucket, uuidFileName, file.getInputStream(), null)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        // S3에 업로드된 이미지의 URL을 반환
+        return s3Config.amazonS3Client().getUrl(bucket, uuidFileName).toString();
+    }
 }

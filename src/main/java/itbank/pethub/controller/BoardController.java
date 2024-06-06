@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import itbank.pethub.vo.ContactForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -99,24 +101,28 @@ public class BoardController {
     public void write() {}
 
     @PostMapping("/write")
-    public ModelAndView addWrite(BoardVO input) {
+    public ModelAndView addWrite(@RequestPart("file") MultipartFile file, BoardVO input) throws IOException {
         ModelAndView mav = new ModelAndView();
-
-        bs.addWrite(input);
-        mav.setViewName("redirect:/board/list");
-
+        int id = bs.addWrite(input, file); // file 업로드 추가
+        mav.setViewName("redirect:/board/list"); // board/list로 화면 이동
         return mav;
     }
+
 
     // 글 내용 보기
     @GetMapping("/view/{id}")
     public ModelAndView view(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView();
         bs.viewCount(id);
-        mav.addObject("row", bs.getBoard(id));
+
+        BoardVO board = bs.getBoard(id);
+        System.out.println("Upload 정보: " + board.getUpload());
+        mav.addObject("row", board);
+
+
         List<ReplyVO> reply = bs.getReplies(id);
         mav.addObject("reply", reply);
-
+        System.out.println();
         mav.setViewName("board/view");
 
         return mav;
@@ -126,7 +132,6 @@ public class BoardController {
     @GetMapping("/updateBd/{id}")
     public ModelAndView updateBd(@PathVariable int id) {
         ModelAndView mav = new ModelAndView();
-
         mav.addObject("row", bs.getBoard(id));
         mav.setViewName("board/write");
 

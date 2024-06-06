@@ -12,6 +12,7 @@ public class BoardVO {
     private String title, contents;
     private Date w_date;
     private boolean secret;
-    private String nick;
+    private String nick, upload;
     private int v_count;
+
 }
