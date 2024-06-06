@@ -339,14 +339,13 @@ select `m`.`id`             AS `member_id`,
 from ((`pethub`.`member` `m` join `pethub`.`member_coupon` `mc`
        on ((`m`.`id` = `mc`.`member_id`))) join `pethub`.`coupon` `c` on ((`mc`.`coupon_id` = `c`.`id`)));
 
-       create definer = root@`%` view modc as
+create definer = root@`%` view modc as
 select `o`.`id`             AS `order_id`,
        `o`.`member_id`      AS `member_id`,
        `m`.`name`           AS `member_name`,
        `m`.`userid`         AS `member_userid`,
        `m`.`nick`           AS `member_nick`,
        `m`.`email`          AS `member_email`,
-       `m`.`address`        AS `member_address`,
        `m`.`phone`          AS `member_phone`,
        `m`.`ad`             AS `member_ad`,
        `m`.`profile`        AS `member_profile`,
@@ -364,12 +363,15 @@ select `o`.`id`             AS `order_id`,
        `c`.`count`          AS `count`,
        `c`.`origin_price`   AS `origin_price`,
        `c`.`discount_price` AS `discount_price`,
-       `c`.`coupon_check`   AS `coupon_check`
-from (((((`pethub`.`order` `o` join `pethub`.`member` `m`
-          on ((`o`.`member_id` = `m`.`id`))) join `pethub`.`delivery` `d`
-         on ((`o`.`delivery_id` = `d`.`id`))) join `pethub`.`delivery_status` `ds`
-        on ((`d`.`status_id` = `ds`.`id`))) join `pethub`.`order_status` `os`
-       on ((`o`.`order_status` = `os`.`id`))) join `pethub`.`cart` `c` on ((`o`.`id` = `c`.`order_id`)));
+       `c`.`coupon_check`   AS `coupon_check`,
+       `i`.`name`           AS `item_name`
+from ((((((`pethub`.`order` `o` join `pethub`.`member` `m`
+           on ((`o`.`member_id` = `m`.`id`))) join `pethub`.`delivery` `d`
+          on ((`o`.`delivery_id` = `d`.`id`))) join `pethub`.`delivery_status` `ds`
+         on ((`d`.`status_id` = `ds`.`id`))) join `pethub`.`order_status` `os`
+        on ((`o`.`order_status` = `os`.`id`))) join `pethub`.`cart` `c`
+       on ((`o`.`id` = `c`.`order_id`))) join `pethub`.`item` `i` on ((`c`.`order_item` = `i`.`id`)));
+
 
 create definer = root@`%` view reply_view as
 select `m`.`nick`      AS `nick`,
