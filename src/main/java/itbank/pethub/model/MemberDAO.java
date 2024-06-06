@@ -54,4 +54,12 @@ public interface MemberDAO {
 
     @Update("update member set ad = 1 where userid = #{userid}")
     void insertAd(MemberVO input);
+
+    //로그인 & 회원가입
+    @Select("select * from member where email = #{email}")
+    MemberVO findByEmail(String email);
+
+    @Insert("insert into member (name, email, role) values (#{name}, #{email}, #{role})")
+    void save(MemberVO user);
+
 }

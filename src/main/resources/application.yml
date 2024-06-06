@@ -19,7 +19,11 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
   jwt:
-    secret: vmfhaltmskdlstkfkdgodyrogkfwkdbalrogkfmkdbalaaaaaaaaaaaaaaaabbbbb
+    header: Authorization
+    secret: {secret key}
+    access-token-validity-in-seconds: 1800 # 초 단위
+    refresh-token-validity-in-seconds: 604800
+#    secret: vmfhaltmskdlstkfkdgodyrogkfwkdbalrogkfmkdbalaaaaaaaaaaaaaaaabbbbb
 
   #타임리프 경로 설정
   thymeleaf:
@@ -37,7 +41,6 @@ spring:
       starttls:
         enable: true
         required: true
-
 
   security:
     oauth2:
