@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>상세 페이지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -114,14 +115,85 @@
     </div>
 </div>
 
+<div class="mt-8 bg-white rounded-lg shadow-md p-6" th:if="${review != null && !review.isEmpty()}">
+    <h3 class="text-xl font-bold mb-4">리뷰</h3>
+    <div class="grid gap-4">
+        <div class="bg-gray-100 p-4 rounded-md" th:each="review : ${review}">
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                    <span class="relative flex shrink-0 overflow-hidden rounded-full w-6 h-6">
+                        <img class="aspect-square h-full w-full" alt="Author" src="/placeholder-user.jpg" />
+                            첨부파일
+                    </span>
+                    <span th:text="${review.nick}">닉네임</span>
+                    <span th:text="${review.item}">상품명</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <p class="text-sm" th:text="${review.rating}">평점</p>
+
+                    <!-- 로그인한 유저가 리뷰 작성자가 같은 삭제 버튼 활성화-->
+                    <div th:if="${review.member_id} == 0"> <!-- 일단 0으로-->
+                        <form th:action="@{/shop/deleteReview/{id}(id=${review.id})}" method="post">
+                            <input type="hidden" name="item_id" th:value="${product.id}" />
+                            <button type="submit" class="deleteReviewBtn">삭제</button>
+                        </form>
+                    </div>
+
+                </div>
+
+                <p class="text-sm" th:text="${review.contents}">리뷰 내용</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-xl font-bold mb-4">리뷰 작성</h3>
+    <div class="flex flex-col gap-4">
+        <form th:action="@{/shop/addReview}" method="post">
+                        <textarea
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                placeholder="리뷰를 작성하세요..."
+                                th:name="contents" th:value="${row?.contents}" th:required
+                        ></textarea>
+            <label for="rating">평점:</label>
+            <select name="rating" id="rating" required>
+                <option value="">별로 만들어줘</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="hidden" name="item_id" th:value="${product.id}" />
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
+                리뷰 작성
+            </button>
+        </form>
+    </div>
+</div>
+<script>
+    function submitForm(productId) {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/shop/onebuy/' + productId;
+        var hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'quantity';
+        hiddenInput.value = document.getElementById('quantity').value;
+        form.appendChild(hiddenInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
 <script>
     // 폼 제출 전에 숨겨진 입력 필드의 값을 업데이트합니다
     document.querySelector('form').addEventListener('submit', function() {
         var quantity = document.getElementById('quantity').value;
         document.getElementById('formQuantity').value = quantity;
     });
-
-
 
 </script>
 
