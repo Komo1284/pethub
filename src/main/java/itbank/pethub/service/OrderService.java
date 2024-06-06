@@ -105,4 +105,7 @@ public class OrderService {
         return od.selectAfterpay(memberId);
     }
 
+    public MODCVO selectonebuy(int memberId) {
+        return od.selectonebuy(memberId);
+    }
 }

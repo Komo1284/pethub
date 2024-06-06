@@ -94,6 +94,24 @@
             <button type="button" onclick="submitForm(this.getAttribute('data-product-id'))" th:attr="data-product-id=${product.id}">구매하기</button>
 
         </form>
+
+        <script>
+            function submitForm(productId) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/shop/onebuy/' + productId;
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'quantity';
+                hiddenInput.value = document.getElementById('quantity').value;
+                form.appendChild(hiddenInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        </script>
+
+
+
     </div>
 </div>
 
