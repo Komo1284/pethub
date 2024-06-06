@@ -151,14 +151,14 @@ public class OrderController {
         return mav;
     }
 
-//    @GetMapping("/coupon")
-//    @ResponseBody
-//    public List<CouponVO> getCoupons(HttpSession session) {
-//
-//        MemberVO user = (MemberVO) session.getAttribute("user");
-//        int member_id=user.getId();
-//
-//        return ms.couponFindbyId(member_id);
-//    }
+/*    @GetMapping("/coupon")
+    @ResponseBody
+    public List<CouponVO> getCoupons(HttpSession session) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        int member_id=user.getId();
+
+        return ms.couponFindbyId(member_id);
+    }*/
 
 }
