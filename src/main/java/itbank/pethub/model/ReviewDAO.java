@@ -20,11 +20,5 @@ public interface ReviewDAO {
     @Delete("delete from review where id = #{id}")
     int deleteReview(int id);
 
-    // 리뷰 수정
-    @Update("update review set contents = #{contents} where id = #{id}")
-    int updateReview(ReviewVO input);
-
-    @Select("select id from review_view where id = #{id} ")
-    ReviewVO selectReview(int id);
     
 }

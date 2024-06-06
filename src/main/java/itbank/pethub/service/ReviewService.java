@@ -28,14 +28,5 @@ public class ReviewService {
         return rd.deleteReview(id);
     }
 
-    // 리뷰 수정
-    public int updateReview(ReviewVO input) {
-        return  rd.updateReview(input);
-    }
-
-    // 수정하기 위한 리뷰 가져오기
-    public ReviewVO getReview(int id) {
-        return rd.selectReview(id);
-    }
 
 }

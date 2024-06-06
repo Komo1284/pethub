@@ -81,6 +81,4 @@ public interface OrderDAO {
     @Select("select * from member_coupons_view where member_id = #{member_id}")
     List<CouponVO> couponFindbyId(int member_id);
 
-    @Select("SELECT * FROM modc WHERE member_id = #{memberId} ORDER BY id DESC LIMIT 1")
-    MODCVO selectonebuy(int memberId);
 }

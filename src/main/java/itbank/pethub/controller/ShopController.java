@@ -78,30 +78,6 @@ public class ShopController {
         return mav;
     }
 
-    // 수정 버튼 클릭시
-    @GetMapping("/editReview/{id}") 
-    public ModelAndView editReview(@PathVariable int id) {
-        ModelAndView mav = new ModelAndView();
-        ReviewVO review = rs.getReview(id);
-        mav.addObject("review", review);
-        mav.setViewName("shop/editReview");
-        return mav;
-    }
-
-    // 수정 완료 버튼 클릭시
-    @PostMapping("/editReview/{id}")
-    public String processEditReview(@PathVariable("id") int id, @RequestParam("contents") String contents,
-                                    @RequestParam("rating") int rating) {
-        ReviewVO input = new ReviewVO();
-        input.setId(id);
-        input.setContents(contents);
-        input.setRating(rating);
-        rs.updateReview(input);
-
-        return "redirect:/shop/DetailPage/" + id;
-    }
-
-
 
     // 상세페이지 정보를 받아 주문페이지로 이동
     @PostMapping("/DetailPage/{id}")
