@@ -17,9 +17,7 @@ public class OAuth2UserPrincipal implements OAuth2User, UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return null;
-    }
+    public String getPassword() { return null; }
 
     @Override
     public String getUsername() {

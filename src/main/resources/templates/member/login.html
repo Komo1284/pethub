@@ -103,6 +103,42 @@
     </main>
     <br>
 
+    <div>
+        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=login">
+            <button>Google Login</button>
+        </a>
+        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=unlink">
+            <button>Google Unlink</button>
+        </a>
+        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=login">
+            <button>Naver Login</button>
+        </a>
+        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=unlink">
+            <button>Naver Unlink</button>
+        </a>
+        <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=login">
+            <button>Kakao Login</button>
+        </a>
+        <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=unlink">
+            <button>Kakao Unlink</button>
+        </a>
+
+        <p id="accessToken">Access Token : </p>
+        <p id="refreshToken">Refresh Token : </p>
+    </div>
+
+    <script>
+        // URL에서 쿼리 파라미터를 추출하는 함수
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // 액세스 토큰과 리프레시 토큰을 가져와서 표시
+        document.getElementById('accessToken').textContent += getQueryParam('access_token');
+        document.getElementById('refreshToken').textContent += getQueryParam('refresh_token');
+    </script>
+
     <a href="/oauth2/authorization/naver">Naver Login</a>
 
     <div th:replace="~{footer :: footer}"></div>
