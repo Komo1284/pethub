@@ -54,4 +54,7 @@ public interface MemberDAO {
 
     @Update("update member set ad = 1 where userid = #{userid}")
     void insertAd(MemberVO input);
+
+    @Select("SELECT COUNT(*) FROM member WHERE email = #{email}")
+    int countByEmail(String email);
 }
