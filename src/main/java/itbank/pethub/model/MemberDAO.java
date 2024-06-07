@@ -1,5 +1,7 @@
 package itbank.pethub.model;
 
+import itbank.pethub.dto.UserDTO;
+import itbank.pethub.oauth2.OAuth2UserPrincipal;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import org.apache.ibatis.annotations.*;
@@ -54,4 +56,17 @@ public interface MemberDAO {
 
     @Update("update member set ad = 1 where userid = #{userid}")
     void insertAd(MemberVO input);
+
+
+    @Insert("insert into SnsMember(email, name, nickname, access_token, userid, refresh_token) values (#{email}, #{name}, #{nickname}, #{access_token}, #{userid}, #{refresh_token})")
+    int insertSns(UserDTO userDTO);
+
+    @Select("select * from SnsMember where userid = #{userid}")
+    UserDTO selectSnsUser(String userid);
+
+    @Update("update SnsMember set access_token = refresh_token where userid = #{userid}")
+    int updateSns(UserDTO ud);
+
+    @Delete("delete from SnsMember where userid = #{userid}")
+    int deleteSns(UserDTO ud);
 }

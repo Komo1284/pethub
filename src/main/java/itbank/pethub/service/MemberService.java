@@ -2,7 +2,9 @@ package itbank.pethub.service;
 
 import itbank.pethub.aop.PasswordEncoder;
 import itbank.pethub.dto.MemberDetails;
+import itbank.pethub.dto.UserDTO;
 import itbank.pethub.model.MemberDAO;
+import itbank.pethub.oauth2.OAuth2UserPrincipal;
 import itbank.pethub.repository.MemberRepository;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
@@ -112,5 +114,35 @@ public class MemberService implements UserDetailsService {
             return 1;
         }
         return 0;
+    }
+
+    public int addSnsuser(UserDTO ud) {
+        return dao.insertSns(ud);
+    }
+
+    public UserDTO Snslogin(OAuth2UserPrincipal principal) {
+
+        String userid = principal.getUserInfo().getId();
+
+        return dao.selectSnsUser(userid);
+    }
+
+    public int updateSnsUser(OAuth2UserPrincipal principal) {
+
+        String userid = principal.getUserInfo().getId();
+
+        UserDTO ud = new UserDTO();
+        ud.setUserid(userid);
+
+        return dao.updateSns(ud);
+
+    }
+
+    public int deleteSnsUser(OAuth2UserPrincipal principal) {
+
+        String userid = principal.getUserInfo().getId();
+        UserDTO ud = new UserDTO();
+        ud.setUserid(userid);
+        return dao.deleteSns(ud);
     }
 }

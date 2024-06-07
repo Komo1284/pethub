@@ -1,6 +1,8 @@
 package itbank.pethub.jwt;
 
 import io.jsonwebtoken.Jwts;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class JWTUtil {
 
     private SecretKey secretKey;
@@ -21,7 +25,7 @@ public class JWTUtil {
 
     public String getUserid(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("userid", String.class);
     }
 
     public String getRole(String token) {

@@ -22,6 +22,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
         try {
+            // token을 통해 응답받은 회원정보
+            System.out.println("oAuth2User : " + oAuth2User);
+
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
         } catch (AuthenticationException ex) {
             throw ex;
