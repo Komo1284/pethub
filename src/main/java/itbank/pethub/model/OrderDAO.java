@@ -63,7 +63,7 @@ public interface OrderDAO {
     int deleteDelivery(int dId);
 
 
-    @Select("select * from modc where member_id=#{memberId}")
+    @Select("select * from modc where member_id=#{memberId} and order_status = '주문 접수'")
     List<MODCVO> selectMODC(int memberId);
 
     @Select("SELECT * from address where member_id=#{memberId}")
