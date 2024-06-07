@@ -63,7 +63,7 @@ public interface OrderDAO {
     int deleteDelivery(int dId);
 
 
-    @Select("select * from modc where member_id=#{memberId}")
+    @Select("select * from modc where member_id=#{memberId} and order_status = '주문 접수'")
     List<MODCVO> selectMODC(int memberId);
 
     @Select("SELECT * from address where member_id=#{memberId}")
@@ -78,5 +78,12 @@ public interface OrderDAO {
     @Update("update `order` set order_status=2 where id=#{orderId}")
     int updateorder(int orderId);
 
+    @Select("select * from modc where member_id=#{memberid} and order_status='주문 접수'")
+    MODCVO getcartid(int memberid);
 
+    @Insert("insert into cart (order_id, order_item, order_price, count, origin_price, cart_deperate_id) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price}, #{cart_deperate_id})")
+    int makeCartid(CartVO cv);
+
+    @Select("select count(*) from modc where member_id=#{memberid} and order_status='주문 접수'")
+    int getexistingcartid(int memberId);
 }

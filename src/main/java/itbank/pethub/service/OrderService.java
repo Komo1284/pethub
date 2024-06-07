@@ -105,4 +105,15 @@ public class OrderService {
         return od.selectAfterpay(memberId);
     }
 
+    public MODCVO getcartid(int memberid) {
+        return od.getcartid(memberid);
+    }
+
+    public int makeCartid(CartVO cv) {
+        return od.makeCartid(cv);
+    }
+
+    public int getexistingcartid(int memberId) {
+        return od.getexistingcartid(memberId);
+    }
 }
