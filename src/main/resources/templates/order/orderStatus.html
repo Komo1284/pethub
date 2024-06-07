@@ -159,7 +159,7 @@
                     <span id="discount">0</span>
                 </div>
                 <button id="couponBtn"
-                        class="bg-orange-500 text-white px-4 py-2 rounded-md"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
                         onclick="openCouponPopup()">
                     쿠폰 적용
                 </button>
@@ -192,7 +192,7 @@
                     <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
                 </div>
                 <button id="checkoutBtn"
-                        class="bg-orange-500 text-white px-4 py-2 rounded-md"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
                         onclick="requestPay()">
                     결제 하기
                 </button>
@@ -317,7 +317,7 @@
         }
         IMP.request_pay({
             pg: "html5_inicis",
-            pay_method: selectedPayMethod,
+            pay_method: "vbank",
             merchant_uid: orderItems.map(item => item.order_id).join(','),
             name: "주문 묶음",
             amount: totalOrderPrice,
@@ -356,11 +356,8 @@
 
 
 <script>
-
-    // Call updateSummary function when the page loads
     document.addEventListener('DOMContentLoaded', (event) => {
         const modifyButtons = document.querySelectorAll('.delivery_modify_btn');
-
 
         modifyButtons.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -370,34 +367,41 @@
                 let zipcode = document.getElementById('zip_code').value;
                 let realadd = primaryAddressValue + addressdetail;
 
+                // 모든 배송 상품의 delivery_id 가져오기
+                const deliveryIds = [];
+                document.querySelectorAll('.order_id').forEach(orderId => {
+                    deliveryIds.push(orderId.textContent);
+                });
 
-                fetch(`/order/cart/deliveryupdate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        delivery_id: productId,
-                        delivery_post: zipcode,
-                        delivery_address: realadd
+                // 각 배송 상품의 정보와 함께 서버로 요청 보내기
+                deliveryIds.forEach(deliveryId => {
+                    fetch(`/order/cart/deliveryupdate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            delivery_id: deliveryId,
+                            delivery_post: zipcode,
+                            delivery_address: realadd
+                        })
                     })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('배송지가 성공적으로 수정되었습니다.');
-                            location.reload(); // 페이지 새로고침
-                        } else {
-                            alert('배송지 수정에 실패했습니다.');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('배송지가 성공적으로 수정되었습니다.');
+                                location.reload(); // 페이지 새로고침
+                            } else {
+                                alert('배송지 수정에 실패했습니다.');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
             });
         });
     });
-
-
 </script>
+
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
