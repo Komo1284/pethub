@@ -20,4 +20,8 @@ public class AdminService {
     public List<MemberVO> findAllAdmins() {
         return dao.findAllAdmins();
     }
+
+    public int delete(int id) {
+        return dao.deleteAdmin(id);
+    }
 }

@@ -6,6 +6,7 @@ import itbank.pethub.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,6 +49,20 @@ public class AdminController {
         return mav;
     }
 
-    @GetMapping("/delete")
-    public void adminDelete() {}
+    @GetMapping("/delete/{id}")
+    public ModelAndView adminDelete(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView("member/myPage");
+        String msg;
+        int row = as.delete(id);
+
+        if (row != 0) {
+            msg = "성공적으로 관리자를 삭제하였습니다.";
+        } else {
+            msg = "관리자 삭제에 실패하였습니다.";
+        }
+
+        mav.addObject("msg", msg);
+
+        return mav;
+    }
 }

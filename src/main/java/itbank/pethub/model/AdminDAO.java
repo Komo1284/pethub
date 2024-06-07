@@ -15,4 +15,7 @@ public interface AdminDAO {
 
     @Select("select * from member where role = 1")
     List<MemberVO> findAllAdmins();
+
+    @Update("update member set role = 0 where id = #{id}")
+    int deleteAdmin(int id);
 }
