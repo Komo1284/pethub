@@ -78,7 +78,7 @@ public interface OrderDAO {
     @Update("update `order` set order_status=2 where id=#{orderId}")
     int updateorder(int orderId);
 
-    @Select("select * from modc where member_id=#{memberid} and order_status='주문 접수'")
+    @Select("SELECT * FROM modc WHERE member_id=#{memberid} AND order_status='주문 접수' ORDER BY order_date DESC LIMIT 1")
     MODCVO getcartid(int memberid);
 
     @Insert("insert into cart (order_id, order_item, order_price, count, origin_price, cart_deperate_id) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price}, #{cart_deperate_id})")
