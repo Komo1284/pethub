@@ -20,14 +20,14 @@
                         <ul class="space-y-4">
                             <li class="flex items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
-                                    <!-- <img
+                                     <img
                                              src="/placeholder.svg"
                                              alt="Product Image"
                                              width="100"
                                              height="100"
                                              class="w-20 h-20 object-cover rounded-md"
                                              style="aspect-ratio: 100 / 100; object-fit: cover;"
-                                     />-->
+                                     />
                                     <div>
                                         <h3 class="text-lg font-semibold">주문 번호: <a th:text="${row.order_id}"></a></h3>
                                         <h3 class="text-lg font-semibold">상품 번호: <a th:text="${row.order_item}"></a></h3>
@@ -41,35 +41,15 @@
                                                    th:value="${row.count}" min="1" th:name="'count'" th:id="'count_' + ${row.id}">
                                             <button
                                                     class="quantity_modify_btn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-400 text-primary-foreground hover:bg-blue-300/90 h-9 rounded-md px-3"
-                                                    th:data-product-id="${row.id}"
-                                            >
+                                                    th:data-product-id="${row.id}">
                                                 수정
                                             </button>
-
-
-
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex gap-4">
-                                    <!-- <svg
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             width="24"
-                                             height="24"
-                                             viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2"
-                                             stroke-linecap="round"
-                                             stroke-linejoin="round"
-                                             class="w-4 h-4"
-                                     >
-                                         <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                                         <path d="m15 5 4 4"></path>
-                                     </svg>-->
-
                                     <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3" th:onclick="|location.href='/order/delete/' + ${row.order_id}|">
-                                        <!-- <svg
+                                         <svg
                                                  xmlns="http://www.w3.org/2000/svg"
                                                  width="24"
                                                  height="24"
@@ -84,7 +64,7 @@
                                              <path d="M3 6h18"></path>
                                              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                         </svg>-->
+                                         </svg>
                                         <span>삭제</span>
                                     </button>
                                 </div>
@@ -110,7 +90,7 @@
                         <span class="font-semibold">합계</span>
                         <span id="total">0</span> <!-- Placeholder for total -->
                     </div>
-                    <button id="checkoutBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full">
+                    <button id="checkoutBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
                         결제하기
                     </button>
                 </div>
@@ -119,6 +99,7 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <!-- JavaScript to calculate subtotal and total -->
 <script>
