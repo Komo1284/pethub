@@ -95,4 +95,8 @@ public class MemberService {
         }
         return 0;
     }
+
+    public MemberVO findUserbyUserId(MemberVO input) {
+        return dao.findUserbyUserId(input);
+    }
 }

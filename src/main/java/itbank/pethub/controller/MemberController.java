@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.service.AdminService;
 import itbank.pethub.service.EmailService;
 import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
@@ -31,6 +32,7 @@ public class MemberController {
     private final MemberService ms;
     private final ImageService is;
     private final EmailService es;
+    private final AdminService as;
 
 
     @GetMapping("/login")
@@ -104,6 +106,7 @@ public class MemberController {
         ModelAndView mav = new ModelAndView("member/myPage");
         MemberVO user = (MemberVO) session.getAttribute("user");
         mav.addObject("coupons", ms.couponFindbyId(user.getId()));
+        mav.addObject("admins", as.findAllAdmins());
 
         return mav;
     }

@@ -57,4 +57,7 @@ public interface MemberDAO {
 
     @Select("SELECT COUNT(*) FROM member WHERE email = #{email}")
     int countByEmail(String email);
+
+    @Select("select * from member where userid = #{userid}")
+    MemberVO findUserbyUserId(MemberVO input);
 }
