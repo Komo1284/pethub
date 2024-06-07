@@ -94,24 +94,6 @@
             <button type="button" onclick="submitForm(this.getAttribute('data-product-id'))" th:attr="data-product-id=${product.id}">구매하기</button>
 
         </form>
-
-        <script>
-            function submitForm(productId) {
-                var form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/shop/onebuy/' + productId;
-                var hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'quantity';
-                hiddenInput.value = document.getElementById('quantity').value;
-                form.appendChild(hiddenInput);
-                document.body.appendChild(form);
-                form.submit();
-            }
-        </script>
-
-
-
     </div>
 </div>
 
@@ -173,7 +155,15 @@
         </form>
     </div>
 </div>
+
 <script>
+
+    // 폼 제출 전에 숨겨진 입력 필드의 값을 업데이트합니다
+    document.querySelector('form').addEventListener('submit', function() {
+        var quantity = document.getElementById('quantity').value;
+        document.getElementById('formQuantity').value = quantity;
+    });
+
     function submitForm(productId) {
         var form = document.createElement('form');
         form.method = 'POST';
@@ -186,14 +176,6 @@
         document.body.appendChild(form);
         form.submit();
     }
-</script>
-
-<script>
-    // 폼 제출 전에 숨겨진 입력 필드의 값을 업데이트합니다
-    document.querySelector('form').addEventListener('submit', function() {
-        var quantity = document.getElementById('quantity').value;
-        document.getElementById('formQuantity').value = quantity;
-    });
 
 </script>
 

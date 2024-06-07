@@ -34,7 +34,7 @@
                                         <h3 class="text-lg font-semibold">주문 번호: <a th:text="${row.order_id}"></a></h3>
                                         <h3 class="text-lg font-semibold">상품 번호: <a th:text="${row.order_item}"></a></h3>
                                         <h3 class="text-lg font-semibold">상품 명: 몰라요~~</h3>
-                                        <p class="text-gray-500">합계 가격: <span th:text="${row.order_price*row.count}"></span></p>
+                                        <p class="text-gray-500">합계 가격: <span th:text="${row.order_price*row.count} + ' 원'"></span></p>
                                         <div class="flex items-center gap-2">
                                             <h3>수량:</h3>
                                             <input type="number"
@@ -94,16 +94,17 @@
                 <form method="POST">
                     <div class="bg-gray-100 p-4 rounded-md">
                         <h3 class="text-lg font-semibold mb-2">주문 요약</h3>
+                        <hr>
                         <div class="flex justify-between mb-2">
-                            <span>소계</span>
+                            <span>물품 금액</span>
                             <span id="subtotal">0</span> <!-- Placeholder for subtotal -->
                         </div>
                         <div class="flex justify-between mb-2">
                             <span>배송비</span>
-                            <span>2500</span> <!-- Fixed shipping fee -->
+                            <span>2500 원</span> <!-- Fixed shipping fee -->
                         </div>
                         <div class="flex justify-between mb-4">
-                            <span class="font-semibold">합계</span>
+                            <span class="font-semibold">결제 금액</span>
                             <span id="total">0</span> <!-- Placeholder for total -->
                         </div>
                         <button id="checkoutBtn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full">
@@ -141,8 +142,8 @@
         const total = (parseFloat(subtotal) + shippingFee); // Adding subtotal and shipping fee
 
         // Update subtotal and total in the HTML
-        document.getElementById('subtotal').textContent = subtotal;
-        document.getElementById('total').textContent = total;
+        document.getElementById('subtotal').textContent = subtotal + ' 원';
+        document.getElementById('total').textContent = total + ' 원';
     }
 
     // Call updateSummary function when the page loads
@@ -171,7 +172,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert('수량을 성공적으로 수정되었습니다.');
+                            alert('수량이 수정되었습니다.');
                             location.reload(); // 페이지 새로고침
                         } else {
                             alert('수량 수정에 실패했습니다.');
