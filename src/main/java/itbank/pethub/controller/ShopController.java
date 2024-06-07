@@ -72,7 +72,7 @@ public class ShopController {
     @PostMapping("/deleteReview/{id}")
     public ModelAndView deleteReview(@PathVariable int id, @RequestParam("item_id") int itemId) {
         ModelAndView mav = new ModelAndView();
-            rs.deleteReview(id);
+        rs.deleteReview(id);
         mav.setViewName("redirect:/shop/DetailPage/" + itemId);
 
         return mav;
@@ -136,20 +136,7 @@ public class ShopController {
             cv.setOrder_price(iv.getPrice());
             cv.setCount(quantity);
             cv.setOrigin_price(iv.getPrice());
-
-
-            int existingcartid=os.getexistingcartid(memberId);
-
-
-            if (existingcartid != 0){
-                MODCVO cartid=os.getcartid(memberId);
-                System.out.println(cartid.getCdi());
-                cv.setCart_deperate_id(cartid.getCdi());
-                os.makeCartid(cv);
-            }
-           else{
-                os.makeCart(cv);
-            }
+            os.makeCart(cv);
         }
 
         // 주문이 성공적으로 추가되거나 업데이트된 후 주문 페이지로 리다이렉트
