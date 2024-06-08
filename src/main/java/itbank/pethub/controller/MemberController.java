@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.service.AdminService;
 import itbank.pethub.service.EmailService;
 import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
@@ -31,6 +32,7 @@ public class MemberController {
     private final MemberService ms;
     private final ImageService is;
     private final EmailService es;
+    private final AdminService as;
 
 
     @GetMapping("/login")
@@ -104,6 +106,8 @@ public class MemberController {
         ModelAndView mav = new ModelAndView("member/myPage");
         MemberVO user = (MemberVO) session.getAttribute("user");
         mav.addObject("coupons", ms.couponFindbyId(user.getId()));
+        mav.addObject("admins", as.findAllAdmins());
+        mav.addObject("admin_coupons", as.findAllCoupons());
 
         return mav;
     }
@@ -114,7 +118,7 @@ public class MemberController {
 
     // 회원정보 수정요청하여 로그아웃으로 리다이렉트
     @PostMapping("/memberUpdate")
-    public ModelAndView myPage(MemberVO input, HttpSession session, MultipartFile file) throws IOException {
+    public ModelAndView myPage(MemberVO input, @RequestParam("authNum") String authNum, HttpSession session, MultipartFile file) throws IOException {
 
         ModelAndView mav = new ModelAndView();
         MemberVO user = (MemberVO) session.getAttribute("user");
@@ -136,6 +140,13 @@ public class MemberController {
             return mav;
         }
 
+        // 이메일 인증번호가 틀린경우
+        if (!Objects.equals(authNum, session.getAttribute("authNum"))){
+            mav.addObject("msg", "이메일 인증번호가 올바르지 않습니다.");
+            mav.setViewName("member/memberUpdate");
+            return mav;
+        }
+
         input.setId(user.getId());
         input.setUserpw(input.getNewpw());
 
@@ -143,7 +154,8 @@ public class MemberController {
         // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
         if(!file.isEmpty()){
             String url = is.imageUploadFromFile(file);
-            user.setProfile(url);
+            System.out.println("url = " + url);
+            input.setProfile(url);
             row = ms.update(input);
         } else{ // 이미지 변경 안할 경우
             row = ms.updateNoProfile(input);
@@ -210,8 +222,13 @@ public class MemberController {
     ResponseEntity<?> sendAuthNum(@RequestBody Map<String, String> request, HttpSession session) throws MessagingException {
 
         String email = request.get("email");
+
         if (email == null || email.isEmpty()) {
             return ResponseEntity.badRequest().body("이메일을 입력해주세요.");
+        }
+
+        if (ms.isEmailExists(email)){
+            return ResponseEntity.badRequest().body("사용할 수 없는 이메일 입니다.");
         }
 
         // 랜덤 인증번호 발생 및 세션에 추가
