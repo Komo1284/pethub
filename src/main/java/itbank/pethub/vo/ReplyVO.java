@@ -9,7 +9,7 @@ import java.sql.Date;
 @Setter
 public class ReplyVO {
     private int id, member_id, board_id;
-    private String contents, nick;
+    private String contents, nick, profile;
     private Date w_date;
     private String board_title;
 }

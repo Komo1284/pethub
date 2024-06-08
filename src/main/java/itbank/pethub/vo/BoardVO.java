@@ -10,7 +10,7 @@ import java.sql.Date;
 @Setter
 public class BoardVO {
     private int id, type, member_id;
-    private String title, contents;
+    private String title, contents, profile;
     private Date w_date;
     private boolean secret;
     private String nick, profile;

@@ -1,10 +1,11 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.service.BoardService;
-import itbank.pethub.service.ImageService;
+import itbank.pethub.service.EmailService;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.MemberVO;
 import itbank.pethub.vo.ReplyVO;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import itbank.pethub.vo.ContactForm;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BoardController {
 
     private final BoardService bs;
-    private final ImageService imageService;
+    private final EmailService es;
 
     @GetMapping("/help")
     public void help(Model model) {
@@ -103,25 +104,29 @@ public class BoardController {
     public void write() {}
 
     @PostMapping("/write")
-    public ModelAndView addWrite(BoardVO input, HttpSession session) {
+    public ModelAndView addWrite(BoardVO input, HttpSession session) throws MessagingException {
         ModelAndView mav = new ModelAndView();
         MemberVO user = (MemberVO) session.getAttribute("user");
         input.setMember_id(user.getId());
         bs.addWrite(input);
+        if(input.getType() == 1){
+            es.sendNotice(input);
+        }
+
         mav.setViewName("redirect:/board/list");
         return mav;
     }
 
 
+    // 글 내용 보기
     @GetMapping("/view/{id}")
     public ModelAndView view(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView();
         bs.viewCount(id);
-        BoardVO board = bs.getBoard(id);
-        System.out.println(board.getProfile());
-        mav.addObject("row", board);
+
+        mav.addObject("row", bs.getBoard(id));
         List<ReplyVO> reply = bs.getReplies(id);
-        mav.addObject("reply", reply);
+        mav.addObject("replys", reply);
 
         mav.setViewName("board/view");
 
