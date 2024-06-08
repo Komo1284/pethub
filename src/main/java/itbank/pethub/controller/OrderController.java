@@ -199,8 +199,8 @@ public class OrderController {
         MemberVO user = (MemberVO) session.getAttribute("user");
         int member_id=user.getId();
 
-        mav.addObject("list", os.selectAfterpay(member_id));
-        mav.setViewName("/order/AfterPay");
+        mav.addObject("list", os.ordercheck(member_id));
+        mav.setViewName("/order/ordercheck");
         return mav;
     }
 

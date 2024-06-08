@@ -78,6 +78,9 @@ public interface OrderDAO {
     @Select("select * from modc where member_id=#{memberId} and order_status != '주문 접수'")
     List<MODCVO> selectAfterpay(int memberId);
 
+    @Select("SELECT * FROM modc WHERE member_id=#{memberId} AND order_status != '주문 접수'ORDER BY order_date DESC LIMIT 1")
+    List<MODCVO> ordercheck(int memberId);
+
     @Update("update `order` set order_status=2 where id=#{orderId}")
     int updateorder(int orderId);
 
