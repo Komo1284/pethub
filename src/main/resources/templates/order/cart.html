@@ -90,7 +90,8 @@
                 </div>
             </div>
 
-            <div class="md:col-span-1">
+            <!-- 주문 요약 섹션 -->
+            <div class="md:col-span-1" th:if="${not #lists.isEmpty(list)}">
                 <form method="POST">
                     <div class="bg-gray-100 p-4 rounded-md">
                         <h3 class="text-lg font-semibold mb-2">주문 요약</h3>
@@ -124,7 +125,7 @@
     // Function to calculate subtotal
     function calculateSubtotal() {
         let subtotal = 0;
-        document    .querySelectorAll('.text-gray-500 > span').forEach((element) => {
+        document.querySelectorAll('.text-gray-500 > span').forEach((element) => {
             subtotal += parseFloat(element.textContent);
         });
         return subtotal; // Return subtotal with two decimal places
@@ -150,7 +151,6 @@
     window.onload = updateSummary;
 
     document.addEventListener('DOMContentLoaded', (event) => {
-
         const modifyButtons = document.querySelectorAll('.quantity_modify_btn');
 
         modifyButtons.forEach(button => {

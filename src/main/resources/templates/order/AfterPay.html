@@ -105,9 +105,14 @@
 
                             <!-- 취소 버튼 -->
                             <div>
-                                <a th:href="@{'/order/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-                                    주문 취소
-                                </a>
+                                <!-- 취소 버튼 -->
+                                <th:block th:if="${order.delivery_status == '배송 준비'}">
+                                    <div>
+                                        <a th:href="@{'/order/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                            주문 취소
+                                        </a>
+                                    </div>
+                                </th:block>
 
                             </div>
                         </li>
@@ -119,36 +124,5 @@
     <div th:replace="~{footer :: footer}"></div>
 </div>
 
-<script>
-    // 총 상품 갯수
-    document.addEventListener("DOMContentLoaded", function () {
-        var orders = document.querySelectorAll(".total-items");
-        orders.forEach(function (order) {
-            var cdi = order.getAttribute("data-cdi");
-            var totalItems = 0;
-            var itemElements = document.querySelectorAll(`.item-count[data-cdi='${cdi}']`);
-            itemElements.forEach(function (element) {
-                totalItems += parseInt(element.textContent);
-            });
-            order.textContent = totalItems + " 개";
-        });
-    });
-
-    // 총 주문 가격
-    document.addEventListener("DOMContentLoaded", function () {
-        var orders = document.querySelectorAll(".total-payment");
-        orders.forEach(function (order) {
-            var cdi = order.getAttribute("data-cdi");
-            var totalPrice = 0;
-            var priceElements = document.querySelectorAll(`.item-price[data-cdi='${cdi}']`);
-            priceElements.forEach(function (element) {
-                var priceText = element.textContent.replace(' 원', ''); // ' 원' 제거
-                var price = parseFloat(priceText);
-                totalPrice += price;
-            });
-            order.textContent = totalPrice.toLocaleString() + " 원";
-        });
-    });
-</script>
 </body>
 </html>
