@@ -110,7 +110,7 @@ public interface BoardDAO {
     @Select("select id, board_id, member_id, contents from reply_view where id = #{id}")
     ReplyVO selectReply(int id);
 
-    // 페이징 및 검색 관련
+    // 게시판 페이징 및 검색 관련
     @Select("<script>" +
             "SELECT COUNT(*) FROM board_view where type = #{num} " +
             "<if test='group != null and search != null'> " +
@@ -122,8 +122,9 @@ public interface BoardDAO {
     @Select("SELECT COUNT(*) FROM board_view WHERE type = #{num}")
     int totalboard(int num);
 
+    // 내가 쓴 게시판 및 댓글 관련
     @Select("<script>" +
-            "SELECT * FROM board_view WHERE member_id = #{id}" +
+            "SELECT * FROM board_view WHERE member_id = #{member_id}" +
             "<if test='group != null and search != null'> " +
             "and ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if> " +
@@ -133,7 +134,7 @@ public interface BoardDAO {
     List<BoardVO> selectAllwroteBoard(Map<String, Object> param);
 
     @Select("<script>" +
-            "SELECT * FROM reply_view WHERE member_id = #{id}" +
+            "SELECT * FROM reply_view WHERE member_id = #{member_id}" +
             "<if test='group != null and search != null'> " +
             "and ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if> " +
@@ -143,23 +144,23 @@ public interface BoardDAO {
     List<ReplyVO> selectAllwroteReply(Map<String, Object> param);
 
     @Select("select count(*) from board_view where member_id = #{member_id}")
-    int total();
+    int total(int member_id);
 
     @Select("select count(*) from reply_view where member_id = #{member_id}")
-    int totalReply();
+    int totalReply(int member_id);
 
     @Select("<script>" +
-            "SELECT COUNT(*) FROM reply_view " +
+            "SELECT COUNT(*) FROM reply_view where member_id = #{member_id} " +
             "<if test='group != null and search != null'> " +
-            "where ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if>" +
             "</script>")
     int searchReply(Map<String, Object> param);
 
     @Select("<script>" +
-            "SELECT COUNT(*) FROM board_view " +
+            "SELECT COUNT(*) FROM board_view where member_id = #{member_id} " +
             "<if test='group != null and search != null'> " +
-            "where ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if>" +
             "</script>")
     int search(Map<String, Object> param);

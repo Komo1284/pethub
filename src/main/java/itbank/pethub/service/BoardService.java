@@ -1,11 +1,9 @@
 package itbank.pethub.service;
 
-import com.fasterxml.jackson.core.type.WritableTypeId;
 import itbank.pethub.components.Paging;
 import itbank.pethub.model.BoardDAO;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.ReplyVO;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -260,7 +258,7 @@ public class BoardService {
     }
 
     // 내가 쓴 글
-    public Map<String, Object> getWroteBoard(Map<String, Object> param) {
+    public Map<String, Object> getWroteBoard(Map<String, Object> param, int member_id) {
 
         String sint = (String) param.get("page");
         sint = (sint == null) ? "1" : sint;
@@ -271,7 +269,7 @@ public class BoardService {
         if (param.containsKey("group") || param.containsKey("search")) {
             totalcount = bd.search(param);
         } else {
-            totalcount = bd.total();
+            totalcount = bd.total(member_id);
         }
 
         Paging page = new Paging(reqPage, totalcount);
@@ -279,16 +277,19 @@ public class BoardService {
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
 
+        param.put("member_id", member_id);
+
         Map<String, Object> result = new HashMap<>();
+        List<BoardVO> list = bd.selectAllwroteBoard(param);
 
         result.put("pg", page);
-        result.put("list", bd.selectAllwroteBoard(param));
+        result.put("list", list);
 
         return result;
     }
 
     // 내가 쓴 댓글
-    public Map<String, Object> getWroteReply(Map<String, Object> param) {
+    public Map<String, Object> getWroteReply(Map<String, Object> param, int member_id) {
 
         String sint = (String) param.get("page");
         sint = (sint == null) ? "1" : sint;
@@ -299,7 +300,7 @@ public class BoardService {
         if (param.containsKey("group") || param.containsKey("search")) {
             totalcount = bd.searchReply(param);
         } else {
-            totalcount = bd.totalReply();
+            totalcount = bd.totalReply(member_id);
         }
 
         Paging page = new Paging(reqPage, totalcount);
@@ -307,10 +308,13 @@ public class BoardService {
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
 
+        param.put("member_id", member_id);
+
         Map<String, Object> result = new HashMap<>();
+        List<ReplyVO> list = bd.selectAllwroteReply(param);
 
         result.put("pg", page);
-        result.put("list", bd.selectAllwroteReply(param));
+        result.put("list", list);
 
         return result;
     }

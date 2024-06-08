@@ -201,9 +201,9 @@ public class BoardController {
     public ModelAndView wroteBoard(@RequestParam Map<String, Object> param, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         MemberVO user = (MemberVO) session.getAttribute("user");
-        int id = user.getId();
-        param.put("id", id);
-        mav.addObject("map", bs.getWroteBoard(param));
+        int memberId = user.getId();
+
+        mav.addObject("map", bs.getWroteBoard(param, memberId));
         mav.setViewName("board/wroteBoard");
 
         return mav;
@@ -214,9 +214,10 @@ public class BoardController {
     public ModelAndView wroteReply(@RequestParam Map<String, Object> param, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         MemberVO user = (MemberVO) session.getAttribute("user");
-        int id = user.getId();
-        param.put("id", id);
-        mav.addObject("map", bs.getWroteReply(param));
+
+        int memberId = user.getId();
+
+        mav.addObject("map", bs.getWroteReply(param,memberId));
         mav.setViewName("board/wroteReply");
 
         return mav;
