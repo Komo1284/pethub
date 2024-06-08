@@ -17,6 +17,10 @@
                     <div class="w-1/2 max-w-full max-h-64 mb-4 ">
                         <img th:src="${product.pic}" alt="제품 이미지" class="mb-4 max-w-full max-h-64">
                     </div>
+
+                    <!-- 세로 점선 -->
+                    <div class="w-px bg-gray-300 mx-4 my-6"></div>
+
                     <!-- 제품 이름 및 수량 결정 -->
                     <div class=" max-w-full max-h-64 mb-4 space-y-2 justify-end">
                         <div>
@@ -54,7 +58,7 @@
 
         <!-- 제품 상세 이미지 or 텍스트 -->
         <div class="flex justify-center">
-            <div class="mt-8 bg-white rounded-lg shadow-md p-6 w-3/4" th:if="${review != null && !review.isEmpty()}">
+            <div class="mt-8 bg-white rounded-lg shadow-md p-6 w-3/4">
                 <h2 class="text-xl font-bold mb-4">제품 상세 이미지 or 텍스트</h2>
                 <span th:text="${product.detail}"></span>
             </div>
