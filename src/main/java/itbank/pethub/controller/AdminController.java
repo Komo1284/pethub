@@ -65,4 +65,37 @@ public class AdminController {
 
         return mav;
     }
+
+    @GetMapping("/newCoupon")
+    public void adminNewCoupon() {}
+
+    @GetMapping("/issue_coupons/{id}")
+    public ModelAndView adminIssueCoupons(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView("member/myPage");
+        String msg = "";
+
+        int result = as.issue_coupons(id);
+        if (result != 0) {
+            msg = "쿠폰 발급에 성공하였습니다.";
+        } else {
+            msg = "쿠폰 발급중 오류가 발생하였습니다.";
+        }
+        mav.addObject("msg", msg);
+        return mav;
+    }
+
+    @GetMapping("/del_coupon/{id}")
+    public ModelAndView adminDelCoupon(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView("member/myPage");
+        String msg = "";
+
+        int result = as.del_coupon(id);
+        if (result != 0) {
+            msg = "쿠폰 삭제에 성공하였습니다.";
+        } else {
+            msg = "쿠폰 삭제중 오류가 발생하였습니다.";
+        }
+        mav.addObject("msg", msg);
+        return mav;
+    }
 }

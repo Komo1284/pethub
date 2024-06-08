@@ -107,6 +107,7 @@ public class MemberController {
         MemberVO user = (MemberVO) session.getAttribute("user");
         mav.addObject("coupons", ms.couponFindbyId(user.getId()));
         mav.addObject("admins", as.findAllAdmins());
+        mav.addObject("admin_coupons", as.findAllCoupons());
 
         return mav;
     }
