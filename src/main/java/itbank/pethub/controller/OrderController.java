@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -118,6 +119,41 @@ public class OrderController {
         return mav;
     }
 
+    @GetMapping("/cartdelete/{cdi}")
+    public ModelAndView deleteCartItem(@PathVariable("cdi") int cartItemId) {
+
+        ModelAndView mav = new ModelAndView();
+
+        List<Integer> orderIds = os.getOrderIds(cartItemId); // 장바구니에 속한 모든 주문 아이디 가져오기
+
+        int row = os.deleteallcart(cartItemId);
+        for (int o_id : orderIds) {
+            int d_id = os.getDeli_id(o_id); // 주문 아이디로 배송 아이디 가져오기
+
+            // 주문 삭제
+            os.deleteOrder(o_id);
+
+            // 배송 삭제
+            os.deleteDelivery(d_id);
+
+            // 카트 삭제
+            os.deleteCart(o_id);
+        }
+
+
+
+
+
+        String msg = "삭제 되었습니다. ";
+        if (row != 1)
+            msg = "삭제 실패하였습니다.";
+
+        mav.addObject("path", "/order/AfterPay");
+        mav.addObject("msg", msg);
+
+        mav.setViewName("/order/Message");
+        return mav;
+    }
 
 
     //결제 성공 시 배송정보 업데이트

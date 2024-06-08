@@ -20,6 +20,10 @@ public class OrderService {
         return od.selectAll();
     }
 
+    public List<ItemVO> category(int category, int type) {
+        return od.category(category, type);
+    }
+
     public ItemVO selectOne(int id) {
         return od.selectOne(id);
     }
@@ -115,5 +119,18 @@ public class OrderService {
 
     public int getexistingcartid(int memberId) {
         return od.getexistingcartid(memberId);
+    }
+
+    public int deleteallcart(int cartItemId) {
+        return od.deleteAllCart(cartItemId);
+    }
+
+    public List<Integer> getOrderIds(int cartItemId) {
+        return od.getOrderIds(cartItemId);
+    }
+
+
+    public int getorder_id(int cartItemId) {
+        return od.getorder_id(cartItemId);
     }
 }
