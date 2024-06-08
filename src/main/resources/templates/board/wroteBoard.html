@@ -15,7 +15,7 @@
 <div th:replace="~{header :: header}"></div>
 <main class="flex-1 flex min-h-screen">
     <div th:replace="~{member/myPageAside :: aside}"></div>
-    <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
+    <div class="flex-1 p-4 md:p-6 mx-8 mt-16" th:with="list=${map['list']}, pg=${map['pg']}">
         <div class="mb-6 flex justify-between items-center">
             <h2 class="text-2xl font-bold">내가 쓴 게시글</h2>
         </div>
@@ -41,69 +41,55 @@
                 </tr>
                 </thead>
                 <tbody class="[&amp;_tr:last-child]:border-0">
-                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">1</td>
+                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" th:each="row : ${list}">
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.id}">1</td>
                     <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                        <a class="text-orange-600 hover:underline" href="#">
+                        <a class="text-orange-600 hover:underline"
+                           th:text="${row.title}"
+                           th:href="@{/board/view/{id}(id=${row.id})}">
                             Introducing a New Furry Friend
                         </a>
                     </td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">John Doe</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">245</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2023-05-01</td>
-                </tr>
-                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                        <a class="text-orange-600 hover:underline" href="#">
-                            Training Tips for Puppies
-                        </a>
-                    </td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">Jane Smith</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">189</td>
-                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">2023-04-28</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.nick}">John Doe</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.v_count}">245</td>
+                    <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.w_date}">2023-05-01</td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="mb-6 mt-6">
             <nav aria-label="pagination" class="mx-auto flex w-full justify-center" role="navigation">
-                <ul class="flex flex-row items-center gap-1">
-                    <li class="">
-                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pl-2.5" aria-label="Go to previous page" href="#">
+                <ul class="flex flex-row items-center gap-1"
+                    th:with="groupParam=${param.group != null ? 'group=' + param.group : ''}, searchParam=${param.search != null ? 'search=' + param.search : ''}">
+                    <li class="" th:if="${pg.prev}">
+                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pl-2.5" aria-label="Go to previous page"
+                           th:href="@{|/board/wroteBoard?page=${pg.begin - 1}&${groupParam}&${searchParam}|}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left h-4 w-4">
                                 <path d="m15 18-6-6 6-6"></path>
                             </svg>
                             <span>이전</span>
                         </a>
                     </li>
-                    <li class="">
-                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10" href="#">
-                            1
+                    <li class="" th:if="${pg.end > 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                           th:href="@{|/board/wroteBoard?page=${i}&${groupParam}&${searchParam}|}">
+                            <span th:text="${i}"></span>
                         </a>
                     </li>
-                    <li class="">
-                        <a aria-current="page" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10" href="#">
-                            2
+                    <li class="" th:if="${pg.end == 0}">
+                        <a aria-current="page" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                           th:href="@{|/board/wroteBoard?page=${pg.begin}&${groupParam}&${searchParam}|}">
+                            <span th:text="${pg.begin}"></span>
                         </a>
                     </li>
-                    <li class="">
-                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10" href="#">
-                            3
+                    <li class="" th:if="${pg.end == 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
+                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                           th:href="@{|/board/wroteBoard?page=${i}&${groupParam}&${searchParam}|}">
                         </a>
                     </li>
-                    <li class="">
-                            <span aria-hidden="true" class="flex h-9 w-9 items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis h-4 w-4">
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="19" cy="12" r="1"></circle>
-                                    <circle cx="5" cy="12" r="1"></circle>
-                                </svg>
-                                <span class="sr-only">More pages</span>
-                            </span>
-                    </li>
-                    <li class="">
-                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pr-2.5" aria-label="Go to next page" href="#">
+                    <li class="" th:if="${pg.next}">
+                        <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pr-2.5" aria-label="Go to next page"
+                           th:href="@{|/board/wroteBoard?page=${pg.end + 1}&${groupParam}&${searchParam}|}">
                             <span>다음</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-4 w-4">
                                 <path d="m9 18 6-6-6-6"></path>
@@ -112,22 +98,23 @@
                     </li>
                 </ul>
             </nav>
-            <div class="flex justify-center items-center gap-2 mt-4">
-                <select
+                <form th:action="@{/board/wroteBoard}" method="get" class="flex justify-center items-center gap-2 mt-4">
+                <select name="group"
                         class="flex h-10 w-1-5 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                    <option>제목</option>
-                    <option>내용</option>
+                    <option value="title">제목</option>
+                    <option value="contents">내용</option>
                 </select>
                 <input
                         class="flex h-10 bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 flex-1 max-w-[62.5%] py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         placeholder="게시물 검색.."
-                        type="search"
+                        type="text"
+                        name="search"
                 />
-                <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-10 px-4 py-2">
+                <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-10 px-4 py-2">
                     검색
                 </button>
-            </div>
+                </form>
         </div>
     </div>
 </main>
