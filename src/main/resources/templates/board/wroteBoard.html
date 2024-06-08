@@ -73,7 +73,7 @@
                     <li class="" th:if="${pg.end > 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
                         <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
                            th:href="@{|/board/wroteBoard?page=${i}&${groupParam}&${searchParam}|}">
-                           <span th:text="${i}"></span>
+                            <span th:text="${i}"></span>
                         </a>
                     </li>
                     <li class="" th:if="${pg.end == 0}">
@@ -98,7 +98,6 @@
                     </li>
                 </ul>
             </nav>
-            <div class="flex justify-center items-center gap-2 mt-4">
                 <form th:action="@{/board/wroteBoard}" method="get" class="flex justify-center items-center gap-2 mt-4">
                 <select name="group"
                         class="flex h-10 w-1-5 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -116,7 +115,6 @@
                     검색
                 </button>
                 </form>
-            </div>
         </div>
     </div>
 </main>

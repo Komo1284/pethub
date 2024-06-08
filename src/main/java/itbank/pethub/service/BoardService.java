@@ -1,15 +1,14 @@
 package itbank.pethub.service;
 
+import com.fasterxml.jackson.core.type.WritableTypeId;
 import itbank.pethub.components.Paging;
 import itbank.pethub.model.BoardDAO;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.ReplyVO;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import java.util.Map;
 public class BoardService {
 
     private final BoardDAO bd;
-    private final ImageService imageService;
 
     // 게시판 목록
     public Map<String, Object> getBoards(Map<String, Object> param) {
@@ -52,11 +50,9 @@ public class BoardService {
         return result;
     }
 
-    // 글작성
-    public int addWrite(BoardVO input, @RequestParam("file") MultipartFile file) throws IOException {
-        String imageUrl = imageService.UploadFromFile(file); // 이미지 업로드
-        input.setUpload(imageUrl);
-        // System.out.println(imageUrl);
+    // 글 작성
+    public int addWrite(BoardVO input) {
+
         return bd.addWrite(input);
     }
 
@@ -118,24 +114,24 @@ public class BoardService {
         int totalcount;
         if (param.containsKey("group") || param.containsKey("search")) {
             param.put("num", boardnum);
-                totalcount = bd.searchboard(param);
-            } else {
-                totalcount = bd.totalboard(boardnum);
-            }
-
-            Paging page = new Paging(reqPage, totalcount);
-
-            param.put("offset", page.getOffset());
-            param.put("boardCount", page.getBoardCount());
-
-
-            Map<String, Object> result = new HashMap<>();
-
-            result.put("pg", page);
-            result.put("list", bd.selectAllDogs(param));
-
-            return result;
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
         }
+
+        Paging page = new Paging(reqPage, totalcount);
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("pg", page);
+        result.put("list", bd.selectAllDogs(param));
+
+        return result;
+    }
 
     // 고양이 목록
     public Map<String, Object> getCats(Map<String, Object> param) {
@@ -249,7 +245,7 @@ public class BoardService {
     }
 
     // 댓글 삭제
-    public int deleteReply(int id) {
+    public int deleteReply(int id, int memberId) {
         return bd.deleteReply(id);
     }
 
@@ -271,10 +267,9 @@ public class BoardService {
 
         int reqPage = Integer.parseInt(sint);
 
-
         int totalcount;
         if (param.containsKey("group") || param.containsKey("search")) {
-            totalcount = bd.searchboard(param);
+            totalcount = bd.search(param);
         } else {
             totalcount = bd.total();
         }
@@ -284,7 +279,6 @@ public class BoardService {
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
 
-
         Map<String, Object> result = new HashMap<>();
 
         result.put("pg", page);
@@ -293,7 +287,7 @@ public class BoardService {
         return result;
     }
 
-
+    // 내가 쓴 댓글
     public Map<String, Object> getWroteReply(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
@@ -301,10 +295,9 @@ public class BoardService {
 
         int reqPage = Integer.parseInt(sint);
 
-
         int totalcount;
         if (param.containsKey("group") || param.containsKey("search")) {
-            totalcount = bd.search(param);
+            totalcount = bd.searchReply(param);
         } else {
             totalcount = bd.totalReply();
         }
@@ -313,7 +306,6 @@ public class BoardService {
 
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
-
 
         Map<String, Object> result = new HashMap<>();
 
