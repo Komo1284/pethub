@@ -94,6 +94,7 @@ public class ShopController {
                                      HttpSession session) {
         ModelAndView mav = new ModelAndView();
 
+
         if (session.getAttribute("user") == null) {
             // 로그인 페이지로 리다이렉트
             mav.setViewName("redirect:/member/login");
@@ -143,12 +144,14 @@ public class ShopController {
 
             int orderid = os.getorderid();
 
+
             CartVO cv=new CartVO();
             cv.setOrder_id(orderid);
             cv.setOrder_item(productId);
             cv.setOrder_price(iv.getPrice());
             cv.setCount(quantity);
             cv.setOrigin_price(iv.getPrice());
+            cv.setItem_name(iv.getName());
 
 
             int existingcartid=os.getexistingcartid(memberId);
@@ -156,7 +159,6 @@ public class ShopController {
 
             if (existingcartid != 0){
                 MODCVO cartid=os.getcartid(memberId);
-                System.out.println(cartid.getCdi());
                 cv.setCart_deperate_id(cartid.getCdi());
                 os.makeCartid(cv);
             }
@@ -199,7 +201,7 @@ public class ShopController {
         if (existingOrderId != -1) {
             // 주문이 이미 존재하면 수량을 업데이트
             String msg = "이미 장바구니에 존재합니다.";
-            mav.addObject("path", "/shop/DetailPage/" + productId);
+            mav.addObject("path", "/order/cart");
 
 
             mav.addObject("msg", msg);
@@ -238,6 +240,7 @@ public class ShopController {
             cv.setOrder_price(iv.getPrice());
             cv.setCount(quantity);
             cv.setOrigin_price(iv.getPrice());
+            cv.setItem_name(iv.getName());
 
 
             int existingcartid=os.getexistingcartid(memberId);
@@ -245,7 +248,6 @@ public class ShopController {
 
             if (existingcartid != 0){
                 MODCVO cartid=os.getcartid(memberId);
-                System.out.println(cartid.getCdi());
                 cv.setCart_deperate_id(cartid.getCdi());
                 os.makeCartid(cv);
             }

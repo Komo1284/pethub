@@ -27,27 +27,20 @@ public class MemberController {
     public void login() {}
 
     @PostMapping("/login")
-    public ModelAndView login(MemberVO user, HttpSession session) {
+    public ModelAndView login(MemberVO input, HttpSession session) {
+
         ModelAndView mav = new ModelAndView();
-        user = ms.login(user);
-
-        if (user != null) {
-            session.setAttribute("user", user);
-        }
-
-
-        String msg = "로그인 되었습니다.";
-        if (user == null) {
-            msg = "로그인 실패하였습니다.";
-        }
-
-        mav.addObject("row", (user != null) ? 1 : 0);
-        mav.addObject("path", "/");
-        mav.addObject("msg", msg);
-
-        mav.setViewName("/order/Message");
+        session.setAttribute("user", ms.login(input));
+        mav.setViewName("redirect:/");
 
         return mav;
+
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/";
     }
 
     @GetMapping("/memberUpdate")

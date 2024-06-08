@@ -34,6 +34,7 @@ public class OrderController {
 
         MemberVO user = (MemberVO) session.getAttribute("user");
         int memberId = user.getId();
+
         mav.addObject("list", os.getCarts(memberId));
 
         mav.setViewName("/order/cart");
