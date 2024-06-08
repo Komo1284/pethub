@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,13 +82,20 @@
                                     <th:block th:each="item : ${list}" th:if="${item.cdi == order.cdi}">
                                         <li class="flex items-center justify-between gap-4">
                                             <div class="flex items-center gap-4">
-                                                <img th:src="${product.pic}" alt="제품 이미지" class="aspect-[2/1]" width="400" height="200"/>
+                                                <img th:src="${item.pic}" alt="제품 이미지" class="aspect-[2/1]" width="100" height="50"/>
                                                 <div>
                                                     <h4 class="text-lg font-semibold">상품 명: <span th:text="${item.item_name}"></span></h4>
                                                     <span>수량: <span class="item-count" th:text="${item.count}" data-cdi="${order.cdi}"></span> 개</span>
                                                     <p class="text-gray-500">합계 가격: <span class="item-price" th:text="${item.order_price * item.count}+' 원'" data-cdi="${order.cdi}"></span></p>
                                                 </div>
                                             </div>
+                                            <input type="hidden" class="order-item-id" th:value="${item.order_item}" />
+                                            <button
+                                                    onclick="openReviewPopup(this)"
+                                                    data-order-item="${item.order_item}"
+                                                    class="w-22 h-10 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                                                리뷰 작성
+                                            </button>
                                         </li>
                                     </th:block>
                                 </ul>
@@ -105,12 +112,58 @@
 
                             <!-- 취소 버튼 -->
                             <div>
-                                <a th:href="@{'/order/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-                                    주문 취소
-                                </a>
+                                <!-- 취소 버튼 -->
+                                <th:block th:if="${order.delivery_status == '배송 준비'}">
+                                    <div>
+                                        <a th:href="@{'/order/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                            주문 취소
+                                        </a>
+                                    </div>
+                                </th:block>
 
                             </div>
                         </li>
+                    </div>
+                    <!-- 리뷰 작성폼 -->
+                    <div id="review-popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                        <div class="bg-white rounded-lg shadow-md p-6 w-100 h-50">
+                            <h3 id="review-popup-title" class="text-xl font-bold mb-4"></h3>
+                            <div class="flex flex-col gap-4">
+                                <form id="review-form" th:action="@{/shop/addReview}" method="post" enctype="multipart/form-data">
+                                    <div>
+                                        <textarea
+                                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                            placeholder="리뷰를 작성하세요..."
+                                            name="contents"
+                                            style="resize: none;"
+                                            required>
+                                        </textarea>
+                                    </div>
+
+                                    <div class="mt-2">
+                                    <label for="rating">평점:</label>
+                                    <select name="rating" id="rating" required>
+                                        <option value="">별로 만들어줘</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    </div>
+
+                                    <label for="file-upload">사진 첨부:</label>
+                                    <input type="file" name="file-upload" id="file-upload" accept="image/*">
+                                    <input type="hidden" name="item_id" id="item-id">
+                                    <button id="review-submit-btn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
+                                        작성
+                                    </button>
+                                    <button type="button" onclick="closeReviewPopup()" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-gray-300 text-gray-700 hover:bg-gray-400 h-10 px-4 py-2 ml-2">
+                                        취소
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </th:block>
             </th:block>
@@ -120,35 +173,27 @@
 </div>
 
 <script>
-    // 총 상품 갯수
-    document.addEventListener("DOMContentLoaded", function () {
-        var orders = document.querySelectorAll(".total-items");
-        orders.forEach(function (order) {
-            var cdi = order.getAttribute("data-cdi");
-            var totalItems = 0;
-            var itemElements = document.querySelectorAll(`.item-count[data-cdi='${cdi}']`);
-            itemElements.forEach(function (element) {
-                totalItems += parseInt(element.textContent);
-            });
-            order.textContent = totalItems + " 개";
-        });
-    });
+    // 리뷰 작성 팝업창
+    function openReviewPopup(button) {
+        // 해당 주문 항목의 ID 가져오기
+        var orderItem = button.parentNode.querySelector('.order-item-id').value;
+        console.log(orderItem);
 
-    // 총 주문 가격
-    document.addEventListener("DOMContentLoaded", function () {
-        var orders = document.querySelectorAll(".total-payment");
-        orders.forEach(function (order) {
-            var cdi = order.getAttribute("data-cdi");
-            var totalPrice = 0;
-            var priceElements = document.querySelectorAll(`.item-price[data-cdi='${cdi}']`);
-            priceElements.forEach(function (element) {
-                var priceText = element.textContent.replace(' 원', ''); // ' 원' 제거
-                var price = parseFloat(priceText);
-                totalPrice += price;
-            });
-            order.textContent = totalPrice.toLocaleString() + " 원";
-        });
-    });
+        var popup = document.getElementById('review-popup');
+        var itemIdInput = document.getElementById('item-id');
+
+        itemIdInput.value = orderItem;
+
+        popup.classList.remove('hidden');
+    }
+
+    // 리뷰 작성 팝업 닫기 함수
+    function closeReviewPopup() {
+        var popup = document.getElementById('review-popup');
+        popup.classList.add('hidden');
+    }
+
 </script>
+
 </body>
 </html>

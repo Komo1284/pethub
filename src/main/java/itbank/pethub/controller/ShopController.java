@@ -72,7 +72,7 @@ public class ShopController {
 
         rs.addReview(input);
 
-        mav.setViewName("redirect:/shop/DetailPage/" + input.getItem_id());
+        mav.setViewName("redirect:/order/AfterPay");
 
         return mav;
     }
@@ -81,7 +81,7 @@ public class ShopController {
     @PostMapping("/deleteReview/{id}")
     public ModelAndView deleteReview(@PathVariable int id, @RequestParam("item_id") int itemId) {
         ModelAndView mav = new ModelAndView();
-            rs.deleteReview(id);
+        rs.deleteReview(id);
         mav.setViewName("redirect:/shop/DetailPage/" + itemId);
 
         return mav;
@@ -156,7 +156,7 @@ public class ShopController {
                 cv.setCart_deperate_id(cartid.getCdi());
                 os.makeCartid(cv);
             }
-           else{
+            else{
                 os.makeCart(cv);
             }
         }

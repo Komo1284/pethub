@@ -20,5 +20,4 @@ public interface ReviewDAO {
     @Delete("delete from review where id = #{id}")
     int deleteReview(int id);
 
-    
 }
