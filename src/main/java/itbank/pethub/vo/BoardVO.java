@@ -2,6 +2,7 @@ package itbank.pethub.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 
@@ -12,7 +13,7 @@ public class BoardVO {
     private String title, contents;
     private Date w_date;
     private boolean secret;
-    private String nick, upload;
+    private String nick, profile;
     private int v_count;
 
 }

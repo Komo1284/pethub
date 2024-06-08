@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.service.BoardService;
+import itbank.pethub.service.ImageService;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.MemberVO;
 import itbank.pethub.vo.ReplyVO;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BoardController {
 
     private final BoardService bs;
+    private final ImageService imageService;
 
     @GetMapping("/help")
     public void help(Model model) {
@@ -111,12 +113,13 @@ public class BoardController {
     }
 
 
-    // 글 내용 보기
     @GetMapping("/view/{id}")
     public ModelAndView view(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView();
         bs.viewCount(id);
-        mav.addObject("row", bs.getBoard(id));
+        BoardVO board = bs.getBoard(id);
+        System.out.println(board.getProfile());
+        mav.addObject("row", board);
         List<ReplyVO> reply = bs.getReplies(id);
         mav.addObject("reply", reply);
 
