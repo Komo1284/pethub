@@ -122,7 +122,7 @@ public interface BoardDAO {
     @Select("SELECT COUNT(*) FROM board_view WHERE type = #{num}")
     int totalboard(int num);
 
-    // 내가 쓴 게시판 및 댓글 관련
+    // 내가 쓴 게시판 및 댓글 관련 목록
     @Select("<script>" +
             "SELECT * FROM board_view WHERE member_id = #{member_id}" +
             "<if test='group != null and search != null'> " +
@@ -143,6 +143,7 @@ public interface BoardDAO {
             "</script>")
     List<ReplyVO> selectAllwroteReply(Map<String, Object> param);
 
+    // 내가 쓴 게시판 및 댓글 관련
     @Select("select count(*) from board_view where member_id = #{member_id}")
     int total(int member_id);
 
