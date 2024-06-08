@@ -2,6 +2,7 @@ package itbank.pethub.controller;
 
 import itbank.pethub.service.AdminService;
 import itbank.pethub.service.MemberService;
+import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,13 +31,12 @@ public class AdminController {
     public void adminInsert() {}
 
     @PostMapping("/insert")
-    public ModelAndView adminInsert(MemberVO input, RedirectAttributes redirectAttributes) {
+    public ModelAndView adminInsert(MemberVO input) {
         ModelAndView mav = new ModelAndView("admin/insert");
         String msg;
 
         input = ms.findUserbyUserId(input);
         int row = as.insertAdmin(input);
-        System.out.println("row = " + row);
 
         if (row != 0) {
             msg = "새로운 관리자가 성공적으로 추가되었습니다.";
@@ -68,6 +68,24 @@ public class AdminController {
 
     @GetMapping("/newCoupon")
     public void adminNewCoupon() {}
+
+    @PostMapping("/newCoupon")
+    public ModelAndView adminNewCoupon(CouponVO input) {
+        ModelAndView mav = new ModelAndView("admin/newCoupon");
+        String msg;
+
+        int row = as.insertCoupon(input);
+
+        if (row != 0) {
+            msg = "새로운 쿠폰이 성공적으로 추가되었습니다.";
+        } else {
+            msg = "새로운 쿠폰 추가에 실패하였습니다.";
+        }
+
+        mav.addObject("msg", msg);
+
+        return mav;
+    }
 
     @GetMapping("/issue_coupons/{id}")
     public ModelAndView adminIssueCoupons(@PathVariable("id") int id) {

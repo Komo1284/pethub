@@ -47,4 +47,8 @@ public class AdminService {
     public int del_coupon(int id) {
         return dao.del_coupon(id);
     }
+
+    public int insertCoupon(CouponVO input) {
+        return dao.insertCoupon(input);
+    }
 }

@@ -29,4 +29,7 @@ public interface AdminDAO {
 
     @Select("select * from member where role = 0")
     List<MemberVO> selectAllMember();
+
+    @Insert("insert into coupon (code, discount, min_price, discount_limit) values (#{code}, #{discount}, #{min_price}, #{discount_limit})")
+    int insertCoupon(CouponVO input);
 }
