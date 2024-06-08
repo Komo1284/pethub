@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/ko.js"></script>
+    <style>
+        .ck-editor__editable:not(.ck-editor__nested-editable) {
+
+            height: 300px;
+        }
+    </style>
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
@@ -132,12 +140,13 @@
                                 <form id="review-form" th:action="@{/shop/addReview}" method="post" enctype="multipart/form-data">
                                     <div>
                                         <textarea
-                                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                            placeholder="리뷰를 작성하세요..."
+                                            id="contents"
                                             name="contents"
-                                            style="resize: none;"
-                                            required>
-                                        </textarea>
+                                            rows="2"
+                                            class="block w-1/2 shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+                                            style="width: 50%; height: auto;"
+                                            control-id="ControlID-23"
+                                        ></textarea>
                                     </div>
 
                                     <div class="mt-2">
@@ -192,6 +201,16 @@
         var popup = document.getElementById('review-popup');
         popup.classList.add('hidden');
     }
+
+    ClassicEditor.create( document.querySelector( '#contents' ), {
+
+        language: "ko",
+        ckfinder : {
+            uploadUrl: "/image/upload",
+            withCredentials: true
+        }
+
+    } );
 
 </script>
 
