@@ -109,6 +109,10 @@ public class OrderService {
         return od.selectAfterpay(memberId);
     }
 
+    public List<MODCVO> ordercheck(int memberId) {
+        return od.ordercheck(memberId);
+    }
+
     public MODCVO getcartid(int memberid) {
         return od.getcartid(memberid);
     }

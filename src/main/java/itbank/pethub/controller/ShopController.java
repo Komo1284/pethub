@@ -109,10 +109,14 @@ public class ShopController {
         int existingOrderId = os.getExistingOrderId(memberId, productId);
         if (existingOrderId != -1) {
             // 주문이 이미 존재하면 수량을 업데이트
-            CartVO cartVO = new CartVO();
-            cartVO.setId(existingOrderId);
-            cartVO.setCount(quantity);
-            os.countUp(cartVO);
+            String msg = "이미 장바구니에 존재합니다.";
+            mav.addObject("path", "/shop/DetailPage/" + productId);
+
+
+            mav.addObject("msg", msg);
+
+            mav.setViewName("/shop/Message");
+            return mav;
 
         } else {
             AddressVO av=os.getAddress(memberId);
@@ -194,10 +198,14 @@ public class ShopController {
         int existingOrderId = os.getExistingOrderId(memberId, productId);
         if (existingOrderId != -1) {
             // 주문이 이미 존재하면 수량을 업데이트
-            CartVO cartVO = new CartVO();
-            cartVO.setId(existingOrderId);
-            cartVO.setCount(quantity);
-            os.countUp(cartVO);
+            String msg = "이미 장바구니에 존재합니다.";
+            mav.addObject("path", "/shop/DetailPage/" + productId);
+
+
+            mav.addObject("msg", msg);
+
+            mav.setViewName("/shop/Message");
+            return mav;
 
         } else {
             AddressVO av = os.getAddress(memberId);

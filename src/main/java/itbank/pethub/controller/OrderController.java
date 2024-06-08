@@ -188,6 +188,24 @@ public class OrderController {
         return mav;
     }
 
+    //주문 현황 페이지
+    @GetMapping("/ordercheck")
+    public ModelAndView ordercheck(HttpSession session) {
+        ModelAndView mav= new ModelAndView();
+        if (session.getAttribute("user") == null) {
+            // 로그인 페이지로 리다이렉트
+            mav.setViewName("redirect:/member/login");
+            return mav;
+        }
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        int member_id=user.getId();
+
+        mav.addObject("list", os.ordercheck(member_id));
+        mav.setViewName("/order/ordercheck");
+        return mav;
+    }
+
 /*    @GetMapping("/coupon")
     @ResponseBody
     public List<CouponVO> getCoupons(HttpSession session) {
