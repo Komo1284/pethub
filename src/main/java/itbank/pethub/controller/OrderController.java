@@ -1,6 +1,5 @@
 package itbank.pethub.controller;
 
-import itbank.pethub.service.MemberService;
 import itbank.pethub.service.OrderService;
 import itbank.pethub.vo.*;
 import jakarta.servlet.http.HttpSession;
@@ -204,7 +203,7 @@ public class OrderController {
         return mav;
     }
 
-/*    @GetMapping("/coupon")
+    @GetMapping("/coupon")
     @ResponseBody
     public List<CouponVO> getCoupons(HttpSession session) {
 
@@ -212,6 +211,6 @@ public class OrderController {
         int member_id=user.getId();
 
         return ms.couponFindbyId(member_id);
-    }*/
+    }
 
 }
