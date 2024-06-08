@@ -30,10 +30,12 @@
                                             style="aspect-ratio: 100 / 100; object-fit: cover;"
                                     />
                                     <div>
-                                        <h3 class="text-lg font-semibold">카트 번호: <a th:text="${row.cart_deperate_id}"></a></h3>
+                                        <!--<h3 class="text-lg font-semibold">카트 번호: <a th:text="${row.cart_deperate_id}"></a></h3>
                                         <h3 class="text-lg font-semibold">주문 번호: <a th:text="${row.order_id}"></a></h3>
-                                        <h3 class="text-lg font-semibold">상품 번호: <a th:text="${row.order_item}"></a></h3>
-                                        <h3 class="text-lg font-semibold">상품 명: 몰라요~~</h3>
+                                        <h3 class="text-lg font-semibold">상품 번호: <a th:text="${row.order_item}"></a></h3>-->
+
+                                        <h3 class="text-lg font-semibold">상품 명: <a th:text="${row.item_name}"></a></h3>
+
                                         <p class="text-gray-500">합계 가격: <span th:text="${row.order_price*row.count} + ' 원'"></span></p>
                                         <div class="flex items-center gap-2">
                                             <h3>수량:</h3>

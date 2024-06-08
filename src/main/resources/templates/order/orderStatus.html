@@ -28,17 +28,13 @@
                                             style="aspect-ratio: 100 / 100; object-fit: cover;"
                                     />
                                     <div>
-                                        <h3 class="text-lg font-semibold">주문 번호: <span class="order_id"
-                                                                                       th:text="${row.order_id}"></span>
-                                        </h3>
-                                        <h3 class="text-lg font-semibold">상품 번호: <span
-                                                th:text="${row.order_item}"></span></h3>
-                                        <h3 class="text-lg font-semibold">상품 명: 몰라요~~ </h3>
+                                         <input class="order_id" type="hidden" th:value="${row.order_id}">
+                                        <h3 class="text-lg font-semibold">상품명: <span
+                                                th:text="${row.item_name}"></span></h3>
                                         <p class="text-gray-500">합계 가격: <span
                                                 th:text="${row.order_price*row.count}"></span></p>
                                         <div class="flex items-center gap-2">
                                             <h3>수량: <span th:text="${row.count}"></span></h3>
-
                                         </div>
                                     </div>
                                 </div>
@@ -56,8 +52,6 @@
                             <li class="flex items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
                                     <div>
-                                        <h3 id="member_id" class="text-lg font-semibold">고객 번호: <span
-                                                th:text="${list[0].member_id}"></span></h3>
                                         <h3 id="customerName" class="text-lg font-semibold">고객 이름: <span
                                                 th:text="${list[0].member_name}"></span></h3>
                                         <h3 id="customerPhone" class="text-lg font-semibold">고객 전화번호: <span
@@ -71,7 +65,7 @@
                                                 <div class="grid grid-cols-2 gap-2">
                                                     <div class="grid gap-2">
                                                         <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block"
                                                                 for="zip_code"
                                                         >
                                                             우편번호
@@ -87,7 +81,7 @@
                                                     </div>
                                                     <div class="grid gap-2 flex items-end">
                                                         <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
+                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-2"
                                                                 for="search">
 
                                                         </label>
@@ -104,7 +98,7 @@
                                                 <div class="grid grid-cols-2 gap-2">
                                                     <div class="grid gap-2">
                                                         <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 mt-2"
                                                                 for="primary_address"
                                                         >
                                                             도로명 (지번) 주소
@@ -121,7 +115,7 @@
                                                     </div>
                                                     <div class="grid gap-2">
                                                         <label
-                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
+                                                                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900 mt-2"
                                                                 for="address_details"
                                                         >
                                                             상세 주소
@@ -139,8 +133,8 @@
                                         </form>
 
 
-                                        <a class="delivery_modify_btn" th:data-product-id="${list[0].delivery_id}">
-                                            배송지 수정 </a>
+                                        <button class="delivery_modify_btn " th:data-product-id="${list[0].delivery_id}">
+                                            배송지 수정 </button>
                                     </div>
                                 </div>
                             </li>
@@ -158,17 +152,8 @@
                     <span>쿠폰 할인</span>
                     <span id="discount">0</span>
                 </div>
-                <div class="flex justify-between mb-2">
-                    <span>배송비</span>
-                    <span>2500</span>
-                </div>
-
-                <div class="flex justify-between mb-4">
-                    <span class="font-semibold">합계</span>
-                    <span id="total">0</span>
-                </div>
                 <button id="couponBtn"
-                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2"
                         onclick="openCouponPopup()">
                     쿠폰 적용
                 </button>
@@ -185,6 +170,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex justify-between mb-2">
+                    <span>배송비</span>
+                    <span>2500</span>
+                </div>
+
+                <div class="flex justify-between mb-4">
+                    <span class="font-semibold">합계</span>
+                    <span id="total" >0</span>
+
+                </div>
                 <!-- 결제 옵션 및 버튼 -->
                 <div class="payment-options">
                     <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
@@ -192,7 +187,7 @@
                     <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
                 </div>
                 <button id="checkoutBtn"
-                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2"
                         onclick="requestPay()">
                     결제 하기
                 </button>
@@ -272,7 +267,6 @@
     });
 </script>
 
-
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <!-- iamport.payment.js -->
@@ -317,9 +311,9 @@
         }
         IMP.request_pay({
             pg: "html5_inicis",
-            pay_method: "vbank",
+            pay_method: selectedPayMethod,
             merchant_uid: orderItems.map(item => item.order_id).join(','),
-            name: "주문 묶음",
+            name: "pethub결제",
             amount: totalOrderPrice,
             buyer_email: orderItems[0].member_email,
             buyer_name: orderItems[0].member_name,
@@ -351,10 +345,9 @@
         });
     }
 
-
 </script>
 
-
+<!-- 배송지 수정 -->
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
         const modifyButtons = document.querySelectorAll('.delivery_modify_btn');
@@ -402,7 +395,7 @@
     });
 </script>
 
-
+<!-- 주소 찾기 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
