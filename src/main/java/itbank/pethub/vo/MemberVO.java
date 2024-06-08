@@ -18,5 +18,4 @@ public class MemberVO {
     private String profile;
     private int ad;
     private String newpw;
-    private int role;
 }
