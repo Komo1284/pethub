@@ -154,7 +154,7 @@ public class MemberController {
         // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
         if(!file.isEmpty()){
             String url = is.imageUploadFromFile(file);
-            System.out.println("url = " + url);
+
             input.setProfile(url);
             row = ms.update(input);
         } else{ // 이미지 변경 안할 경우
