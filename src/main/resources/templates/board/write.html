@@ -73,7 +73,6 @@
                                 th:name="contents" th:value="${row?.contents}" th:required
                         ></textarea>
                     </div>
-                    <p><input type="file" name="file" th:value="${row?.upload}" th:required></p>
                     <p><input type="hidden" th:name="member_id" th:value="${row?.member_id != null ? row?.member_id : 0}" required></p>
                     <div class="flex justify-end">
                         <button
@@ -90,18 +89,5 @@
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>
-<script>
-
-    ClassicEditor.create( document.querySelector( '#content' ), {
-
-        language: "ko",
-        ckfinder : {
-            uploadUrl: "/image/upload",
-            withCredentials: true
-        }
-
-    } );
-
-</script>
 </body>
 </html>

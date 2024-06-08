@@ -35,8 +35,7 @@
                 </a>
             </nav>
         </aside>
-        <section class="content p-4 md:p-6" th:with="list=${map['list']}, pg=${map['pg']}">
-            <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
+            <div class="flex-1 p-4 md:p-6 mx-8 mt-16" th:with="list=${map['list']}, pg=${map['pg']}">
                 <div class="mb-6 flex justify-between items-center">
                     <h2 class="text-2xl font-bold">Bird</h2>
                     <a th:href="@{/board/write}">
@@ -124,9 +123,8 @@
                             </li>
                         </ul>
                     </nav>
-                    <div class="flex justify-center items-center gap-2 mt-4">
                         <form th:action="@{/board/bird}" method="get" class="flex justify-center items-center gap-2 mt-4">
-                            <input value="5" type="hidden" name="num">
+                            <input value="8" type="hidden" name="num">
                             <select name="group" class="flex h-10 w-1-5 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                                 <option value="title">제목</option>
                                 <option value="nick">작성자</option>
@@ -142,10 +140,8 @@
                                 검색
                             </button>
                         </form>
-                    </div>
                 </div>
             </div>
-        </section>
     </main>
     <div th:replace="~{footer :: footer}"></div>
 </div>

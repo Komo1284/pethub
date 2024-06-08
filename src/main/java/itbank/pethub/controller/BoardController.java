@@ -2,15 +2,15 @@ package itbank.pethub.controller;
 
 import itbank.pethub.service.BoardService;
 import itbank.pethub.vo.BoardVO;
+import itbank.pethub.vo.MemberVO;
 import itbank.pethub.vo.ReplyVO;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import itbank.pethub.vo.ContactForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -101,10 +101,12 @@ public class BoardController {
     public void write() {}
 
     @PostMapping("/write")
-    public ModelAndView addWrite(@RequestPart("file") MultipartFile file, BoardVO input) throws IOException {
+    public ModelAndView addWrite(BoardVO input, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        int id = bs.addWrite(input, file); // file 업로드 추가
-        mav.setViewName("redirect:/board/list"); // board/list로 화면 이동
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        input.setMember_id(user.getId());
+        bs.addWrite(input);
+        mav.setViewName("redirect:/board/list");
         return mav;
     }
 
@@ -114,15 +116,10 @@ public class BoardController {
     public ModelAndView view(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView();
         bs.viewCount(id);
-
-        BoardVO board = bs.getBoard(id);
-        System.out.println("Upload 정보: " + board.getUpload());
-        mav.addObject("row", board);
-
-
+        mav.addObject("row", bs.getBoard(id));
         List<ReplyVO> reply = bs.getReplies(id);
         mav.addObject("reply", reply);
-        System.out.println();
+
         mav.setViewName("board/view");
 
         return mav;
@@ -132,6 +129,7 @@ public class BoardController {
     @GetMapping("/updateBd/{id}")
     public ModelAndView updateBd(@PathVariable int id) {
         ModelAndView mav = new ModelAndView();
+
         mav.addObject("row", bs.getBoard(id));
         mav.setViewName("board/write");
 
@@ -159,21 +157,22 @@ public class BoardController {
 
     // 댓글 추가
     @PostMapping("/addReply")
-    public ModelAndView addReply(ReplyVO input) {
+    public ModelAndView addReply(ReplyVO input, HttpSession session) {
         ModelAndView mav = new ModelAndView();
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        input.setMember_id(user.getId()); // 세션에서 사용자 ID를 가져와서 설정
         bs.addReply(input);
         mav.setViewName("redirect:/board/view/" + input.getBoard_id());
-
         return mav;
     }
 
     // 댓글 삭제
     @PostMapping("/deleteReply/{id}")
-    public ModelAndView deleteReply(@PathVariable int id, @RequestParam("board_id") int boardId) {
+    public ModelAndView deleteReply(@PathVariable int id, HttpSession session, @RequestParam("board_id") int boardId) {
         ModelAndView mav = new ModelAndView();
-        bs.deleteReply(id);
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        bs.deleteReply(id, user.getId());
         mav.setViewName("redirect:/board/view/" + boardId);
-
         return mav;
     }
 
@@ -187,31 +186,40 @@ public class BoardController {
         return mav;
     }
 
+    // 댓글 수정
     @PostMapping("/popUp/{id}")
     public String updateReply(@PathVariable("id") int id, @RequestParam("contents") String contents) {
         ReplyVO input = new ReplyVO();
         input.setId(id);
         input.setContents(contents);
         bs.updateReply(input);
-
         return "redirect:/board/view/" + id;
     }
 
     // 내가 쓴 글 조회
     @GetMapping("/wroteBoard")
-    public ModelAndView wroteBoard(@RequestParam Map<String, Object> param) {
+    public ModelAndView wroteBoard(@RequestParam Map<String, Object> param, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("map", bs.getWroteBoard(param));
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        int memberId = user.getId();
+
+        mav.addObject("map", bs.getWroteBoard(param, memberId));
         mav.setViewName("board/wroteBoard");
+
         return mav;
     }
 
     // 내가 쓴 댓글 조회
     @GetMapping("/wroteReply")
-    public ModelAndView wroteReply(@RequestParam Map<String, Object> param) {
+    public ModelAndView wroteReply(@RequestParam Map<String, Object> param, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("map", bs.getWroteReply(param));
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        int memberId = user.getId();
+
+        mav.addObject("map", bs.getWroteReply(param,memberId));
         mav.setViewName("board/wroteReply");
+
         return mav;
     }
 }

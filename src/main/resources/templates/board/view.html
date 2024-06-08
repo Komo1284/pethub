@@ -104,6 +104,7 @@
                                     <span>수정</span>
                                 </button>
                                 </form>
+                                <br>
                                 <form th:action="'/board/deleteBd/' + ${row.id}" method="get">
                                 <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
                                     <svg
@@ -131,17 +132,8 @@
                         <p th:utext="${row.contents}">
 
                         </p>
-                        <div>
-                            <img th:src="${row.upload}" alt="Uploaded Image">
-                        </div>
                     </article>
-                    <!-- 파일 표시 -->
-                    <!--<div>-->
-                    <!--<p>파일:</p>-->
-                    <!--<a th:href="@{'/downloadFile/' + ${row.id}}">다운로드</a>-->
-                    <!--</div>-->
                 </div>
-
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
                     <h3 class="text-xl font-bold mb-4">댓글 작성란</h3>
                     <div class="flex flex-col gap-4">
@@ -152,6 +144,7 @@
                             th:name="contents" th:value="${row?.contents}" th:required
                         ></textarea>
                         <input type="hidden" name="board_id" th:value="${row?.id}" />
+                        <br>
                         <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
                                 댓글 남기기
                         </button>
@@ -192,11 +185,7 @@
                                 </div>
                             </div>
                             <p class="text-gray-600" th:text="${reply.contents}">
-                                안녕하세요! 저도 예전에 비슷한 문제를 겪었어요. 강아지가 밤에 짖는 이유는 여러 가지가 있을 수 있어요. <br>
-                                불안감이나 외로움 때문에 그럴 수도 있고, 아니면 주변 소음 때문에 예민하게 반응하는 걸 수도 있어요. <br>
-                                저는 강아지에게 안정감을 주기 위해 자기 전에 충분히 놀아주고, 잠자리에 들 때는 편안한 음악을 틀어줬더니 많이 나아졌어요. 한번 시도해 보세요!
                             </p>
-
                             <div class="flex items-center justify-end gap-2 mt-2">
                                 <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
                                         onclick="openPopup(this.getAttribute('data-reply-id'))"

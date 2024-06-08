@@ -20,7 +20,7 @@ public interface BoardDAO {
             "</script>")
     List<BoardVO> selectAll(Map<String, Object> param);
 
-    @Insert("insert into board(title, contents, type, upload, member_id) values(#{title}, #{contents}, #{type}, #{upload}, 1)")
+    @Insert("insert into board(title, contents, type, member_id) values(#{title}, #{contents}, #{type}, #{member_id})")
     int addWrite(BoardVO input);
 
     @Select("select * from board_view where id = #{id}")
@@ -96,7 +96,7 @@ public interface BoardDAO {
     List<ReplyVO> getReplies(int id);
 
     // 댓글 작성
-    @Insert("insert into reply (board_id, member_id, contents) values (#{board_id}, 1, #{contents})")
+    @Insert("insert into reply (board_id, member_id, contents) values (#{board_id}, #{member_id}, #{contents})")
     int addReply(ReplyVO input);
 
     // 댓글 삭제
@@ -107,10 +107,10 @@ public interface BoardDAO {
     @Update("update reply set contents = #{contents} where id = #{id}")
     int updateReply(ReplyVO input);
 
-    @Select("select id from reply_view where id = #{id} ")
+    @Select("select id, board_id, member_id, contents from reply_view where id = #{id}")
     ReplyVO selectReply(int id);
 
-    // 페이징 및 검색 관련
+    // 게시판 페이징 및 검색 관련
     @Select("<script>" +
             "SELECT COUNT(*) FROM board_view where type = #{num} " +
             "<if test='group != null and search != null'> " +
@@ -122,8 +122,9 @@ public interface BoardDAO {
     @Select("SELECT COUNT(*) FROM board_view WHERE type = #{num}")
     int totalboard(int num);
 
+    // 내가 쓴 게시판 및 댓글 관련 목록
     @Select("<script>" +
-            "SELECT * FROM board_view WHERE member_id = 1" +
+            "SELECT * FROM board_view WHERE member_id = #{member_id}" +
             "<if test='group != null and search != null'> " +
             "and ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if> " +
@@ -133,7 +134,7 @@ public interface BoardDAO {
     List<BoardVO> selectAllwroteBoard(Map<String, Object> param);
 
     @Select("<script>" +
-            "SELECT * FROM reply_view WHERE member_id = 1" +
+            "SELECT * FROM reply_view WHERE member_id = #{member_id}" +
             "<if test='group != null and search != null'> " +
             "and ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if> " +
@@ -142,20 +143,26 @@ public interface BoardDAO {
             "</script>")
     List<ReplyVO> selectAllwroteReply(Map<String, Object> param);
 
-    @Select("select count(*) from board_view where member_id = 1")
-    int total();
+    // 내가 쓴 게시판 및 댓글 관련
+    @Select("select count(*) from board_view where member_id = #{member_id}")
+    int total(int member_id);
 
-    @Select("select count(*) from reply_view where member_id = 1")
-    int totalReply();
+    @Select("select count(*) from reply_view where member_id = #{member_id}")
+    int totalReply(int member_id);
 
     @Select("<script>" +
-            "SELECT COUNT(*) FROM reply_view " +
+            "SELECT COUNT(*) FROM reply_view where member_id = #{member_id} " +
             "<if test='group != null and search != null'> " +
-            "where ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if>" +
+            "</script>")
+    int searchReply(Map<String, Object> param);
+
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM board_view where member_id = #{member_id} " +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if>" +
             "</script>")
     int search(Map<String, Object> param);
-
-    @Select("select id from board order by id DESC LIMIT 1 OFFSET 0")
-    int selectLast();
 }
