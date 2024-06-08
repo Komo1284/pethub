@@ -32,4 +32,7 @@ public interface AdminDAO {
 
     @Insert("insert into coupon (code, discount, min_price, discount_limit) values (#{code}, #{discount}, #{min_price}, #{discount_limit})")
     int insertCoupon(CouponVO input);
+
+    @Select("select * from member where role = 0 and ad = 1")
+    List<MemberVO> selectAllMemberAd();
 }

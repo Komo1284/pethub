@@ -63,7 +63,7 @@ public class EmailService {
         helper.setSubject("[Pethub] 공지사항 : " + input.getTitle());
         helper.setText(htmlContent, true);
 
-        List<MemberVO> list = adminDAO.selectAllMember();
+        List<MemberVO> list = adminDAO.selectAllMemberAd();
         for (MemberVO m : list) {
             helper.setTo(m.getEmail());
             emailSender.send(message);
