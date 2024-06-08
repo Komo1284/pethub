@@ -2,11 +2,14 @@ package itbank.pethub.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import itbank.pethub.dto.CustomUserDetails;
+import itbank.pethub.dto.MemberDetails;
 import itbank.pethub.entity.UserEntity;
+import itbank.pethub.vo.MemberVO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,14 +18,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+@RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
-
-    public JWTFilter(JWTUtil jwtUtil) {
-
-        this.jwtUtil = jwtUtil;
-    }
 
 
     @Override
@@ -71,12 +70,12 @@ public class JWTFilter extends OncePerRequestFilter {
         String userid = jwtUtil.getUserid(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserid(userid);
-        userEntity.setRole(role);
-        CustomUserDetails customUserDetails = new CustomUserDetails(userEntity);
+        MemberVO memberVO = new MemberVO();
+        memberVO.setUserid(userid);
+        memberVO.setRole(role);
+        MemberDetails memberDetails = new MemberDetails(memberVO);
 
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+        Authentication authToken = new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);

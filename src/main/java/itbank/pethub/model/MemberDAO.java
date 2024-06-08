@@ -4,6 +4,7 @@ import itbank.pethub.dto.UserDTO;
 import itbank.pethub.oauth2.OAuth2UserPrincipal;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
+import itbank.pethub.vo.RefreshVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -69,4 +70,19 @@ public interface MemberDAO {
 
     @Delete("delete from SnsMember where userid = #{userid}")
     int deleteSns(UserDTO ud);
+
+    @Select("select * from member_address_view where userid = #{userid}")
+    MemberVO findByUserid(String userid);
+
+    @Select("select * from member_address_view where userid = #{userid}")
+    Boolean existsByUserid(String userid);
+
+    @Insert("insert into refresh (userid, refreshtoken, expiration) values(#{userid}, #{refresh}, #{expiration})")
+    void insertRefresh(RefreshVO refreshVO);
+
+    @Select("select * from refresh where refreshtoken = #{refresh}")
+    Boolean existsByRefresh(String refresh);
+
+    @Delete("delete from refresh where refreshtoken = #{refresh}")
+    void deleteByRefresh(String refresh);
 }

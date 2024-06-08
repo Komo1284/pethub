@@ -1,12 +1,13 @@
 package itbank.pethub.controller;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import itbank.pethub.entity.RefreshEntity;
 import itbank.pethub.jwt.JWTUtil;
-import itbank.pethub.repository.RefreshRepository;
+import itbank.pethub.model.MemberDAO;
+import itbank.pethub.vo.RefreshVO;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,16 +18,13 @@ import java.util.Date;
 
 @Controller
 @ResponseBody
+@RequiredArgsConstructor
 public class ReissueController {
 
     private final JWTUtil jwtUtil;
-    private final RefreshRepository refreshRepository;
+    private final MemberDAO dao;
 
-    public ReissueController(JWTUtil jwtUtil, RefreshRepository refreshRepository) {
 
-        this.jwtUtil = jwtUtil;
-        this.refreshRepository = refreshRepository;
-    }
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
@@ -67,23 +65,23 @@ public class ReissueController {
         }
 
         //DB에 저장되어 있는지 확인
-        Boolean isExist = refreshRepository.existsByRefresh(refresh);
+        Boolean isExist = dao.existsByRefresh(refresh);
         if (!isExist) {
 
             //response body
             return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
         }
 
-        String username = jwtUtil.getUserid(refresh);
+        String userid = jwtUtil.getUserid(refresh);
         String role = jwtUtil.getRole(refresh);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", username, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", userid, role, 600000L);
+        String newRefresh = jwtUtil.createJwt("refresh", userid, role, 86400000L);
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
-        refreshRepository.deleteByRefresh(refresh);
-        addRefreshEntity(username, newRefresh, 86400000L);
+        dao.deleteByRefresh(refresh);
+        addRefreshEntity(userid, newRefresh, 86400000L);
 
         //response
         response.setHeader("access", newAccess);
@@ -106,11 +104,11 @@ public class ReissueController {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
-        RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setUserid(userid);
-        refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
+        RefreshVO refreshVO = new RefreshVO();
+        refreshVO.setUserid(userid);
+        refreshVO.setRefresh(refresh);
+        refreshVO.setExpiration(date.toString());
 
-        refreshRepository.save(refreshEntity);
+        dao.insertRefresh(refreshVO);
     }
 }

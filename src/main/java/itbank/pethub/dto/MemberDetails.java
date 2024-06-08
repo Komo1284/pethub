@@ -9,14 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+@RequiredArgsConstructor
 public class MemberDetails implements UserDetails {
 
     private final MemberVO memberVO;
 
-    public MemberDetails(MemberVO memberVO) {
-        this.memberVO = memberVO;
-    }
 
 
     @Override

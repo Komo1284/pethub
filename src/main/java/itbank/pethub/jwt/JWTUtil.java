@@ -13,7 +13,6 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class JWTUtil {
 
     private SecretKey secretKey;
@@ -36,7 +35,7 @@ public class JWTUtil {
 
     public String getJwttype(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("category", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("jwttype", String.class);
     }
 
     public Boolean isExpired(String token) {
@@ -45,11 +44,11 @@ public class JWTUtil {
     }
 
 
-    public String createJwt(String jwttype, String username, String role, Long expiredMs) {
+    public String createJwt(String jwttype, String userid, String role, Long expiredMs) {
 
         return Jwts.builder()
                 .claim("jwttype", jwttype)
-                .claim("username", username)
+                .claim("userid", userid)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))

@@ -5,9 +5,9 @@ import itbank.pethub.dto.MemberDetails;
 import itbank.pethub.dto.UserDTO;
 import itbank.pethub.model.MemberDAO;
 import itbank.pethub.oauth2.OAuth2UserPrincipal;
-import itbank.pethub.repository.MemberRepository;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
+import itbank.pethub.vo.RefreshVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Member;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,12 +26,9 @@ public class MemberService implements UserDetailsService {
     @Autowired
     private MemberDAO dao;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MemberVO memberData = memberRepository.findByUserid(username);
+        MemberVO memberData = dao.findByUserid(username);
 
         if (memberData != null) {
             return new MemberDetails(memberData);
@@ -42,7 +40,7 @@ public class MemberService implements UserDetailsService {
 
     public MemberVO login(MemberVO input) {
         String hash = input.getUserpw();
-        System.out.println(hash);
+
         return dao.selectOne(input);
     }
 
@@ -144,5 +142,19 @@ public class MemberService implements UserDetailsService {
         UserDTO ud = new UserDTO();
         ud.setUserid(userid);
         return dao.deleteSns(ud);
+    }
+
+
+
+    private void addRefreshEntity(String userid, String refresh, Long expiredMs) {
+
+        Date date = new Date(System.currentTimeMillis() + expiredMs);
+
+        RefreshVO refreshVO = new RefreshVO();
+        refreshVO.setUserid(userid);
+        refreshVO.setRefresh(refresh);
+        refreshVO.setExpiration(date.toString());
+
+        dao.insertRefresh(refreshVO);
     }
 }

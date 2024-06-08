@@ -1,15 +1,18 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.jwt.JWTUtil;
 import itbank.pethub.jwt.LoginFilter;
 import itbank.pethub.service.EmailService;
 import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.MemberVO;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,26 +42,6 @@ public class MemberController {
     private final EmailService es;
 
 
-    // 사용자 Id을 가져오는 메서드
-    public String getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getName();
-        }
-        return null; // 또는 적절한 예외 처리
-    }
-
-    // 사용자의 권한(Role)을 가져오는 메서드
-    public String getUserRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            if (!authorities.isEmpty()) {
-                return authorities.iterator().next().getAuthority();
-            }
-        }
-        return null; // 또는 적절한 예외 처리
-    }
 
     @GetMapping("/login")
     public void login() {}

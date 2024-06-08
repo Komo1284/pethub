@@ -1,12 +1,18 @@
 package itbank.pethub.jwt;
 
 import itbank.pethub.dto.CustomUserDetails;
-import itbank.pethub.entity.RefreshEntity;
-import itbank.pethub.repository.RefreshRepository;
+import itbank.pethub.dto.MemberDetails;
+import itbank.pethub.model.MemberDAO;
+import itbank.pethub.vo.MemberVO;
+import itbank.pethub.vo.RefreshVO;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,42 +21,47 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+
+@RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
-    private final RefreshRepository  refreshRepository;
+    private final MemberDAO dao;
 
-
-    public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RefreshRepository refreshRepository) {
-
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-        this.refreshRepository = refreshRepository;
+    @PostConstruct
+    public void init() {
+        super.setFilterProcessesUrl("http://localhost:8081/member/login");
     }
 
+    @Bean
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        String username = obtainUsername(request);
-        String password = obtainPassword(request);
+        String userid = obtainUsername(request);
+        String userpw = obtainPassword(request);
 
-        System.out.println(username);
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userid, userpw, null);
 
         return authenticationManager.authenticate(authToken);
     }
 
+    @Bean
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws ServletException, IOException {
+
+        System.out.println("success");
 
         //유저 정보
-        String username = authentication.getName();
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+
+        String userid = memberDetails.getUsername();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -58,11 +69,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         //토큰 생성
-        String access = jwtUtil.createJwt("access", username, role, 600000L);
-        String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
+        String access = jwtUtil.createJwt("access", userid, role, 600000L);
+        String refresh = jwtUtil.createJwt("refresh", userid, role, 86400000L);
 
         //Refresh 토큰 저장
-        addRefreshEntity(username, refresh, 86400000L);
+        addRefreshEntity(userid, refresh, 86400000L);
 
         //응답 설정
         response.setHeader("access", access);
@@ -70,7 +81,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(HttpStatus.OK.value());
     }
 
-
+    @Bean
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
 
@@ -92,11 +103,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         Date date = new Date(System.currentTimeMillis() + expiredMs);
 
-        RefreshEntity refreshEntity = new RefreshEntity();
-        refreshEntity.setUserid(userid);
-        refreshEntity.setRefresh(refresh);
-        refreshEntity.setExpiration(date.toString());
+        RefreshVO refreshVO = new RefreshVO();
+        refreshVO.setUserid(userid);
+        refreshVO.setRefresh(refresh);
+        refreshVO.setExpiration(date.toString());
 
-        refreshRepository.save(refreshEntity);
+        dao.insertRefresh(refreshVO);
     }
 }
