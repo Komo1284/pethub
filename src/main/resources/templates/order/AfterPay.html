@@ -71,11 +71,6 @@
                                         <span>배송 상태: </span>
                                         <span th:text="${order.delivery_status}"></span>
                                     </li>
-
-
-
-
-
                                 </ul>
                             </div>
                             <!-- 주문 상품 목록 -->
@@ -87,7 +82,7 @@
                                     <th:block th:each="item : ${list}" th:if="${item.cdi == order.cdi}">
                                         <li class="flex items-center justify-between gap-4">
                                             <div class="flex items-center gap-4">
-                                                <img th:src="${product.pic}" alt="제품 이미지" class="aspect-[2/1]" width="400" height="200"/>
+                                                <img th:src="${item.pic}" alt="제품 이미지" class="aspect-[2/1]" width="100" height="50"/>
                                                 <div>
                                                     <h4 class="text-lg font-semibold">상품 명: <span th:text="${item.item_name}"></span></h4>
                                                     <span>수량: <span class="item-count" th:text="${item.count}" data-cdi="${order.cdi}"></span> 개</span>
@@ -103,58 +98,57 @@
 
                         <hr>
                         <br>
-                            <!-- 상품 갯수와 취소 버튼 -->
-                            <li class="flex justify-between items-center">
-                                <!-- 줄 긋기 -->
-                                <hr class="my-4">
+                        <!-- 상품 갯수와 취소 버튼 -->
+                        <li class="flex justify-between items-center">
+                            <!-- 줄 긋기 -->
+                            <hr class="my-4">
 
-                                <!-- 취소 버튼 -->
-                                <div>
-                                    <a th:href="@{'/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-                                        취소 - 하고 있어용
-                                    </a>
+                            <!-- 취소 버튼 -->
+                            <div>
+                                <a th:href="@{'/order/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                    주문 취소
+                                </a>
 
-                                </div>
-                            </li>
-
-
+                            </div>
+                        </li>
                     </div>
                 </th:block>
             </th:block>
         </div>
     </main>
-    <script>
-        // 총 상품 갯수
-        document.addEventListener("DOMContentLoaded", function () {
-            var orders = document.querySelectorAll(".total-items");
-            orders.forEach(function (order) {
-                var cdi = order.getAttribute("data-cdi");
-                var totalItems = 0;
-                var itemElements = document.querySelectorAll(`.item-count[data-cdi='${cdi}']`);
-                itemElements.forEach(function (element) {
-                    totalItems += parseInt(element.textContent);
-                });
-                order.textContent = totalItems + " 개";
-            });
-        });
-
-        // 총 주문 가격
-        document.addEventListener("DOMContentLoaded", function () {
-            var orders = document.querySelectorAll(".total-payment");
-            orders.forEach(function (order) {
-                var cdi = order.getAttribute("data-cdi");
-                var totalPrice = 0;
-                var priceElements = document.querySelectorAll(`.item-price[data-cdi='${cdi}']`);
-                priceElements.forEach(function (element) {
-                    var priceText = element.textContent.replace(' 원', ''); // ' 원' 제거
-                    var price = parseFloat(priceText);
-                    totalPrice += price;
-                });
-                order.textContent = totalPrice.toLocaleString() + " 원";
-            });
-        });
-    </script>
     <div th:replace="~{footer :: footer}"></div>
 </div>
+
+<script>
+    // 총 상품 갯수
+    document.addEventListener("DOMContentLoaded", function () {
+        var orders = document.querySelectorAll(".total-items");
+        orders.forEach(function (order) {
+            var cdi = order.getAttribute("data-cdi");
+            var totalItems = 0;
+            var itemElements = document.querySelectorAll(`.item-count[data-cdi='${cdi}']`);
+            itemElements.forEach(function (element) {
+                totalItems += parseInt(element.textContent);
+            });
+            order.textContent = totalItems + " 개";
+        });
+    });
+
+    // 총 주문 가격
+    document.addEventListener("DOMContentLoaded", function () {
+        var orders = document.querySelectorAll(".total-payment");
+        orders.forEach(function (order) {
+            var cdi = order.getAttribute("data-cdi");
+            var totalPrice = 0;
+            var priceElements = document.querySelectorAll(`.item-price[data-cdi='${cdi}']`);
+            priceElements.forEach(function (element) {
+                var priceText = element.textContent.replace(' 원', ''); // ' 원' 제거
+                var price = parseFloat(priceText);
+                totalPrice += price;
+            });
+            order.textContent = totalPrice.toLocaleString() + " 원";
+        });
+    });
+</script>
 </body>
 </html>

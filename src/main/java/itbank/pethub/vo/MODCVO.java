@@ -9,6 +9,6 @@ import java.util.Date;
 @Getter
 public class MODCVO {
     private int order_id, cdi, member_id, cart_id, order_item, order_price, count, origin_price, discount_price, coupoun_check, delivery_id, delivery_post;
-    private String member_name, item_name, order_status, member_userid, member_nick, member_email, member_address,delivery_status, delivery_address, member_phone;
+    private String member_name, item_name, pic, order_status, member_userid, member_nick, member_email, member_address,delivery_status, delivery_address, member_phone;
     private Date order_date;
 }

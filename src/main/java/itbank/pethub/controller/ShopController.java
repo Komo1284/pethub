@@ -29,6 +29,15 @@ public class ShopController {
         return mav;
     }
 
+    @GetMapping("/category/Items/{category}/{type}")
+    public ModelAndView category(@PathVariable("category") int category, @PathVariable("type") int type) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("product", os.category(category, type));
+        mav.setViewName("shop/Items");  // 뷰의 이름 설정, 앞에 "/"를 제거
+
+        return mav;
+    }
+
 
 
     @GetMapping("/DetailPage/{id}")
