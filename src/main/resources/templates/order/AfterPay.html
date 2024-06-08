@@ -10,7 +10,7 @@
     <style>
         .ck-editor__editable:not(.ck-editor__nested-editable) {
 
-            height: 300px;
+            height: 500px;
         }
     </style>
 </head>
@@ -140,19 +140,19 @@
                                 <form id="review-form" th:action="@{/shop/addReview}" method="post" enctype="multipart/form-data">
                                     <div>
                                         <textarea
-                                            id="contents"
-                                            name="contents"
-                                            rows="2"
-                                            class="block w-1/2 shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-                                            style="width: 50%; height: auto;"
-                                            control-id="ControlID-23"
+                                                id="contents"
+                                                name="contents"
+                                                rows="2"
+                                                class="block w-1/2 shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+                                                style="width: 50%; height: auto;"
+                                                control-id="ControlID-23"
                                         ></textarea>
                                     </div>
 
                                     <div class="mt-2">
                                     <label for="rating">평점:</label>
                                     <select name="rating" id="rating" required>
-                                        <option value="">별로 만들어줘</option>
+                                        <option value="-">-</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -161,8 +161,8 @@
                                     </select>
                                     </div>
 
-                                    <label for="file-upload">사진 첨부:</label>
-                                    <input type="file" name="file-upload" id="file-upload" accept="image/*">
+                                    <!--<label for="file-upload">사진 첨부:</label>
+                                    <input type="file" name="file-upload" id="file-upload" accept="image/*">-->
                                     <input type="hidden" name="item_id" id="item-id">
                                     <button id="review-submit-btn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
                                         작성
