@@ -12,7 +12,7 @@
     <div th:replace="~{header :: header}"></div>
     <main class="flex-1 flex justify-center">
         <section class="py-16">
-            <div class="container mx-auto px-4 md:px-6">
+            <div class="container mx-auto px-4 md:px-6 min-w-[800px]">
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <br>
                     <h1 class="text-4xl font-bold" th:text="${row.title}"></h1>
@@ -21,9 +21,9 @@
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-4">
                                 <div class="flex items-center gap-2">
-                  <span class="relative flex shrink-0 overflow-hidden rounded-full w-6 h-6">
-                    <img class="aspect-square h-full w-full" alt="Author" src="/placeholder-user.jpg" />
-                  </span>
+                                    <span class="relative flex shrink-0 overflow-hidden rounded-full w-12 h-12">
+                                        <img class="aspect-square h-full w-full" alt="profile" th:src="@{${row.profile}}"/>
+                                    </span>
                                     <span th:text="${row.nick}"></span>
                                 </div>
                                 <div class="flex items-center gap-2">
@@ -85,46 +85,48 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <form th:action="'/board/updateBd/' + ${row.id}" method="get">
-                                <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="w-4 h-4"
-                                    >
-                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                                        <path d="m15 5 4 4"></path>
-                                    </svg>
-                                    <span>수정</span>
-                                </button>
+                                    <button type="submit"
+                                            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="w-4 h-4"
+                                        >
+                                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                                            <path d="m15 5 4 4"></path>
+                                        </svg>
+                                        <span>수정</span>
+                                    </button>
                                 </form>
                                 <br>
                                 <form th:action="'/board/deleteBd/' + ${row.id}" method="get">
-                                <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="w-4 h-4"
-                                    >
-                                        <path d="M3 6h18"></path>
-                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                    </svg>
-                                    <span>삭제</span>
-                                </button>
+                                    <button type="submit"
+                                            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="w-4 h-4"
+                                        >
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                        </svg>
+                                        <span>삭제</span>
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -137,29 +139,29 @@
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
                     <h3 class="text-xl font-bold mb-4">댓글 작성란</h3>
                     <div class="flex flex-col gap-4">
-                    <form th:action="@{/board/addReply}" method="post">
+                        <form th:action="@{/board/addReply}" method="post">
                         <textarea
-                            class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="여기에 댓글을 작성하세요..."
-                            th:name="contents" th:value="${row?.contents}" th:required
+                                class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                placeholder="여기에 댓글을 작성하세요..."
+                                th:name="contents" th:value="${row?.contents}" th:required
                         ></textarea>
-                        <input type="hidden" name="board_id" th:value="${row?.id}" />
-                        <br>
-                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
+                            <input type="hidden" name="board_id" th:value="${row?.id}"/>
+                            <br>
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2">
                                 댓글 남기기
-                        </button>
-                    </form>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
                 <div class="mt-8 bg-white rounded-lg shadow-md p-6">
-                                    <h3 class="text-xl font-bold mb-4">댓글</h3>
-                                    <div class="grid gap-4">
-                                        <div class="bg-gray-100 p-4 rounded-md" th:each="reply : ${reply}">
-                                            <div class="flex items-center justify-between mb-2">
-                                                <div class="flex items-center gap-2">
-                  <span class="relative flex shrink-0 overflow-hidden rounded-full w-6 h-6">
-                    <img class="aspect-square h-full w-full" alt="Author" th:src="${'/placeholder-user.jpg'}" />
+                    <h3 class="text-xl font-bold mb-4">댓글</h3>
+                    <div class="grid gap-4">
+                        <div class="bg-gray-100 p-4 rounded-md" th:each="reply : ${replys}">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2">
+                  <span class="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10">
+                    <img class="aspect-square h-full w-full" alt="Author" th:src="@{${reply.profile}}"/>
                   </span>
                                     <span th:text="${reply.nick}"></span>
                                 </div>
@@ -190,7 +192,9 @@
                                 <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
                                         onclick="openPopup(this.getAttribute('data-reply-id'))"
                                         th:attr="data-reply-id=${reply.id}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round" class="w-4 h-4">
                                         <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
                                         <path d="m15 5 4 4"></path>
                                     </svg>
@@ -198,26 +202,27 @@
                                 </button>
 
                                 <form th:action="@{'/board/deleteReply/' + ${reply.id}}" method="post" id="deleteForm">
-                                    <input type="hidden" name="board_id" th:value="${row.id}" />
-                                <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
-                                    <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="w-4 h-4"
-                                    >
-                                        <path d="M3 6h18"></path>
-                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                    </svg>
-                                    <span>삭제</span>
-                                </button>
+                                    <input type="hidden" name="board_id" th:value="${row.id}"/>
+                                    <button type="submit"
+                                            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="w-4 h-4"
+                                        >
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                        </svg>
+                                        <span>삭제</span>
+                                    </button>
                                 </form>
                             </div>
                         </div>

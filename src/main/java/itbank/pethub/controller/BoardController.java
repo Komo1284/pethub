@@ -116,9 +116,10 @@ public class BoardController {
     public ModelAndView view(@PathVariable(name = "id") int id) {
         ModelAndView mav = new ModelAndView();
         bs.viewCount(id);
+
         mav.addObject("row", bs.getBoard(id));
         List<ReplyVO> reply = bs.getReplies(id);
-        mav.addObject("reply", reply);
+        mav.addObject("replys", reply);
 
         mav.setViewName("board/view");
 
