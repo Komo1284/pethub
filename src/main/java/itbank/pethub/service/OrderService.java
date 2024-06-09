@@ -133,8 +133,4 @@ public class OrderService {
         return od.getOrderIds(cartItemId);
     }
 
-
-    public int getorder_id(int cartItemId) {
-        return od.getorder_id(cartItemId);
-    }
 }
