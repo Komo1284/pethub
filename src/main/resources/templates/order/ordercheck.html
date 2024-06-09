@@ -51,13 +51,6 @@
                         <h3 class="text-lg font-semibold mb-2">상품 정보</h3>
                         <ul class="space-y-4">
                             <li th:each="row : ${list}" class="flex items-center gap-4">
-                                <img
-                                        src="/placeholder.svg"
-                                        alt="Product Image"
-                                        width="100"
-                                        height="100"
-                                        class="w-20 h-20 object-cover rounded-md"
-                                        style="aspect-ratio: 100 / 100; object-fit: cover;"/>
                                 <div>
                                     <h4 class="text-lg font-semibold">상품 명: <span th:text="${row.item_name}"></span></h4>
                                     <span>수량: <span class="item-count" th:text="${row.count} + ' 개'"></span></span>
@@ -89,16 +82,16 @@
         document.getElementById("totalItems").textContent = totalItems + " Items";
     });
 
-    // 총 주문 가격
-    document.addEventListener("DOMContentLoaded", function() {
-        var totalPrice = 0;
-        var priceElements = document.querySelectorAll(".item-price");
-        priceElements.forEach(function(element) {
-            var priceText = element.textContent.replace(' 원', ''); // ' 원' 제거
-            var price = parseFloat(priceText);
-            totalPrice += price;
-        });
-        document.getElementById("totalPayment").textContent = totalPrice.toLocaleString() + " 원";
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // 총 주문 가격
+        const totalOrderPrice = localStorage.getItem('totalOrderPrice');
+        if (totalOrderPrice) {
+            document.getElementById('totalPayment').textContent = parseFloat(totalOrderPrice).toLocaleString() + " 원";
+            // Or use the totalOrderPrice for any other logic you need on this page
+        }
     });
 </script>
 

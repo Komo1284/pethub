@@ -314,9 +314,9 @@
 
         IMP.request_pay({
             pg: "html5_inicis",
-            pay_method: selectedPayMethod,
+            pay_method: "vbank",
             merchant_uid: uniqueMerchantUid, // Use the unique merchant UID
-            name: "pethub결제",
+            name: "주문 묶음",
             amount: totalOrderPrice,
             buyer_email: customerEmail,
             buyer_name: customerName,
@@ -324,6 +324,9 @@
             buyer_addr: deliveryAddress
         }, function (rsp) {
             if (rsp.success) {
+                // Save total order price to localStorage
+                localStorage.setItem('totalOrderPrice', totalOrderPrice);
+
                 // If payment is successful, send data to the server
                 orderItems.forEach(function (orderItem) {
                     var xhr = new XMLHttpRequest();
