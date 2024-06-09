@@ -55,6 +55,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         clearAuthenticationAttributes(request, response);
         System.out.println(targetUrl);
+        targetUrl = "http://localhost:8081/member";
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
 
     }
@@ -92,15 +93,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             );
             JWTUtil jwtUtil = new JWTUtil();
-            String userid = jwtUtil.getUserid(principal.getUserInfo().getAccessToken());
-            String role = jwtUtil.getRole(principal.getUserInfo().getAccessToken());
+            String userid = jwtUtil.getUserid(principal.getUserInfo().getId());
+            String role = null;
 
-            String access_token = jwtUtil.createJwt("access", userid, role, 600000L);
             String refresh_token = jwtUtil.createJwt("refresh", userid, role, 86400000L);
 
             UserDTO ud = new UserDTO();
 
-            ud.setAccess_token(access_token);
+            ud.setAccess_token(principal.getUserInfo().getAccessToken());
             ud.setRefresh_token(refresh_token);
             ud.setNickname(principal.getUserInfo().getNickname());
             ud.setUserid(principal.getUserInfo().getId());
@@ -109,12 +109,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             ms.addSnsuser(ud);
 
-            String accessToken = "test_access_token";
-            String refreshToken = "test_refresh_token";
 
             return UriComponentsBuilder.fromUriString(targetUrl)
-                    .queryParam("access_token", accessToken)
-                    .queryParam("refresh_token", refreshToken)
+                    .path("/snslogin")
+                    .queryParam("userid", ud.getUserid())
+                    .queryParam("access_token", ud.getAccess_token())
+                    .queryParam("refresh_token", ud.getRefresh_token())
                     .build().toUriString();
 
         } else if ("unlink".equalsIgnoreCase(mode)) {
@@ -129,6 +129,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             oAuth2UserUnlinkManager.unlink(provider, accessToken);
 
             return UriComponentsBuilder.fromUriString(targetUrl)
+                    .path("/snslogout")
                     .build().toUriString();
         }
 

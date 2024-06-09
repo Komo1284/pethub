@@ -3,6 +3,7 @@ package itbank.pethub.service;
 import itbank.pethub.aop.PasswordEncoder;
 import itbank.pethub.dto.MemberDetails;
 import itbank.pethub.dto.UserDTO;
+import itbank.pethub.jwt.JWTUtil;
 import itbank.pethub.model.MemberDAO;
 import itbank.pethub.oauth2.OAuth2UserPrincipal;
 import itbank.pethub.vo.CouponVO;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,11 +130,17 @@ public class MemberService implements UserDetailsService {
     public int updateSnsUser(OAuth2UserPrincipal principal) {
 
         String userid = principal.getUserInfo().getId();
+        String access_token = principal.getUserInfo().getAccessToken();
 
+        // userid 와 같은 데이터를 불러오기
         UserDTO ud = new UserDTO();
         ud.setUserid(userid);
+        UserDTO ud2 =  dao.selectSnsUser(ud.getUserid());
 
-        return dao.updateSns(ud);
+        ud2.setAccess_token(access_token);
+
+
+        return dao.updateSns(ud2);
 
     }
 
@@ -156,5 +164,42 @@ public class MemberService implements UserDetailsService {
         refreshVO.setExpiration(date.toString());
 
         dao.insertRefresh(refreshVO);
+    }
+
+    public UserDTO snslogin(String accessToken, String refreshToken, String userid) {
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setAccess_token(accessToken);
+        userDTO.setRefresh_token(refreshToken);
+
+        UserDTO userDTO2 = new UserDTO();
+        userDTO2.setUserid(userid);
+        userDTO2 = dao.selectSnsUser(userDTO2.getUserid());
+
+        JWTUtil jwtUtil = new JWTUtil();
+
+        if (userDTO.getAccess_token().equals(userDTO2.getAccess_token())
+                && userDTO.getRefresh_token().equals(userDTO2.getRefresh_token())) {
+
+            return userDTO2;
+        } else if (userDTO2.getRefresh_token().equals(userDTO.getRefresh_token())
+                && !userDTO2.getAccess_token().equals(userDTO.getAccess_token())) {
+
+
+            String access = jwtUtil.createJwt("access", userDTO2.getUserid(), null, 600000L);
+
+            userDTO2.setAccess_token(access);
+
+        } else if (!userDTO2.getRefresh_token().equals(userDTO.getRefresh_token())) {
+
+            String refresh = jwtUtil.createJwt("refresh", userDTO2.getUserid(), null, 86400000L);
+
+            userDTO2.setRefresh_token(refresh);
+
+
+        }
+
+        return userDTO2;
+
     }
 }

@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
@@ -57,9 +57,30 @@ public class MemberController {
 
     }
 
+    @GetMapping("/snslogin")
+    public ModelAndView snslogin(@RequestParam String access_token,
+                                 @RequestParam String refresh_token,
+                                 @RequestParam String userid,
+                                 HttpSession session) {
+
+        ModelAndView mav = new ModelAndView();
+        session.setAttribute("user", ms.snslogin(access_token, refresh_token, userid));
+        mav.setViewName("redirect:/");
+
+        return mav;
+
+    }
+
+
     // 로그아웃 버튼 클릭시 세션에서 'user'를 삭제후 홈으로 리다이렉트
     @GetMapping("/logout")
     public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
+
+    @GetMapping("/snslogout")
+    public String snslogout(HttpSession session) {
         session.removeAttribute("user");
         return "redirect:/";
     }

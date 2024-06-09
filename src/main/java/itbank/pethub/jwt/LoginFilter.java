@@ -34,10 +34,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JWTUtil jwtUtil;
     private final MemberDAO dao;
 
-    @PostConstruct
-    public void init() {
-        super.setFilterProcessesUrl("http://localhost:8081/member/login");
-    }
+//    @PostConstruct
+//    public void init() {
+//        super.setFilterProcessesUrl("http://localhost:8081/member/login");
+//    }
 
     @Bean
     @Override

@@ -65,7 +65,7 @@ public interface MemberDAO {
     @Select("select * from SnsMember where userid = #{userid}")
     UserDTO selectSnsUser(String userid);
 
-    @Update("update SnsMember set access_token = refresh_token where userid = #{userid}")
+    @Update("update SnsMember set access_token = #{access_token} where userid = #{userid} and refresh_token = #{refresh_token}")
     int updateSns(UserDTO ud);
 
     @Delete("delete from SnsMember where userid = #{userid}")
@@ -85,4 +85,7 @@ public interface MemberDAO {
 
     @Delete("delete from refresh where refreshtoken = #{refresh}")
     void deleteByRefresh(String refresh);
+
+    @Select("select * from SnsMember where access_token = #{access_token} and refresh_token = #{refresh_token}")
+    UserDTO selectSnsUserOne(UserDTO userDTO);
 }
