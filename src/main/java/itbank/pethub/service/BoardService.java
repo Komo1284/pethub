@@ -50,29 +50,7 @@ public class BoardService {
 
     // 글 작성
     public int addWrite(BoardVO input) {
-        String categoryName = getCategory(input.getType());
-        input.setCategory(categoryName);
-
         return bd.addWrite(input);
-    }
-
-    public String getCategory(int typeId) {
-        switch (typeId) {
-            case 1:
-                return "공지사항";
-            case 6:
-                return "개";
-            case 7:
-                return "고양이";
-            case 8:
-                return "새";
-            case 9:
-                return "기타";
-            case 5:
-                return "자유";
-            default:
-                return "";
-        }
     }
 
     // 글 하나 선택
@@ -82,9 +60,6 @@ public class BoardService {
 
     // 글 수정
     public int upBoard(BoardVO input) {
-        String categoryName = getCategory(input.getType());
-        input.setCategory(categoryName);
-
         return bd.updateBoard(input);
     }
 
