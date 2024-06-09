@@ -45,6 +45,9 @@
                 <a class="block px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700" th:href="@{/board/etc}">
                     etc
                 </a>
+                <a class="block px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700" th:href="@{/board/free}">
+                    자유
+                </a>
             </nav>
         </aside>
             <div class="flex-1 p-4 md:p-6 mx-8 mt-16" th:with="list=${map['list']}, pg=${map['pg']}">
@@ -78,6 +81,18 @@
                         </tr>
                         </thead>
                         <tbody class="[&amp;_tr:last-child]:border-0">
+                        <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" th:each="notice : ${recentNotices}">
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.id}">1</td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;">
+                                <a class="text-orange-600 hover:underline"
+                                   th:text="${notice.title}"
+                                   th:href="@{/board/view/{id}(id=${notice.id})}">
+                                </a>
+                            </td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.nick}">John Doe</td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.v_count}">245</td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.w_date}">2023-05-01</td>
+                        </tr>
                         <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" th:each="row : ${list}">
                             <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.id}">1</td>
                             <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
