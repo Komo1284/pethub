@@ -1,8 +1,10 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.service.AdminService;
+import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.CouponVO;
+import itbank.pethub.vo.ItemVO;
 import itbank.pethub.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin")
@@ -20,12 +25,46 @@ public class AdminController {
 
     private final AdminService as;
     private final MemberService ms;
+    private final ImageService is;
 
     @GetMapping("/product_registration")
     public void adminProductRegistration() {}
 
-    @GetMapping("/manage_orders")
-    public void adminManageOrders() {}
+    @PostMapping("/product_registration")
+    public ModelAndView adminProductRegistration(ItemVO item, MultipartFile file) throws IOException {
+        ModelAndView mav = new ModelAndView("admin/product_registration");
+        String msg;
+
+        if (item.getType() == 0) {
+            msg = "제품의 타입을 선택해주세요.";
+            mav.addObject("msg", msg);
+            return mav;
+        } else if (item.getCategory() == 0) {
+            msg = "제품의 카테고리를 선택해주세요.";
+            mav.addObject("msg", msg);
+            return mav;
+        }
+
+        item.setPic(is.imageUploadFromFile(file));
+        int result = as.AddProduct(item);
+        if (result == 1) {
+            msg = "상품등록에 성공하였습니다.";
+        } else {
+            msg = "상품등록중 에러가 발생하였습니다.";
+        }
+
+        mav.addObject("msg", msg);
+        return mav;
+    }
+
+    @GetMapping("/manage_orders/{id}")
+    public ModelAndView adminManageOrders(@PathVariable("id") int id) {
+        ModelAndView mav = new ModelAndView("admin/manage_orders");
+
+        mav.addObject("list", as.selectAll(id));
+
+        return mav;
+    }
 
     @GetMapping("/insert")
     public void adminInsert() {}
