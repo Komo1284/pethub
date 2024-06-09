@@ -161,8 +161,10 @@ public class OrderController {
 
         ModelAndView mav = new ModelAndView();
         int order_id=deliveryInfo.getOrder_id();
+        System.out.println(order_id);
 
         os.updateorder(order_id);
+
         mav.setViewName("redirect:/order/cart");
         return mav;
     }
