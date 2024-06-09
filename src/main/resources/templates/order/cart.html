@@ -22,13 +22,14 @@
                             <li class="flex items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
                                     <img
-                                            src="/placeholder.svg"
+                                            th:src="${row.item_pic}"
                                             alt="Product Image"
                                             width="100"
                                             height="100"
                                             class="w-20 h-20 object-cover rounded-md"
                                             style="aspect-ratio: 100 / 100; object-fit: cover;"
                                     />
+
                                     <div>
                                         <!--<h3 class="text-lg font-semibold">카트 번호: <a th:text="${row.cart_deperate_id}"></a></h3>
                                         <h3 class="text-lg font-semibold">주문 번호: <a th:text="${row.order_id}"></a></h3>

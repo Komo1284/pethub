@@ -123,6 +123,7 @@ public class ShopController {
             AddressVO av=os.getAddress(memberId);
             DeliveryVO dv=new DeliveryVO();
 
+
             String add=av.getPrimary_address();
             String add_detail=av.getAddress_details();
 
@@ -141,6 +142,7 @@ public class ShopController {
             os.makeOrder(ov);
 
             ItemVO iv=os.getItem(productId);
+            String pic=iv.getPic();
 
             int orderid = os.getorderid();
 
@@ -152,6 +154,7 @@ public class ShopController {
             cv.setCount(quantity);
             cv.setOrigin_price(iv.getPrice());
             cv.setItem_name(iv.getName());
+            cv.setItem_pic(pic);
 
 
             int existingcartid=os.getexistingcartid(memberId);
@@ -160,9 +163,23 @@ public class ShopController {
             if (existingcartid != 0){
                 MODCVO cartid=os.getcartid(memberId);
                 cv.setCart_deperate_id(cartid.getCdi());
+                cv.setOrder_id(orderid);
+                cv.setOrder_item(productId);
+                cv.setOrder_price(iv.getPrice());
+                cv.setCount(quantity);
+                cv.setOrigin_price(iv.getPrice());
+                cv.setItem_name(iv.getName());
+                cv.setItem_pic(pic);
                 os.makeCartid(cv);
             }
             else{
+                cv.setOrder_id(orderid);
+                cv.setOrder_item(productId);
+                cv.setOrder_price(iv.getPrice());
+                cv.setCount(quantity);
+                cv.setOrigin_price(iv.getPrice());
+                cv.setItem_name(iv.getName());
+                cv.setItem_pic(pic);
                 os.makeCart(cv);
             }
         }
@@ -231,6 +248,7 @@ public class ShopController {
             os.makeOrder(ov);
 
             ItemVO iv = os.getItem(productId);
+            String pic=iv.getPic();
 
             int orderid = os.getorderid();
 
@@ -240,6 +258,7 @@ public class ShopController {
             cv.setOrder_price(iv.getPrice());
             cv.setCount(quantity);
             cv.setOrigin_price(iv.getPrice());
+            cv.setItem_pic(pic);
             cv.setItem_name(iv.getName());
 
 
@@ -249,9 +268,23 @@ public class ShopController {
             if (existingcartid != 0){
                 MODCVO cartid=os.getcartid(memberId);
                 cv.setCart_deperate_id(cartid.getCdi());
+                cv.setOrder_id(orderid);
+                cv.setOrder_item(productId);
+                cv.setOrder_price(iv.getPrice());
+                cv.setCount(quantity);
+                cv.setOrigin_price(iv.getPrice());
+                cv.setItem_name(iv.getName());
+                cv.setItem_pic(pic);
                 os.makeCartid(cv);
             }
             else{
+                cv.setOrder_id(orderid);
+                cv.setOrder_item(productId);
+                cv.setOrder_price(iv.getPrice());
+                cv.setCount(quantity);
+                cv.setOrigin_price(iv.getPrice());
+                cv.setItem_name(iv.getName());
+                cv.setItem_pic(pic);
                 os.makeCart(cv);
             }
         }

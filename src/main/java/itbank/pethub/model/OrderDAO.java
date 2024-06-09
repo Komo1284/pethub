@@ -22,7 +22,7 @@ public interface OrderDAO {
     @Select("SELECT id FROM `order` ORDER BY id DESC LIMIT 1")
     int getorderid();
 
-    @Insert("insert into cart (order_id, order_item, order_price, count, origin_price, item_name) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price}, #{item_name})")
+    @Insert("insert into cart (order_id, order_item, order_price, count, origin_price, item_name, item_pic) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price}, #{item_name}, #{item_pic})")
     int makecart(CartVO cv);
 
     @Update("UPDATE cart SET count = count + #{count} WHERE id = #{id} AND order_id IN (SELECT o.id FROM `order` o " +
@@ -87,7 +87,7 @@ public interface OrderDAO {
     @Select("SELECT * FROM modc WHERE member_id=#{memberid} AND order_status='주문 접수' ORDER BY order_date DESC LIMIT 1")
     MODCVO getcartid(int memberid);
 
-    @Insert("insert into cart (order_id, order_item, order_price, count, origin_price, cart_deperate_id) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price}, #{cart_deperate_id})")
+    @Insert("insert into cart (order_id, order_item, order_price, count, origin_price, cart_deperate_id, item_name, item_pic) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price}, #{cart_deperate_id}, #{item_name}, #{item_pic})")
     int makeCartid(CartVO cv);
 
     @Select("select count(*) from modc where member_id=#{memberid} and order_status='주문 접수'")

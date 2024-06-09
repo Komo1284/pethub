@@ -214,5 +214,25 @@
 
 </script>
 
+<!-- Include this at the end of the body, just before the closing </body> tag -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ordersContainer = document.querySelector('.flex-1.p-4.md\\:p-6.mx-8.mt-16');
+        const orders = Array.from(ordersContainer.children);
+
+        // Reverse the order of the orders
+        orders.reverse();
+
+        // Clear the container
+        ordersContainer.innerHTML = '';
+
+        // Append the orders in reversed order
+        orders.forEach(order => ordersContainer.appendChild(order));
+    });
+</script>
+</body>
+</html>
+
+
 </body>
 </html>
