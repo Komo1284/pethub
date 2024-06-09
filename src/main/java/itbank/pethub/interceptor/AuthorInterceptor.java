@@ -27,6 +27,10 @@ public class AuthorInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        if (user.getRole() == 1 || user.getRole() == 2) {
+            return true;
+        }
+
         String uri = request.getRequestURI();
         int boardId = Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
         BoardVO board = bs.getBoard(boardId);

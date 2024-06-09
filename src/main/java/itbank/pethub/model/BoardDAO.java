@@ -20,13 +20,13 @@ public interface BoardDAO {
             "</script>")
     List<BoardVO> selectAll(Map<String, Object> param);
 
-    @Insert("insert into board(title, contents, type, member_id) values(#{title}, #{contents}, #{type}, #{member_id})")
+    @Insert("INSERT INTO board(title, contents, type, member_id, category) VALUES(#{title}, #{contents}, #{type}, #{member_id}, #{category})")
     int addWrite(BoardVO input);
 
     @Select("select * from board_view where id = #{id}")
     BoardVO selectOne(int id);
 
-    @Update("update board set title = #{title}, contents = #{contents}, type = #{type} where id = #{id}")
+    @Update("update board set title = #{title}, contents = #{contents}, type = #{type}, category = #{category} where id = #{id}")
     int updateBoard(BoardVO input);
 
     @Delete("delete from board where id = #{id}")

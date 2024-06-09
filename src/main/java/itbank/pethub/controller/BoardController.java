@@ -108,6 +108,7 @@ public class BoardController {
         ModelAndView mav = new ModelAndView();
         MemberVO user = (MemberVO) session.getAttribute("user");
         input.setMember_id(user.getId());
+
         bs.addWrite(input);
         if(input.getType() == 1){
             es.sendNotice(input);
@@ -117,14 +118,18 @@ public class BoardController {
         return mav;
     }
 
-
     // 글 내용 보기
     @GetMapping("/view/{id}")
-    public ModelAndView view(@PathVariable(name = "id") int id) {
+    public ModelAndView view(@PathVariable(name = "id") int id, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         bs.viewCount(id);
 
-        mav.addObject("row", bs.getBoard(id));
+        BoardVO row = bs.getBoard(id);
+        mav.addObject("row", row);
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        mav.addObject("user", user);
+
         List<ReplyVO> reply = bs.getReplies(id);
         mav.addObject("replys", reply);
 
