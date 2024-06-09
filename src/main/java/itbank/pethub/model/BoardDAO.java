@@ -20,15 +20,19 @@ public interface BoardDAO {
             "</script>")
     List<BoardVO> selectAll(Map<String, Object> param);
 
-    @Insert("INSERT INTO board(title, contents, type, member_id, category) VALUES(#{title}, #{contents}, #{type}, #{member_id}, #{category})")
+    // 글 작성
+    @Insert("INSERT INTO board(title, contents, type, member_id) VALUES(#{title}, #{contents}, #{type}, #{member_id})")
     int addWrite(BoardVO input);
 
+    // 글 선택
     @Select("select * from board_view where id = #{id}")
     BoardVO selectOne(int id);
 
-    @Update("update board set title = #{title}, contents = #{contents}, type = #{type}, category = #{category} where id = #{id}")
+    // 글 수정
+    @Update("update board set title = #{title}, contents = #{contents}, type = #{type} where id = #{id}")
     int updateBoard(BoardVO input);
 
+    // 글 삭제
     @Delete("delete from board where id = #{id}")
     int deleteBoard(int id);
 
