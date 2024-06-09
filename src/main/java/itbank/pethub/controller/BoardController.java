@@ -3,19 +3,22 @@ package itbank.pethub.controller;
 import itbank.pethub.service.BoardService;
 import itbank.pethub.service.EmailService;
 import itbank.pethub.vo.BoardVO;
-import itbank.pethub.vo.ContactForm;
 import itbank.pethub.vo.MemberVO;
 import itbank.pethub.vo.ReplyVO;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import itbank.pethub.vo.ContactForm;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/board")

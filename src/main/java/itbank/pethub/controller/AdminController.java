@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.service.AdminService;
+import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin")

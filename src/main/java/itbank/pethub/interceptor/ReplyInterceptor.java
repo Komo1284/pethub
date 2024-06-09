@@ -1,6 +1,7 @@
 package itbank.pethub.interceptor;
 
 import itbank.pethub.service.BoardService;
+import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.MemberVO;
 import itbank.pethub.vo.ReplyVO;
 import jakarta.servlet.http.HttpServletRequest;

@@ -19,21 +19,14 @@
                         <ul class="space-y-4">
                             <li class="flex items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
-                                    <img
-                                            src="/placeholder.svg"
-                                            alt="Product Image"
-                                            width="100"
-                                            height="100"
-                                            class="w-20 h-20 object-cover rounded-md"
-                                            style="aspect-ratio: 100 / 100; object-fit: cover;"
-                                    />
                                     <div>
                                         <h3 class="text-lg font-semibold">주문 번호: <span class="order_id"
                                                                                        th:text="${row.order_id}"></span>
                                         </h3>
                                         <h3 class="text-lg font-semibold">상품 번호: <span
                                                 th:text="${row.order_item}"></span></h3>
-                                        <h3 class="text-lg font-semibold">상품 명: 몰라요~~ </h3>
+                                        <p class="text-lg font-semibold">상품 명: <span
+                                                th:text="${row.item_name}"></span></p>
                                         <p class="text-gray-500">합계 가격: <span
                                                 th:text="${row.order_price*row.count}"></span></p>
                                         <div class="flex items-center gap-2">
@@ -279,29 +272,31 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script>
     var IMP = window.IMP;
-    IMP.init("imp01786831");
+    IMP.init("imp01786831"); // Replace with your actual merchant code
 
     function requestPay() {
         var selectedPayMethod = document.querySelector('input[name="pay_method"]:checked').value;
         var totalOrderPrice = parseFloat(document.getElementById('total').textContent);
+
         if (isNaN(totalOrderPrice) || totalOrderPrice <= 0) {
             alert("총 주문 가격이 올바르지 않습니다.");
             return;
         }
+
         let primaryAddressValue = document.getElementById('primary_address').value;
         let addressdetail = document.getElementById('address_details').value;
         let realadd = primaryAddressValue + addressdetail;
 
         var orderItems = [];
-        var orderIds1 = document.querySelectorAll('.order_id');
+        var orderIds = document.querySelectorAll('.order_id');
         var customerName = document.getElementById('customerName').textContent.trim().split(": ")[1];
         var customerPhone = document.getElementById('customerPhone').textContent.trim().split(": ")[1];
         var customerEmail = document.getElementById('customerEmail').textContent.trim().split(": ")[1];
         var deliveryAddress = realadd;
 
-        orderIds1.forEach(function (orderIds1) {
+        orderIds.forEach(function (orderIdElement) {
             var orderItem = {
-                order_id: orderIds1.innerHTML,
+                order_id: orderIdElement.innerHTML,
                 member_name: customerName,
                 member_phone: customerPhone,
                 member_email: customerEmail,
@@ -310,39 +305,38 @@
             orderItems.push(orderItem);
         });
 
-
         if (orderItems.length === 0) {
             alert("주문 항목이 없습니다.");
             return;
         }
+
+        var uniqueMerchantUid = 'merchant_' + new Date().getTime(); // Create a unique merchant UID
+
         IMP.request_pay({
             pg: "html5_inicis",
-            pay_method: "vbank",
-            merchant_uid: orderItems.map(item => item.order_id).join(','),
-            name: "주문 묶음",
+            pay_method: selectedPayMethod,
+            merchant_uid: uniqueMerchantUid, // Use the unique merchant UID
+            name: "pethub결제",
             amount: totalOrderPrice,
-            buyer_email: orderItems[0].member_email,
-            buyer_name: orderItems[0].member_name,
-            buyer_tel: orderItems[0].member_phone,
-            buyer_addr: orderItems[0].address
+            buyer_email: customerEmail,
+            buyer_name: customerName,
+            buyer_tel: customerPhone,
+            buyer_addr: deliveryAddress
         }, function (rsp) {
             if (rsp.success) {
-                // 결제가 성공했을 때만 AJAX 요청을 보냄
+                // If payment is successful, send data to the server
                 orderItems.forEach(function (orderItem) {
                     var xhr = new XMLHttpRequest();
-
                     xhr.open("POST", "/order/updateDeliveryInfo", true);
-
                     xhr.setRequestHeader("Content-Type", "application/json");
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4 && xhr.status === 200) {
-                            alert("배송 정보가 업데이트되었습니다.");
-
-                            // 결제 성공 후 페이지 이동
-                            window.location.href = "/order/ordercheck"; // 이동할 페이지 URL
+                            alert("결제가 완료 되었습니다.");
+                            // Redirect to the order check page after successful payment
+                            window.location.href = "/order/ordercheck";
                         }
                     };
-                    var data = {order_id: orderItem.order_id};
+                    var data = { order_id: orderItem.order_id };
                     xhr.send(JSON.stringify(data));
                 });
             } else {
@@ -350,6 +344,11 @@
             }
         });
     }
+
+    // Ensure all the scripts are loaded before running
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('checkoutBtn').addEventListener('click', requestPay);
+    });
 
 
 </script>

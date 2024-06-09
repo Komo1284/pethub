@@ -22,7 +22,7 @@ public interface OrderDAO {
     @Select("SELECT id FROM `order` ORDER BY id DESC LIMIT 1")
     int getorderid();
 
-    @Insert("insert into cart (order_id, order_item, order_price, count, origin_price) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price})")
+    @Insert("insert into cart (order_id, order_item, order_price, count, origin_price, item_name) values (#{order_id}, #{order_item}, #{order_price}, #{count}, #{origin_price}, #{item_name})")
     int makecart(CartVO cv);
 
     @Update("UPDATE cart SET count = count + #{count} WHERE id = #{id} AND order_id IN (SELECT o.id FROM `order` o " +

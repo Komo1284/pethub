@@ -9,7 +9,7 @@
 <body>
 <header class="py-6 px-4 md:px-6 border-b bg-orange-50">
     <div class="container mx-auto flex justify-between items-center">
-        <a class="flex items-center gap-2" href="#">
+        <a class="flex items-center gap-2" href="/">
             <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -33,45 +33,50 @@
             <a class="text-gray-500 hover:text-gray-900" href="/shop/Items">
                 Shop
             </a>
-            <a class="text-gray-500 hover:text-gray-900" href="#">
+            <a class="text-gray-500 hover:text-gray-900" th:href="@{/board/list}">
                 Community
             </a>
-            <a class="text-gray-500 hover:text-gray-900" href="#">
+            <a class="text-gray-500 hover:text-gray-900" th:href="@{/board/help}">
                 고객지원
             </a>
         </nav>
         <div class="flex items-center gap-4">
-            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3" id="navigateButton">
-                <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="w-4 h-4"
-                >
-                    <circle cx="8" cy="21" r="1"></circle>
-                    <circle cx="19" cy="21" r="1"></circle>
-                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
-                </svg>
+            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                <a href="/order/cart">
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="w-4 h-4"
+                    >
+                        <circle cx="8" cy="21" r="1"></circle>
+                        <circle cx="19" cy="21" r="1"></circle>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                    </svg>
+                </a>
             </button>
-
-            <script>
-                document.getElementById('navigateButton').addEventListener('click', function() {
-                    window.location.href = '/order/cart';
-                });
-            </script>
-
-            <a class="text-gray-500 hover:text-gray-900" href="/member/login">
-                로그인
-            </a>
-            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-9 rounded-md px-3">
-                회원가입
-            </button>
+            <th:block th:if="${session.user == null}">
+                <a class="text-gray-500 hover:text-gray-900" href="/member/login">
+                    로그인
+                </a>
+                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-9 rounded-md px-3">
+                    <a href="/member/signUp">회원가입</a>
+                </button>
+            </th:block>
+            <th:block th:if="${session.user != null}">
+                <a class="text-gray-500 hover:text-gray-900" href="/member/logout">
+                    로그아웃
+                </a>
+                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-9 rounded-md px-3">
+                    <a href="/member/myPage">마이페이지</a>
+                </button>
+            </th:block>
         </div>
     </div>
 </header>

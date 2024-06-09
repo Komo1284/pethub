@@ -1,12 +1,14 @@
 package itbank.pethub.service;
 
 import itbank.pethub.model.AdminDAO;
+import itbank.pethub.model.MemberDAO;
 import itbank.pethub.vo.BoardVO;
 import itbank.pethub.vo.ContactForm;
 import itbank.pethub.vo.MemberVO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
