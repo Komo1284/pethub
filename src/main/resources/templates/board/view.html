@@ -13,18 +13,18 @@
     <main class="flex-1 flex justify-center">
         <section class="py-16">
             <div class="container mx-auto px-4 md:px-6 min-w-[800px]">
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white rounded-lg shadow-md p-6" th:if="${row != null}" >
                     <br>
-                    <h1 class="text-4xl font-bold" th:if="${row != null}" th:text="${row.title}"></h1>
+                    <h1 class="text-4xl font-bold" th:text="${row.title}"></h1>
                     <br>
                     <article class="prose prose-sm sm:prose lg:prose-lg">
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-4">
                                 <div class="flex items-center gap-2">
-                                    <span class="relative flex shrink-0 overflow-hidden rounded-full w-12 h-12" th:if="${row != null}">
+                                    <span class="relative flex shrink-0 overflow-hidden rounded-full w-12 h-12">
                                         <img class="aspect-square h-full w-full" alt="profile" th:src="@{${row.profile}}"/>
                                     </span>
-                                    <span th:if="${row != null}" th:text="${row.nick}"></span>
+                                    <span th:text="${row.nick}"></span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <svg
@@ -42,7 +42,7 @@
                                         <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
-                                    <span th:if="${row != null}" th:text="${row.v_count}"></span>
+                                    <span th:text="${row.v_count}"></span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <svg
@@ -62,7 +62,7 @@
                                         <rect width="18" height="18" x="3" y="4" rx="2"></rect>
                                         <path d="M3 10h18"></path>
                                     </svg>
-                                    <span th:if="${row != null}" th:text="${row.w_date}"></span>
+                                    <span th:text="${row.w_date}"></span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <svg
@@ -80,11 +80,11 @@
                                         <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path>
                                         <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>
                                     </svg>
-                                    <span th:if="${row != null}" th:text="${row.type_name}"></span>
+                                    <span th:text="${row.type_name}"></span>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <form th:action="'/board/updateBd/' + ${row.id}" method="get" th:if="${row != null and user != null and row.member_id == user.id}">
+                                <form th:action="'/board/updateBd/' + ${row.id}" method="get" th:if="${user != null and row.member_id == user.id}">
                                     <button type="submit"
                                             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
                                         <svg
@@ -106,7 +106,7 @@
                                     </button>
                                 </form>
                                 <br>
-                                <form th:action="'/board/deleteBd/' + ${row.id}" method="get" th:if="${row != null and user != null and (user.role == 1 or user.role == 2 or row.member_id == user.id)}">
+                                <form th:action="'/board/deleteBd/' + ${row.id}" method="get" th:if="${user != null and (user.role == 1 or user.role == 2 or row.member_id == user.id)}">
                                     <button type="submit"
                                             class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
                                         <svg
@@ -131,12 +131,12 @@
                             </div>
                         </div>
                         <br><br>
-                        <p th:if="${row != null}" th:utext="${row.contents}">
+                        <p th:utext="${row.contents}">
 
                         </p>
                     </article>
                 </div>
-                <div class="mt-8 bg-white rounded-lg shadow-md p-6" th:if="${user != null or row.member_id == user.id}">
+                <div class="mt-8 bg-white rounded-lg shadow-md p-6" th:if="${user != null}">
                     <h3 class="text-xl font-bold mb-4">댓글 작성란</h3>
                     <div class="flex flex-col gap-4">
                         <form th:action="@{/board/addReply}" method="post">
