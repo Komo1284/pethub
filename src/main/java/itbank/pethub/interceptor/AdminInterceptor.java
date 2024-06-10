@@ -20,7 +20,7 @@ public class AdminInterceptor implements HandlerInterceptor {
             // 카테고리가 "공지사항"인 경우에만 인터셉터 작동
             if ("1".equals(category)) {
                 // 유저가 관리자인 경우에만 허용
-                if (user != null && user.getRole() == 1) {
+                if (user != null && (user.getRole() == 1 || user.getRole() == 2)) {
                     return true;
                 } else if (user == null) {
                     response.sendRedirect("/login");
