@@ -37,7 +37,7 @@ public class OrderController {
 
         mav.addObject("list", os.getCarts(memberId));
 
-        mav.setViewName("/order/cart");
+        mav.setViewName("order/cart");
         return mav;
     }
 
@@ -60,7 +60,7 @@ public class OrderController {
         mav.addObject("path", "/order/cart");
         mav.addObject("msg", msg);
 
-        mav.setViewName("/order/Message");
+        mav.setViewName("order/Message");
 
         return mav;
     }
@@ -118,7 +118,7 @@ public class OrderController {
         int member_id=user.getId();
 
         mav.addObject("list", os.selectMODC(member_id));
-        mav.setViewName("/order/orderStatus");
+        mav.setViewName("order/orderStatus");
         return mav;
     }
 
@@ -150,7 +150,7 @@ public class OrderController {
         mav.addObject("path", "/order/AfterPay");
         mav.addObject("msg", msg);
 
-        mav.setViewName("/order/Message");
+        mav.setViewName("order/Message");
         return mav;
     }
 
@@ -182,7 +182,7 @@ public class OrderController {
         int member_id=user.getId();
 
         mav.addObject("list", os.selectAfterpay(member_id));
-        mav.setViewName("/order/AfterPay");
+        mav.setViewName("order/AfterPay");
         return mav;
     }
 
@@ -200,7 +200,7 @@ public class OrderController {
         int member_id=user.getId();
 
         mav.addObject("list", os.ordercheck(member_id));
-        mav.setViewName("/order/ordercheck");
+        mav.setViewName("order/ordercheck");
         return mav;
     }
 
