@@ -1,11 +1,16 @@
 package itbank.pethub.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.core.annotation.Order;
 
-import java.sql.Date;
+import java.util.Date;
 
-@Data
+@Setter
+@Getter
 public class OrderVO {
-    private int id, member_id, delivery_id,order_status;
+    private int id, member_id, delivery_id, order_status;
     private Date order_date;
+
+    public OrderVO () {};
 }

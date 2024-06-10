@@ -1,9 +1,11 @@
 package itbank.pethub.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class ItemVO {
-    private int type, category, price;
-    private String name, pic, detail;
+    private int id, type, category, price, total_rating;
+    private String name, detail, pic;
 }
