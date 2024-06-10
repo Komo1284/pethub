@@ -7,5 +7,5 @@ import lombok.Setter;
 @Getter
 public class ItemVO {
     private int id, type, category, price, total_rating;
-    private String name;
+    private String name, detail, pic;
 }

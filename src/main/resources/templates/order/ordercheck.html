@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="min-h-screen flex flex-col bg-orange-50">
+    <div th:replace="~{header :: header}"></div>
+    <main class="flex-1 flex">
+
+        <div th:replace="~{member/myPageAside :: aside}"></div>
+        <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
+
+            <!-- 주문 현황 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h1 class="text-lg font-semibold mb-2">주문이 완료되었습니다</h1>
+                <hr>
+                <br>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">주문 정보</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><line x1="4" x2="20" y1="9" y2="9"></line><line x1="4" x2="20" y1="15" y2="15"></line><line x1="10" x2="8" y1="3" y2="21"></line><line x1="16" x2="14" y1="3" y2="21"></line></svg>
+                                <span>주문번호: </span>
+                                <span th:text="${list[0].order_id}"></span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500 mt-1"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                <div>
+                                    <p th:text="${list[0].member_name}">받으시는 분</p>
+                                    <p th:text="${list[0].delivery_address}"> 주소 </p>
+                                </div>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
+                                <span>주문상태: </span>
+                                <span th:text="${list[0].order_status}">배송중</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-500"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                                <!--                                <span th:text="${list.size()}+' Items'"></span>-->
+                                <span id="totalItems"   ></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">상품 정보</h3>
+                        <ul class="space-y-4">
+                            <li th:each="row : ${list}" class="flex items-center gap-4">
+                                <div>
+                                    <img
+                                            th:src="${row.pic}"
+                                            alt="Product Image"
+                                            width="100"
+                                            height="100"
+                                            class="w-20 h-20 object-cover rounded-md"
+                                            style="aspect-ratio: 100 / 100; object-fit: cover;"
+                                    />
+                                    <h4 class="text-lg font-semibold">상품 명: <span th:text="${row.item_name}"></span></h4>
+                                    <span>수량: <span class="item-count" th:text="${row.count} + ' 개'"></span></span>
+                                    <p class="text-gray-500">합계 가격: <span class="item-price" th:text="${row.order_price * row.count}+' 원'"></span></p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <hr>
+                <div class="flex justify-between items-center mt-4">
+                    <div id="totalPayment" class="text-4xl font-bold">총 결제 금액</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="~{footer :: footer}"></div>
+</div>
+
+<script>
+    // 총 상품 갯수
+    document.addEventListener("DOMContentLoaded", function() {
+        var totalItems = 0;
+        var itemElements = document.querySelectorAll(".item-count");
+        itemElements.forEach(function(element) {
+            totalItems += parseInt(element.textContent);
+        });
+        document.getElementById("totalItems").textContent = totalItems + " Items";
+    });
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // 총 주문 가격
+        const totalOrderPrice = localStorage.getItem('totalOrderPrice');
+        if (totalOrderPrice) {
+            document.getElementById('totalPayment').textContent = parseFloat(totalOrderPrice).toLocaleString() + " 원";
+            // Or use the totalOrderPrice for any other logic you need on this page
+        }
+    });
+</script>
+
+
+</body>
+</html>

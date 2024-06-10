@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/ko.js"></script>
+    <style>
+        .ck-editor__editable:not(.ck-editor__nested-editable) {
+
+            height: 700px;
+        }
+    </style>
+</head>
+<body>
+<div class="min-h-screen flex flex-col bg-orange-50">
+    <div th:replace="~{header :: header}"></div>
+    <main class="flex-1 flex flex-col md:flex-row">
+        <div th:replace="~{member/myPageAside :: aside}"></div>
+        <div class="flex-1 flex flex-col">
+            <div class="p-4 md:p-6 mt-8 mx-8">
+                <div class="bg-gray-200 rounded-lg shadow-md p-6">
+                    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">신규 상품 등록하기</h1>
+                    <p class="mt-4 max-w-3xl text-lg text-gray-500">아래 양식을 작성하여 쇼핑몰에 새 제품을 추가하세요.</p>
+                    <form class="mt-8 space-y-8 divide-y divide-gray-200" enctype="multipart/form-data" METHOD="post">
+                        <div class="space-y-8 divide-y divide-gray-200">
+                            <div>
+                                <div>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900">상품 이미지</h3>
+                                    <p class="mt-1 text-sm text-gray-500">제품의 이미지를 업로드합니다.</p>
+                                </div>
+                                <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                                    <div class="sm:col-span-4">
+                                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                            <div class="flex items-center gap-4">
+                                                <img src="https://itbank-pethub-s3.s3.ap-northeast-2.amazonaws.com/noimage.gif"
+                                                     alt="product_pic"
+                                                     width="400" height="400"
+                                                     id="profile_picture">
+                                                <div>
+                                                    <label
+                                                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                                            for="profile"
+                                                    >
+                                                        <span class="text-sm text-gray-500 hover:text-gray-900">제품 대표사진을 등록하세요.</span>
+                                                        <input
+                                                                class="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 hidden"
+                                                                id="profile"
+                                                                accept="image/*"
+                                                                type="file"
+                                                                name="file"
+                                                                onchange="previewImage(event)"
+                                                        />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-8">
+                                <div>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900">상품 상세정보</h3>
+                                    <p class="mt-1 text-sm text-gray-500">새 제품에 대한 세부 정보를 입력합니다.</p>
+                                </div>
+                                <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                                    <div class="sm:col-span-3">
+                                        <label for="product-name" class="block text-sm font-medium text-gray-700">
+                                            상품명
+                                        </label>
+                                        <div class="mt-1">
+                                            <input
+                                                    id="product-name"
+                                                    type="text"
+                                                    name="name"
+                                                    class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                                    control-id="ControlID-18"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="sm:col-span-3">
+                                        <label for="product-type" class="block text-sm font-medium text-gray-700">
+                                            상품 타입
+                                        </label>
+                                        <div class="mt-1">
+                                            <select
+                                                    id="product-type"
+                                                    name="type"
+                                                    class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                                    control-id="ControlID-19"
+                                            >
+                                                <option value="">어떤 동물의 제품인가요?</option>
+                                                <option value="1">강아지</option>
+                                                <option value="2">고양이</option>
+                                                <option value="3">애완조</option>
+                                                <option value="4">물고기</option>
+                                                <option value="5">기타</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="sm:col-span-3">
+                                        <label for="product-category" class="block text-sm font-medium text-gray-700">
+                                            카테고리
+                                        </label>
+                                        <div class="mt-1">
+                                            <select
+                                                    id="product-category"
+                                                    name="category"
+                                                    class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                                    control-id="ControlID-20"
+                                            >
+                                                <option value="">카테고리를 선택하세요.</option>
+                                                <option value="1">사료</option>
+                                                <option value="2">간식</option>
+                                                <option value="3">위생</option>
+                                                <option value="4">미용</option>
+                                                <option value="5">장난감</option>
+                                                <option value="6">가구</option>
+                                                <option value="7">기타</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="sm:col-span-3">
+                                        <label for="product-price" class="block text-sm font-medium text-gray-700">
+                                            가격
+                                        </label>
+                                        <div class="mt-1 relative rounded-md shadow-sm">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="text-gray-500 sm:text-sm">￦</span>
+                                            </div>
+                                            <input
+                                                    id="product-price"
+                                                    type="number"
+                                                    name="price"
+                                                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
+                                                    placeholder="1,000"
+                                                    step="10"
+                                                    min="0"
+                                                    control-id="ControlID-21"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="sm:col-span-6">
+                                        <label for="product-description"
+                                               class="block text-sm font-medium text-gray-700">
+                                            제품 상세설명
+                                        </label>
+                                        <div class="mt-1">
+              <textarea
+                      id="product-description"
+                      name="detail"
+                      rows="4"
+                      class="block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+                      control-id="ControlID-23"
+              ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-5">
+                            <div class="flex justify-end">
+                                <button
+                                        type="submit"
+                                        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-4"
+                                        control-id="ControlID-24"
+                                >
+                                    등록하기
+                                </button>
+                                <button
+                                        type="button"
+                                        class="bg-red-500 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        control-id="ControlID-24"
+                                >
+                                    취소하기
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<th:block th:if="${msg != null}">
+    <script th:inline="javascript">
+
+        let msg = [[${msg}]];
+        alert(msg);
+        location.reload();
+    </script>
+</th:block>
+<script>
+
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById('profile_picture');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    ClassicEditor.create( document.querySelector( '#product-description' ), {
+
+        language: "ko",
+        ckfinder : {
+            uploadUrl: "/image/upload",
+            withCredentials: true
+        }
+
+    } );
+
+</script>
+</body>
+</html>
