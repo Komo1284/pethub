@@ -52,6 +52,14 @@
                         <ul class="space-y-4">
                             <li th:each="row : ${list}" class="flex items-center gap-4">
                                 <div>
+                                    <img
+                                            th:src="${row.pic}"
+                                            alt="Product Image"
+                                            width="100"
+                                            height="100"
+                                            class="w-20 h-20 object-cover rounded-md"
+                                            style="aspect-ratio: 100 / 100; object-fit: cover;"
+                                    />
                                     <h4 class="text-lg font-semibold">상품 명: <span th:text="${row.item_name}"></span></h4>
                                     <span>수량: <span class="item-count" th:text="${row.count} + ' 개'"></span></span>
                                     <p class="text-gray-500">합계 가격: <span class="item-price" th:text="${row.order_price * row.count}+' 원'"></span></p>

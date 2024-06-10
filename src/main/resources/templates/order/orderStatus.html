@@ -5,25 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+            .detail {
+                display:none;
+            }
+
+    </style>
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
     <div th:replace="~{header :: header}"></div>
     <main class="flex-1 flex">
         <div th:replace="~{member/myPageAside :: aside}"></div>
-        <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
-            <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex-1 p-4 md:p-6 mx-8 mt-16 max-w-[900px] mx-auto">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-4">
                 <h2 class="text-2xl font-semibold mb-4">주문 현황</h2><br>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" th:each="row : ${list}">
-                    <div class="md:col-span-2 mr-12">
+                <div class="grid grid-cols-1 gap-6" th:each="row : ${list}">
+                    <div class="mr-12">
                         <ul class="space-y-4">
                             <li class="flex items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
+                                    <img
+                                            th:src="${row.pic}"
+                                            alt="Product Image"
+                                            width="100"
+                                            height="100"
+                                            class="w-20 h-20 object-cover rounded-md"
+                                            style="aspect-ratio: 100 / 100; object-fit: cover;"
+                                    />
                                     <div>
-                                        <h3 class="text-lg font-semibold">주문 번호: <span class="order_id"
+                                        <h3 class="detail text-lg font-semibold">주문 번호: <span class="order_id"
                                                                                        th:text="${row.order_id}"></span>
                                         </h3>
-                                        <h3 class="text-lg font-semibold">상품 번호: <span
+                                        <h3 class="detail text-lg font-semibold">상품 번호: <span
                                                 th:text="${row.order_item}"></span></h3>
                                         <p class="text-lg font-semibold">상품 명: <span
                                                 th:text="${row.item_name}"></span></p>
@@ -43,14 +58,12 @@
             </div>
             <div class="bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-2xl font-semibold mb-4">배송 정보</h2><br>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="md:col-span-2 mr-12">
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="mr-12">
                         <ul class="space-y-4">
                             <li class="flex items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
                                     <div>
-                                        <h3 id="member_id" class="text-lg font-semibold">고객 번호: <span
-                                                th:text="${list[0].member_id}"></span></h3>
                                         <h3 id="customerName" class="text-lg font-semibold">고객 이름: <span
                                                 th:text="${list[0].member_name}"></span></h3>
                                         <h3 id="customerPhone" class="text-lg font-semibold">고객 전화번호: <span
@@ -58,10 +71,10 @@
                                         <h3 id="customerEmail" class="text-lg font-semibold">고객 이메일: <span
                                                 th:text="${list[0].member_email}"></span></h3>
 
-                                        <h3>배송 주소: 미입력시 회원가입시 기입한 주소로 배송됩니다.</h3>
+                                        <h3>배송 주소: 미입력시 회원가입시 기입한 주소로 배송됩니다.</h3><br>
                                         <form name="insert">
                                             <div class="addressInfo_input_div addressInfo_input_div_2">
-                                                <div class="grid grid-cols-2 gap-2">
+                                                <div class="grid grid-cols-2 gap-2 mb-4">
                                                     <div class="grid gap-2">
                                                         <label
                                                                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1"
@@ -94,7 +107,7 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div class="grid grid-cols-2 gap-2">
+                                                <div class="grid grid-cols-2 gap-2 mb-4">
                                                     <div class="grid gap-2">
                                                         <label
                                                                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-900"
@@ -130,10 +143,17 @@
                                                 </div>
                                             </div>
                                         </form>
+                                        <div>
+                                        <button
+                                                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
+                                                type="button"
+                                        >
+                                            <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md delivery_modify_btn" th:data-product-id="${list[0].delivery_id}" style="width: 150px; height: 40px;">
+                                                배송지 수정
+                                            </a>
 
-
-                                        <a class="delivery_modify_btn" th:data-product-id="${list[0].delivery_id}">
-                                            배송지 수정 </a>
+                                        </button>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -151,20 +171,13 @@
                     <span>쿠폰 할인</span>
                     <span id="discount">0</span>
                 </div>
-                <div class="flex justify-between mb-2">
-                    <span>배송비</span>
-                    <span>2500</span>
+                <div class="text-right">
+                    <button id="couponBtn"
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2"
+                            onclick="openCouponPopup()">
+                        쿠폰 적용
+                    </button>
                 </div>
-
-                <div class="flex justify-between mb-4">
-                    <span class="font-semibold">합계</span>
-                    <span id="total">0</span>
-                </div>
-                <button id="couponBtn"
-                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
-                        onclick="openCouponPopup()">
-                    쿠폰 적용
-                </button>
                 <!-- 쿠폰 팝업 -->
                 <div id="couponPopup" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
                     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -178,6 +191,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex justify-between mb-2">
+                    <span>배송비</span>
+                    <span>2500</span>
+                </div>
+
+                <div class="flex justify-between mb-4">
+                    <span class="font-semibold">합계</span>
+                    <span id="total">0</span>
+                </div>
+                <div class="text-right">
                 <!-- 결제 옵션 및 버튼 -->
                 <div class="payment-options">
                     <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
@@ -185,10 +208,11 @@
                     <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
                 </div>
                 <button id="checkoutBtn"
-                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full"
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full md:w-1/2 lg:w-1/4"
                         onclick="requestPay()">
                     결제 하기
                 </button>
+                </div>
             </div>
         </div>
     </main>
@@ -314,9 +338,9 @@
 
         IMP.request_pay({
             pg: "html5_inicis",
-            pay_method: "vbank",
+            pay_method: selectedPayMethod,
             merchant_uid: uniqueMerchantUid, // Use the unique merchant UID
-            name: "주문 묶음",
+            name: "pethub결제",
             amount: totalOrderPrice,
             buyer_email: customerEmail,
             buyer_name: customerName,
