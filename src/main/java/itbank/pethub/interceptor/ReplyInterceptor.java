@@ -28,6 +28,10 @@ public class ReplyInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        if (user.getRole() == 1 || user.getRole() == 2) {
+            return true;
+        }
+
         String uri = request.getRequestURI();
         int replyId = Integer.parseInt(uri.substring(uri.lastIndexOf('/') + 1));
         ReplyVO reply = bs.getReply(replyId);

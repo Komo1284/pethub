@@ -9,6 +9,18 @@
         .w-1-5 {
             width: 10%;
         }
+        .w-57 {
+            width: 57%;
+        }
+        .w-8 {
+            width: 8%;
+        }
+        .w-7 {
+            width: 7%;
+        }
+        .w-20 {
+            width: 20%;
+        }
     </style>
 </head>
 <body>
@@ -33,6 +45,9 @@
                 <a class="block px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700" th:href="@{/board/etc}">
                     etc
                 </a>
+                <a class="block px-3 py-2 rounded-md hover:bg-gray-100 text-gray-700" th:href="@{/board/free}">
+                    자유
+                </a>
             </nav>
         </aside>
             <div class="flex-1 p-4 md:p-6 mx-8 mt-16" th:with="list=${map['list']}, pg=${map['pg']}">
@@ -48,24 +63,36 @@
                     <table class="w-full caption-bottom text-sm">
                         <thead class="[&amp;_tr]:border-b">
                         <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-8">
                                 #
                             </th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-57">
                                 제목
                             </th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-8">
                                 작성자
                             </th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-7">
                                 조회수
                             </th>
-                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                            <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-20">
                                 작성일
                             </th>
                         </tr>
                         </thead>
                         <tbody class="[&amp;_tr:last-child]:border-0">
+                        <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" th:each="notice : ${recentNotices}">
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.id}">1</td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;">
+                                <a class="text-orange-600 hover:underline"
+                                   th:text="${notice.title}"
+                                   th:href="@{/board/view/{id}(id=${notice.id})}">
+                                </a>
+                            </td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.nick}">John Doe</td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.v_count}">245</td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" style="font-weight: bold;" th:text="${notice.w_date}">2023-05-01</td>
+                        </tr>
                         <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" th:each="row : ${list}">
                             <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0" th:text="${row.id}">1</td>
                             <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">

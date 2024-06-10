@@ -9,28 +9,16 @@ import java.util.Map;
 
 @Mapper
 public interface BoardDAO {
-    // 자유 게시판
+    // 전체 게시판
     @Select("<script>" +
-            "SELECT * FROM board_view WHERE type = 5" +
+            "SELECT * FROM board_view " +
             "<if test='group != null and search != null'> " +
-            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "where ${group} LIKE CONCAT('%', #{search}, '%') " +
             "</if> " +
             "ORDER BY id DESC " +
             "LIMIT #{offset}, #{boardCount}" +
             "</script>")
     List<BoardVO> selectAll(Map<String, Object> param);
-
-    @Insert("insert into board(title, contents, type, member_id) values(#{title}, #{contents}, #{type}, #{member_id})")
-    int addWrite(BoardVO input);
-
-    @Select("select * from board_view where id = #{id}")
-    BoardVO selectOne(int id);
-
-    @Update("update board set title = #{title}, contents = #{contents}, type = #{type} where id = #{id}")
-    int updateBoard(BoardVO input);
-
-    @Delete("delete from board where id = #{id}")
-    int deleteBoard(int id);
 
     // 공지 사항
     @Select("<script>" +
@@ -87,6 +75,33 @@ public interface BoardDAO {
             "</script>")
     List<BoardVO> selectAllEtcs(Map<String, Object> param);
 
+    // 자유
+    @Select("<script>" +
+            "SELECT * FROM board_view WHERE type = 5" +
+            "<if test='group != null and search != null'> " +
+            "and ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if> " +
+            "ORDER BY id DESC " +
+            "LIMIT #{offset}, #{boardCount}" +
+            "</script>")
+    List<BoardVO> selectAllFrees(Map<String, Object> param);
+
+    // 글 작성
+    @Insert("INSERT INTO board(title, contents, type, member_id) VALUES(#{title}, #{contents}, #{type}, #{member_id})")
+    int addWrite(BoardVO input);
+
+    // 글 선택
+    @Select("select * from board_view where id = #{id}")
+    BoardVO selectOne(int id);
+
+    // 글 수정
+    @Update("update board set title = #{title}, contents = #{contents}, type = #{type} where id = #{id}")
+    int updateBoard(BoardVO input);
+
+    // 글 삭제
+    @Delete("delete from board where id = #{id}")
+    int deleteBoard(int id);
+
     // 조회수 증가
     @Update("update board set v_count = v_count + 1 WHERE id = #{id}")
     int viewUp(int id);
@@ -121,6 +136,18 @@ public interface BoardDAO {
 
     @Select("SELECT COUNT(*) FROM board_view WHERE type = #{num}")
     int totalboard(int num);
+
+    // 전체 게시판 페이징 및 검색 관련
+    @Select("<script>" +
+            "SELECT COUNT(*) FROM board_view " +
+            "<if test='group != null and search != null'> " +
+            "where ${group} LIKE CONCAT('%', #{search}, '%') " +
+            "</if>" +
+            "</script>")
+    int searchALLboard(Map<String, Object> param);
+
+    @Select("SELECT COUNT(*) FROM board_view")
+    int totalAllboard();
 
     // 내가 쓴 게시판 및 댓글 관련 목록
     @Select("<script>" +
@@ -165,4 +192,6 @@ public interface BoardDAO {
             "</if>" +
             "</script>")
     int search(Map<String, Object> param);
+
+
 }

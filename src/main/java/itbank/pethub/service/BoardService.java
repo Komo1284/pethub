@@ -17,21 +17,19 @@ public class BoardService {
 
     private final BoardDAO bd;
 
-    // 게시판 목록
+    // 전체 게시판 목록
     public Map<String, Object> getBoards(Map<String, Object> param) {
 
         String sint = (String) param.get("page");
         sint = (sint == null) ? "1" : sint;
 
         int reqPage = Integer.parseInt(sint);
-        int boardnum = 5;
 
         int totalcount;
         if (param.containsKey("group") || param.containsKey("search")) {
-            param.put("num", boardnum); // 검색 조건이 있는 경우에만 param에 num 추가
-            totalcount = bd.searchboard(param);
+            totalcount = bd.searchALLboard(param);
         } else {
-            totalcount = bd.totalboard(boardnum);
+            totalcount = bd.totalAllboard();
         }
 
         Paging page = new Paging(reqPage, totalcount);
@@ -39,18 +37,22 @@ public class BoardService {
         param.put("offset", page.getOffset());
         param.put("boardCount", page.getBoardCount());
 
-
         Map<String, Object> result = new HashMap<>();
 
         result.put("pg", page);
         result.put("list", bd.selectAll(param));
+
+        Map<String, Object> noticeParam = new HashMap<>();
+        noticeParam.put("offset", 0);
+        noticeParam.put("boardCount", 5);
+        List<BoardVO> recentNotices = bd.selectAllNotice(noticeParam);
+        result.put("recentNotices", recentNotices);
 
         return result;
     }
 
     // 글 작성
     public int addWrite(BoardVO input) {
-
         return bd.addWrite(input);
     }
 
@@ -128,6 +130,12 @@ public class BoardService {
         result.put("pg", page);
         result.put("list", bd.selectAllDogs(param));
 
+        Map<String, Object> noticeParam = new HashMap<>();
+        noticeParam.put("offset", 0);
+        noticeParam.put("boardCount", 5);
+        List<BoardVO> recentNotices = bd.selectAllNotice(noticeParam);
+        result.put("recentNotices", recentNotices);
+
         return result;
     }
 
@@ -159,6 +167,12 @@ public class BoardService {
 
         result.put("pg", page);
         result.put("list", bd.selectAllCats(param));
+
+        Map<String, Object> noticeParam = new HashMap<>();
+        noticeParam.put("offset", 0);
+        noticeParam.put("boardCount", 5);
+        List<BoardVO> recentNotices = bd.selectAllNotice(noticeParam);
+        result.put("recentNotices", recentNotices);
 
         return result;
     }
@@ -192,6 +206,12 @@ public class BoardService {
         result.put("pg", page);
         result.put("list", bd.selectAllBirds(param));
 
+        Map<String, Object> noticeParam = new HashMap<>();
+        noticeParam.put("offset", 0);
+        noticeParam.put("boardCount", 5);
+        List<BoardVO> recentNotices = bd.selectAllNotice(noticeParam);
+        result.put("recentNotices", recentNotices);
+
         return result;
     }
 
@@ -223,6 +243,49 @@ public class BoardService {
 
         result.put("pg", page);
         result.put("list", bd.selectAllEtcs(param));
+
+        Map<String, Object> noticeParam = new HashMap<>();
+        noticeParam.put("offset", 0);
+        noticeParam.put("boardCount", 5);
+        List<BoardVO> recentNotices = bd.selectAllNotice(noticeParam);
+        result.put("recentNotices", recentNotices);
+
+        return result;
+    }
+
+    // 자유 목록
+    public Map<String, Object> getfrees(Map<String, Object> param) {
+        String sint = (String) param.get("page");
+        sint = (sint == null) ? "1" : sint;
+
+        int reqPage = Integer.parseInt(sint);
+        int boardnum = 5;
+
+
+        int totalcount;
+        if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("num", boardnum);
+            totalcount = bd.searchboard(param);
+        } else {
+            totalcount = bd.totalboard(boardnum);
+        }
+
+        Paging page = new Paging(reqPage, totalcount);
+
+        param.put("offset", page.getOffset());
+        param.put("boardCount", page.getBoardCount());
+
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("pg", page);
+        result.put("list", bd.selectAllFrees(param));
+
+        Map<String, Object> noticeParam = new HashMap<>();
+        noticeParam.put("offset", 0);
+        noticeParam.put("boardCount", 5);
+        List<BoardVO> recentNotices = bd.selectAllNotice(noticeParam);
+        result.put("recentNotices", recentNotices);
 
         return result;
     }
@@ -318,4 +381,6 @@ public class BoardService {
 
         return result;
     }
+
+
 }

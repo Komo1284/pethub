@@ -52,11 +52,11 @@
         </aside>
         <div class="flex-1 p-4 md:p-6 mx-8 mt-16" th:with="list=${map['list']}, pg=${map['pg']}">
             <div class="mb-6 flex justify-between items-center">
-                <h2 class="text-2xl font-bold">Community</h2>
+                <h2 class="text-2xl font-bold">자유</h2>
                 <a th:href="@{/board/write}">
-                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-9 rounded-md px-3">
-                    글 쓰기
-                </button>
+                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-9 rounded-md px-3">
+                        글 쓰기
+                    </button>
                 </a>
             </div>
             <div class="relative w-full overflow-auto">
@@ -115,7 +115,7 @@
                         th:with="groupParam=${param.group != null ? 'group=' + param.group : ''}, searchParam=${param.search != null ? 'search=' + param.search : ''}">
                         <li class="" th:if="${pg.prev}">
                             <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pl-2.5" aria-label="Go to previous page"
-                               th:href="@{|/board/list?page=${pg.begin - 1}&${groupParam}&${searchParam}|}">
+                               th:href="@{|/board/free?page=${pg.begin - 1}&${groupParam}&${searchParam}|}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left h-4 w-4">
                                     <path d="m15 18-6-6 6-6"></path>
                                 </svg>
@@ -124,24 +124,24 @@
                         </li>
                         <li class="" th:if="${pg.end > 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
                             <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
-                               th:href="@{|/board/list?page=${i}&${groupParam}&${searchParam}|}">
+                               th:href="@{|/board/free?page=${i}&${groupParam}&${searchParam}|}">
                                 <span th:text="${i}"></span>
                             </a>
                         </li>
                         <li class="" th:if="${pg.end == 0}">
                             <a aria-current="page" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
-                               th:href="@{|/board/list?page=${pg.begin}&${groupParam}&${searchParam}|}">
+                               th:href="@{|/board/free?page=${pg.begin}&${groupParam}&${searchParam}|}">
                                 <span th:text="${pg.begin}"></span>
                             </a>
                         </li>
                         <li class="" th:if="${pg.end == 0}" th:each="i : ${#numbers.sequence(pg.begin, pg.end)}">
                             <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
-                               th:href="@{|/board/list?page=${i}&${groupParam}&${searchParam}|}">
+                               th:href="@{|/board/free?page=${i}&${groupParam}&${searchParam}|}">
                             </a>
                         </li>
                         <li class="" th:if="${pg.next}">
                             <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 gap-1 pr-2.5" aria-label="Go to next page"
-                               th:href="@{|/board/list?page=${pg.end + 1}&${groupParam}&${searchParam}|}">
+                               th:href="@{|/board/free?page=${pg.end + 1}&${groupParam}&${searchParam}|}">
                                 <span>다음</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right h-4 w-4">
                                     <path d="m9 18 6-6-6-6"></path>
@@ -150,7 +150,7 @@
                         </li>
                     </ul>
                 </nav>
-                    <form th:action="@{/board/list}" method="get" class="flex justify-center items-center gap-2 mt-4">
+                <form th:action="@{/board/free}" method="get" class="flex justify-center items-center gap-2 mt-4">
                     <input value="5" type="hidden" name="num">
                     <select name="group" class="flex h-10 w-1-5 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                         <option value="title">제목</option>
@@ -166,7 +166,7 @@
                     <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-10 px-4 py-2">
                         검색
                     </button>
-                    </form>
+                </form>
             </div>
         </div>
     </main>
