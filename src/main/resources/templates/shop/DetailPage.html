@@ -57,74 +57,30 @@
         </div>
 
         <!-- 제품 상세 이미지 or 텍스트 -->
-        <div class="flex justify-center">
-            <div class="mt-8 bg-white rounded-lg shadow-md p-6 w-3/4">
-                <h2 class="text-xl font-bold mb-4">제품 상세 이미지 or 텍스트</h2>
-                <span th:text="${product.detail}"></span>
+        <div class="flex justify-center mt-8">
+            <div class="bg-white rounded-lg shadow-md p-6 w-3/4">
+                <h2 class="text-xl font-bold mb-4">제품 상세</h2>
+                <div class="flex justify-center">
+                    <div class="w-auto h-auto " th:utext="${product.detail}"></div>
+                </div>
             </div>
         </div>
 
-        <!-- 상품 리뷰 -->
         <div class="flex justify-center mb-10">
             <div class="mt-8 bg-white rounded-lg shadow-md p-6 w-3/4" th:if="${review != null && !review.isEmpty()}">
-                <h3 class="text-xl font-bold mb-4">리뷰</h3>
+                <h3 class="text-xl font-bold mb-4">상품 후기</h3>
                 <div class="grid gap-4">
                     <div class="bg-gray-100 p-4 rounded-md" th:each="review : ${review}">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="w-4 h-4"
-                                >
-                                    <circle cx="9" cy="21" r="1"></circle>
-                                    <circle cx="20" cy="21" r="1"></circle>
-                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                                </svg>
+                        <div class="flex items-center justify-between">
 
-                                <span th:text="${review.item} + ' - '">상품명</span>
-                                <span th:text="${review.nick} + '님 '">닉네임</span>
-                                <p class="text-sm" th:text="${review.rating} + '/5 점'">평점</p>
+                            <!-- 리뷰 내용 -->
+                            <div class="w-1/3">
+                                <div class="w-40" th:if="${review.contents}" th:utext="${review.contents}"></div>
                             </div>
 
-                            <div class="flex items-center gap-2">
-                                <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="w-4 h-4"
-                                >
-                                    <path d="M8 2v4"></path>
-                                    <path d="M16 2v4"></path>
-                                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                                    <path d="M3 10h18"></path>
-                                </svg>
-                                <span th:text="${review.w_date}"></span>
-                            </div>
-                        </div>
-                        <br>
-                        <!-- 사진 첨부 리뷰 -->
-                        <div class="w-40 h-40 " th:utext="${review.contents}"></div>
-
-                         <!--로그인한 유저가 리뷰 작성자가 같은 삭제 버튼 활성화-->
-                        <div th:if="${session.user != null}">
-                            <div th:if="${review.member_id  == session.user.getId()}">
-                            <form th:action="@{/shop/deleteReview/{id}(id=${review.id})}" method="post">
-                                <input type="hidden" name="item_id" th:value="${product.id}" />
-                                <button type="submit" class="deleteReviewBtn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3">
+                            <!-- 리뷰 작성 날짜 및 상세 정보 -->
+                            <div class="w-1/3 flex flex-col items-center">
+                                <div class="flex items-center gap-2 mb-2">
                                     <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -137,13 +93,70 @@
                                             stroke-linejoin="round"
                                             class="w-4 h-4"
                                     >
-                                        <path d="M3 6h18"></path>
-                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                        <path d="M8 2v4"></path>
+                                        <path d="M16 2v4"></path>
+                                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                        <path d="M3 10h18"></path>
                                     </svg>
-                                    <span>삭제</span>
-                                </button>
-                            </form>
+                                    <span th:text="${#dates.format(review.w_date, 'yyyy년 M월 d일 HH시 mm분')}"></span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="w-4 h-4"
+                                    >
+                                        <circle cx="9" cy="21" r="1"></circle>
+                                        <circle cx="20" cy="21" r="1"></circle>
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                    </svg>
+
+                                    <span th:text="${review.item}">상품명</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-lg mt-10"> <!-- text-lg 클래스 추가 -->
+                                    <span th:text="${review.nick} + '님 '">닉네임</span>
+                                    <span th:text="'평점 : ' + ${review.rating} + '/5'">평점</span>
+                                </div>
+                            </div>
+
+                            <!-- 삭제 버튼 -->
+                            <div class="w-1/3 flex justify-end">
+                                <div class="min-w-max">
+                                    <div th:if="${session.user != null}">
+                                        <div th:if="${review.member_id == session.user.getId()}">
+                                            <form th:action="@{/shop/deleteReview/{id}(id=${review.id})}" method="post">
+                                                <input type="hidden" name="item_id" th:value="${product.id}" />
+                                                <button type="submit" class="deleteReviewBtn inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-400 text-destructive-foreground hover:bg-red-300/90 h-9 rounded-md px-3 mt-11">
+                                                    <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            stroke-width="2"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="w-4 h-4"
+                                                    >
+                                                        <path d="M3 6h18"></path>
+                                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                                    </svg>
+                                                    <span>삭제</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div th:if="${session.user == null || review.member_id != session.user.getId()}" class="h-9"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

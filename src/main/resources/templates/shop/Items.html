@@ -78,18 +78,11 @@
                 </div>
                 <!-- 수정된 부분 끝 -->
 
-
-
-
-
-
-
                     <div class="mt-2 text-center">
                         <!-- 제품 이름에 링크를 걸어줍니다. -->
                         <p class="text-sm">
                             <a th:href="@{'/shop/DetailPage/' + ${product.id}}" th:text="${product.name}">Product Name</a>
                         </p>
-                        <p class="text-gray-600" th:text="${product.detail}"></p>
                         <p class="text-gray-600" th:text="${product.price}"></p>
                     </div>
                 </div>
