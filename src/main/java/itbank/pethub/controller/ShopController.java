@@ -25,7 +25,7 @@ public class ShopController {
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("product", os.selectAll());
-        mav.setViewName("/shop/Items");
+        mav.setViewName("shop/Items");
         return mav;
     }
 
@@ -49,7 +49,7 @@ public class ShopController {
         List<ReviewVO> review = rs.getReviews(id);
         mav.addObject("review", review.isEmpty() ? null : review);
 
-        mav.setViewName("/shop/DetailPage");
+        mav.setViewName("shop/DetailPage");
         return mav;
     }
 
@@ -116,7 +116,7 @@ public class ShopController {
 
             mav.addObject("msg", msg);
 
-            mav.setViewName("/shop/Message");
+            mav.setViewName("shop/Message");
             return mav;
 
         } else {
@@ -186,12 +186,12 @@ public class ShopController {
 
         // 주문이 성공적으로 추가되거나 업데이트된 후 주문 페이지로 리다이렉트
         String msg = "장바구니에 추가 되었습니다. ";
-        mav.addObject("path", "/shop/DetailPage/" + productId);
+        mav.addObject("path", "shop/DetailPage/" + productId);
 
 
         mav.addObject("msg", msg);
 
-        mav.setViewName("/shop/Message");
+        mav.setViewName("shop/Message");
 
         return mav;
     }
@@ -223,7 +223,7 @@ public class ShopController {
 
             mav.addObject("msg", msg);
 
-            mav.setViewName("/shop/Message");
+            mav.setViewName("shop/Message");
             return mav;
 
         } else {
@@ -292,7 +292,7 @@ public class ShopController {
         mav.addObject("path", "/order/cart");
         mav.addObject("msg", msg);
 
-        mav.setViewName("/shop/Message");
+        mav.setViewName("shop/Message");
 
         return mav;
     }
