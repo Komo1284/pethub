@@ -9,15 +9,18 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/ko.js"></script>
     <style>
         .ck-editor__editable:not(.ck-editor__nested-editable) {
-
             height: 500px;
+        }
+        /* 역순으로 출력하기 위한 CSS */
+        .flex-1.p-4.md\\:p-6.mx-8.mt-16 > * {
+            order: -1;
         }
     </style>
 </head>
 <body>
 <div class="min-h-screen flex flex-col bg-orange-50">
     <div th:replace="~{header :: header}"></div>
-    <main class="flex-1 flex">
+    <main id="first" class="flex-1 flex">
         <div th:replace="~{member/myPageAside :: aside}"></div>
         <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
             <!-- Iterate over orders -->
@@ -213,23 +216,27 @@
     } );
 
 </script>
-
-<!-- Include this at the end of the body, just before the closing </body> tag -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ordersContainer = document.querySelector('.flex-1.p-4.md\\:p-6.mx-8.mt-16');
-        const orders = Array.from(ordersContainer.children);
+    // 주문 데이터를 역순으로 정렬하여 표시하는 함수
+    function reverseOrder() {
+        var orders = document.querySelectorAll('[data-cdi]');
+        var ordersArray = Array.from(orders);
+        var reversedOrdersArray = ordersArray.reverse();
+        var mainElement = document.getElementById('first');
 
-        // Reverse the order of the orders
-        orders.reverse();
+        reversedOrdersArray.forEach(order => {
+            mainElement.appendChild(order);
+        });
+    }
 
-        // Clear the container
-        ordersContainer.innerHTML = '';
-
-        // Append the orders in reversed order
-        orders.forEach(order => ordersContainer.appendChild(order));
-    });
+    // 페이지 로드 후 실행
+    window.onload = function() {
+        reverseOrder();
+    };
 </script>
+
+
+
 </body>
 </html>
 
