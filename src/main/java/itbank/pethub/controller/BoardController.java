@@ -33,6 +33,22 @@ public class BoardController {
         model.addAttribute("contactForm", new ContactForm());
     }
 
+    // 전체 게시판
+    @GetMapping("/list")
+    public ModelAndView list(@RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+
+        Map<String, Object> data = bs.getBoards(param);
+        mav.addObject("map", data);
+
+        // 공지사항 목록을 추가
+        List<BoardVO> recentNotices = (List<BoardVO>) data.get("recentNotices");
+        mav.addObject("recentNotices", recentNotices);
+        mav.setViewName("board/list");
+
+        return mav;
+    }
+
     // 공지사항
     @GetMapping("/notice")
     public ModelAndView notice(@RequestParam Map<String, Object> param) {
@@ -44,23 +60,16 @@ public class BoardController {
         return mav;
     }
 
-    // 자유 게시판
-    @GetMapping("/list")
-    public ModelAndView list(@RequestParam Map<String, Object> param) {
-        ModelAndView mav = new ModelAndView();
-
-        mav.addObject("map", bs.getBoards(param));
-        mav.setViewName("board/list");
-
-        return mav;
-    }
-
     // 강아지 게시판
     @GetMapping("/dog")
     public ModelAndView dog(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getDogs(param));
+        Map<String, Object> data = bs.getDogs(param);
+        mav.addObject("map", data);
+
+        List<BoardVO> recentNotices = (List<BoardVO>) data.get("recentNotices");
+        mav.addObject("recentNotices", recentNotices);
         mav.setViewName("board/dog");
 
         return mav;
@@ -71,7 +80,11 @@ public class BoardController {
     public ModelAndView cat(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getCats(param));
+        Map<String, Object> data = bs.getCats(param);
+        mav.addObject("map", data);
+
+        List<BoardVO> recentNotices = (List<BoardVO>) data.get("recentNotices");
+        mav.addObject("recentNotices", recentNotices);
         mav.setViewName("board/cat");
 
         return mav;
@@ -82,7 +95,11 @@ public class BoardController {
     public ModelAndView bird(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getBirds(param));
+        Map<String, Object> data = bs.getBirds(param);
+        mav.addObject("map", data);
+
+        List<BoardVO> recentNotices = (List<BoardVO>) data.get("recentNotices");
+        mav.addObject("recentNotices", recentNotices);
         mav.setViewName("board/bird");
 
         return mav;
@@ -93,8 +110,27 @@ public class BoardController {
     public ModelAndView etc(@RequestParam Map<String, Object> param) {
         ModelAndView mav = new ModelAndView();
 
-        mav.addObject("map", bs.getEtcs(param));
+        Map<String, Object> data = bs.getEtcs(param);
+        mav.addObject("map", data);
+
+        List<BoardVO> recentNotices = (List<BoardVO>) data.get("recentNotices");
+        mav.addObject("recentNotices", recentNotices);
         mav.setViewName("board/etc");
+
+        return mav;
+    }
+
+    // 자유 게시판
+    @GetMapping("/free")
+    public ModelAndView free(@RequestParam Map<String, Object> param) {
+        ModelAndView mav = new ModelAndView();
+
+        Map<String, Object> data = bs.getfrees(param);
+        mav.addObject("map", data);
+
+        List<BoardVO> recentNotices = (List<BoardVO>) data.get("recentNotices");
+        mav.addObject("recentNotices", recentNotices);
+        mav.setViewName("board/free");
 
         return mav;
     }
