@@ -19,7 +19,7 @@
     <div th:replace="~{header :: header}"></div>
     <main class="flex-1 flex">
         <div th:replace="~{member/myPageAside :: aside}"></div>
-        <div class="flex-1 p-4 md:p-6 mx-8 mt-16">
+        <div id="order" class="flex-1 p-4 md:p-6 mx-8 mt-16">
             <!-- Iterate over orders -->
             <th:block th:each="order, iterStat : ${list}">
                 <!-- Check if it's the first order or different from the previous one -->
@@ -92,7 +92,11 @@
                                             <div class="flex items-center gap-4">
                                                 <img th:src="${item.pic}" alt="제품 이미지" class="aspect-[2/1]" width="100" height="50"/>
                                                 <div>
-                                                    <h4 class="text-lg font-semibold">상품 명: <span th:text="${item.item_name}"></span></h4>
+                                                    <h4 class="text-lg font-semibold">상품 명:
+                                                            <a th:href="@{'/shop/DetailPage/' + ${item.order_item}}" class="text-blue-600 hover:underline">
+                                                                <span th:text="${item.item_name}"></span>
+                                                            </a>
+                                                    </h4>
                                                     <span>수량: <span class="item-count" th:text="${item.count}" data-cdi="${order.cdi}"></span> 개</span>
                                                     <p class="text-gray-500">합계 가격: <span class="item-price" th:text="${item.order_price * item.count}+' 원'" data-cdi="${order.cdi}"></span></p>
                                                 </div>
@@ -194,6 +198,17 @@
         itemIdInput.value = orderItem;
 
         popup.classList.remove('hidden');
+
+        // CKEditor 초기화 코드 팝업을 열 때마다 실행
+        if (!popup.querySelector('.ck-editor__editable')) {
+            ClassicEditor.create(document.querySelector('#contents'), {
+                language: "ko",
+                ckfinder: {
+                    uploadUrl: "/image/upload",
+                    withCredentials: true
+                }
+            });
+        }
     }
 
     // 리뷰 작성 팝업 닫기 함수
@@ -202,22 +217,9 @@
         popup.classList.add('hidden');
     }
 
-    ClassicEditor.create( document.querySelector( '#contents' ), {
-
-        language: "ko",
-        ckfinder : {
-            uploadUrl: "/image/upload",
-            withCredentials: true
-        }
-
-    } );
-
-</script>
-
-<!-- Include this at the end of the body, just before the closing </body> tag -->
-<script>
+    // 페이지가 로드될 때, 주문 목록의 순서를 반대로 바꿉니다.
     document.addEventListener("DOMContentLoaded", function() {
-        const ordersContainer = document.querySelector('.flex-1.p-4.md\\:p-6.mx-8.mt-16');
+        const ordersContainer = document.querySelector('#order');
         const orders = Array.from(ordersContainer.children);
 
         // Reverse the order of the orders
@@ -230,9 +232,5 @@
         orders.forEach(order => ordersContainer.appendChild(order));
     });
 </script>
-</body>
-</html>
-
-
 </body>
 </html>
