@@ -29,7 +29,6 @@ spring:
         enable: true
         required: true
 
-
 #s3
 cloud:
   aws:
