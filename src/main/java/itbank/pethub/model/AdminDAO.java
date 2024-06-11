@@ -40,4 +40,5 @@ public interface AdminDAO {
 
     @Select("select * from modc where order_id in (select order_id from `order` where order_status = #{id})")
     List<MODCVO> selectOrder(int id);
+
 }
