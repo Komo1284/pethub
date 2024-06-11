@@ -27,7 +27,7 @@ public class ImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    private String localLocation = "/Users/komorebi/Desktop/IT_Study/test";
+    private String localLocation = "/app/static";
 
     public String imageUpload(MultipartRequest request) throws IOException {
 

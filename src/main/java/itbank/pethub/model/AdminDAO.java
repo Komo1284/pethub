@@ -1,9 +1,6 @@
 package itbank.pethub.model;
 
-import itbank.pethub.vo.CouponVO;
-import itbank.pethub.vo.ItemVO;
-import itbank.pethub.vo.MemberVO;
-import itbank.pethub.vo.OrderVO;
+import itbank.pethub.vo.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -41,6 +38,6 @@ public interface AdminDAO {
     @Insert("insert into item (type, category, name, price, pic, detail) values (#{type}, #{category}, #{name}, #{price}, #{pic}, #{detail})")
     int AddProduct(ItemVO item);
 
-    @Select("select * from `order` where order_status = #{id} order by id")
-    List<OrderVO> selectOrder(int id);
+    @Select("select * from modc where order_status = '${msg}'")
+    List<MODCVO> selectOrder(String msg);
 }
