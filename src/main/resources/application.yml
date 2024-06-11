@@ -41,3 +41,4 @@ cloud:
       auto: false
     s3:
       bucket: itbank-pethub-s3
+
