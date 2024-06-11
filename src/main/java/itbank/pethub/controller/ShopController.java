@@ -187,7 +187,8 @@ public class ShopController {
 
         // 주문이 성공적으로 추가되거나 업데이트된 후 주문 페이지로 리다이렉트
         String msg = "장바구니에 추가 되었습니다. ";
-        mav.addObject("path", productId);
+        int row = 0;
+        mav.addObject("row", row);
 
 
         mav.addObject("msg", msg);
