@@ -38,6 +38,6 @@ public interface AdminDAO {
     @Insert("insert into item (type, category, name, price, pic, detail) values (#{type}, #{category}, #{name}, #{price}, #{pic}, #{detail})")
     int AddProduct(ItemVO item);
 
-    @Select("select * from modc where order_id in (select order_id from `order` where order_status = #{id})")
-    List<MODCVO> selectOrder(int id);
+    @Select("select * from modc where order_status = '${msg}'")
+    List<MODCVO> selectOrder(String msg);
 }
