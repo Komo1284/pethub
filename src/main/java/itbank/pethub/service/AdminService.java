@@ -1,10 +1,7 @@
 package itbank.pethub.service;
 
 import itbank.pethub.model.AdminDAO;
-import itbank.pethub.vo.CouponVO;
-import itbank.pethub.vo.ItemVO;
-import itbank.pethub.vo.MemberVO;
-import itbank.pethub.vo.OrderVO;
+import itbank.pethub.vo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,7 +55,7 @@ public class AdminService {
         return dao.AddProduct(item);
     }
 
-    public List<OrderVO> selectAll(int id) {
-        return dao.selectOrder(id);
+    public List<MODCVO> selectAll(String msg) {
+        return dao.selectOrder(msg);
     }
 }

@@ -42,6 +42,6 @@ cloud:
     s3:
       bucket: itbank-pethub-s3
 
-#server port 변경
 server:
-  port: 8081
+  port: 8084
+
