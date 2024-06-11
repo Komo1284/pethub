@@ -99,6 +99,7 @@
                 </ul>
             </nav>
                 <form th:action="@{/board/wroteBoard}" method="get" class="flex justify-center items-center gap-2 mt-4">
+                <input type="hidden" name="member_id">
                 <select name="group"
                         class="flex h-10 w-1-5 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >

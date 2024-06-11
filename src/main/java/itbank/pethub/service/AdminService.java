@@ -55,7 +55,7 @@ public class AdminService {
         return dao.AddProduct(item);
     }
 
-    public List<MODCVO> selectAll(int id) {
-        return dao.selectOrder(id);
+    public List<MODCVO> selectAll(String msg) {
+        return dao.selectOrder(msg);
     }
 }

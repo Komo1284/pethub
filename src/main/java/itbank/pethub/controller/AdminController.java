@@ -60,8 +60,18 @@ public class AdminController {
     @GetMapping("/manage_orders/{id}")
     public ModelAndView adminManageOrders(@PathVariable("id") int id) {
         ModelAndView mav = new ModelAndView("admin/manage_orders");
+        String msg="주문 접수";
 
-        mav.addObject("list", as.selectAll(id));
+        if(id ==2) msg="결제 완료";
+        else if (id == 3) msg="상품 준비중";
+        else if (id == 4) msg="주문 취소";
+        else if (id == 5) msg="반품 요청";
+        else if (id == 6) msg="반품 완료";
+        else if (id == 7) msg="배송중";
+        else if (id == 8) msg="배송완료";
+
+
+        mav.addObject("list", as.selectAll(msg));
 
         return mav;
     }
