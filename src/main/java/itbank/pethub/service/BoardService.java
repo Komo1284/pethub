@@ -330,6 +330,7 @@ public class BoardService {
 
         int totalcount;
         if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("member_id", member_id);
             totalcount = bd.search(param);
         } else {
             totalcount = bd.total(member_id);
@@ -361,6 +362,7 @@ public class BoardService {
 
         int totalcount;
         if (param.containsKey("group") || param.containsKey("search")) {
+            param.put("member_id", member_id);
             totalcount = bd.searchReply(param);
         } else {
             totalcount = bd.totalReply(member_id);
