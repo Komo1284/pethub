@@ -1,25 +1,38 @@
 package itbank.pethub.config;
 
 
-import jakarta.servlet.Filter;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.SecurityBuilder;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+;
 
 @Configuration
-@EnableWebSecurity  // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됩니다.
-public class SecurityConfig extends WebSecurityConfiguration {
+  // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됩니다.
+public class SecurityConfig {
 
-    @Override
-    public Filter springSecurityFilterChain(HttpSecurity http) throws Exception {
-
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity` http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests()
-                .requestMatchers("/member/login").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/user/**").authenticated()
+                // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
+                // hasRole('ROLE_USER')")
+                // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
+                // hasRole('ROLE_USER')")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .anyRequest().permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/loginProc")
+                .defaultSuccessUrl("/")
+                .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
 
-        http.build();
+        return http.build();
     }
+
 }
