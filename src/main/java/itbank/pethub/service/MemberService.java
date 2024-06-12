@@ -80,6 +80,10 @@ public class MemberService {
         return dao.countByUserId(userid) > 0;
     }
 
+    public boolean isEmailExists(String email) {
+        return dao.countByEmail(email) > 0;
+    }
+
     public List<CouponVO> couponFindbyId(int member_id) {
         return dao.couponFindbyId(member_id);
     }
@@ -94,5 +98,9 @@ public class MemberService {
             return 1;
         }
         return 0;
+    }
+
+    public MemberVO findUserbyUserId(MemberVO input) {
+        return dao.findUserbyUserId(input);
     }
 }

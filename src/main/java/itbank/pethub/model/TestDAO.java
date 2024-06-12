@@ -9,6 +9,6 @@ import java.util.List;
 @Mapper
 public interface TestDAO {
 
-    @Select("select * from Member order by id desc")
+    @Select("select * from member order by id desc")
     List<MemberVO> selectAll();
 }
