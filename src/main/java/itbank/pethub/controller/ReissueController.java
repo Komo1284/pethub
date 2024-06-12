@@ -97,7 +97,7 @@ public class ReissueController {
         }
 
         String userid = jwtUtil.getUsername(refresh);
-        String role = jwtUtil.getRole(refresh);
+        int role = 0;
 
         //make new JWT
         String newAccess = jwtUtil.createJwt("access", userid, role, 600000L);

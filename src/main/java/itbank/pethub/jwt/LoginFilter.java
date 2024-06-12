@@ -70,6 +70,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         // 가입 여부 확인
         if (dao.selectOne(memberVO) != null) {
             MemberVO user = dao.selectOne(memberVO);
+            user.setRole(0);
 
             // 가입 되어있지만 Access 와 refresh 여부에 따른 생성
 
@@ -77,8 +78,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             if (user.getAccessToken() == null && dao.selectRefresh(user.getUserid()) == null) {
 
                 // Access & Refresh 토큰 생성
-                String access = jwtUtil.createJwt("access", user.getUserid(), user.getRole(), 600000L);
-                String refresh = jwtUtil.createJwt("refresh", user.getUserid(), user.getRole(), 86400000L);
+                String access = jwtUtil.createJwt("access", user.getUserid(), 0, 600000L);
+                String refresh = jwtUtil.createJwt("refresh", user.getUserid(), 0, 86400000L);
 
 
                 // Access & Refresh 토큰 DB 저장

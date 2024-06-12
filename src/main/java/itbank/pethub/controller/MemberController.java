@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.config.auth.PrincipalDetails;
 import itbank.pethub.dto.UserDTO;
 import itbank.pethub.jwt.JWTUtil;
 import itbank.pethub.jwt.LoginFilter;
@@ -11,13 +12,18 @@ import itbank.pethub.vo.MemberVO;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +49,20 @@ public class MemberController {
     private final ImageService is;
     private final EmailService es;
 
+
+    @GetMapping("/test/oauth/login")
+    public @ResponseBody String testLogin(
+            Authentication authentication,
+            @AuthenticationPrincipal OAuth2User oauth) {
+        System.out.println("testlogin==========================================");
+
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+
+        System.out.println("authentication : " + oAuth2User.getAttributes());
+        System.out.println("oauth2 : " + oauth.getAttributes());
+
+        return "OAuth 세션정보확인하기";
+    }
 
 
     @GetMapping("/login")

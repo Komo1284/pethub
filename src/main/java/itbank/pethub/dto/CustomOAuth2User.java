@@ -11,10 +11,10 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User {
 
-    private MemberVO member;
+    private MemberVO memberVO;
 
-    public CustomOAuth2User(MemberVO member) {
-        this.member = member;
+    public CustomOAuth2User(MemberVO memberVO) {
+        this.memberVO = memberVO;
     }
 
     // 모든 데이터를 다 받아옴
@@ -33,7 +33,18 @@ public class CustomOAuth2User implements OAuth2User {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return member.getRole();
+                String realRole = "";
+                if (memberVO.getRole() == 0)  {
+                    realRole = "ROLE_USER";
+                }
+                else if (memberVO.getRole() == 1)  {
+                    realRole = "ROLE_ADMIN";
+                }
+                else if (memberVO.getRole() == 2)  {
+                    realRole = "ROLE_MANAGER";
+                }
+
+                return realRole;
             }
         });
 
@@ -42,11 +53,11 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public String getName() {
-        return member.getName();
+        return memberVO.getName();
     }
 
     public String getUserid() {
-        return member.getUserid();
+        return memberVO.getUserid();
     }
 
 
