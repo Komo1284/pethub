@@ -1,8 +1,10 @@
 package itbank.pethub.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import itbank.pethub.dto.CustomOAuth2User;
 import itbank.pethub.dto.CustomUserDetails;
 import itbank.pethub.dto.MemberDetails;
+import itbank.pethub.dto.UserDTO;
 import itbank.pethub.entity.UserEntity;
 import itbank.pethub.vo.MemberVO;
 import jakarta.servlet.FilterChain;
@@ -53,7 +55,7 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         // 토큰이 access인지 확인 (발급시 페이로드에 명시)
-        String jwttype = jwtUtil.getJwttype(accessToken);
+        String jwttype = jwtUtil.getCategory(accessToken);
 
         if (!jwttype.equals("access")) {
 
@@ -66,8 +68,8 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-// username, role 값을 획득
-        String userid = jwtUtil.getUserid(accessToken);
+        // username, role 값을 획득
+        String userid = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
         MemberVO memberVO = new MemberVO();
@@ -75,8 +77,22 @@ public class JWTFilter extends OncePerRequestFilter {
         memberVO.setRole(role);
         MemberDetails memberDetails = new MemberDetails(memberVO);
 
+
+        //userDTO를 생성하여 값 set
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserid(userid);
+        userDTO.setRole(role);
+
+        //UserDetails에 회원 정보 객체 담기
+        CustomOAuth2User customOAuth2User = new CustomOAuth2User(memberVO);
+
+        Authentication authToken2 = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+
+
         Authentication authToken = new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
+        SecurityContextHolder.getContext().setAuthentication(authToken2);
+
 
         filterChain.doFilter(request, response);
     }

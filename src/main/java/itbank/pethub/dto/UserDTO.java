@@ -13,5 +13,8 @@ public class UserDTO {
     private String email;
     private String nickname;
     private String userid;
-    private String refresh_token;
+    private String role;
+    private String phone;
+    private String profile;
+
 }

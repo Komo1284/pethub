@@ -53,6 +53,7 @@
                                 <input
                                         class="flex border bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded"
                                         type="checkbox"
+                                        onclick="rememberId"
                                         id="remember-me"
                                 />
                                 <label
@@ -104,44 +105,38 @@
     <br>
 
     <div>
-        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=login">
+        <a th:href="@{'http://localhost:8081/oauth2/authorization/google'(redirect_uri='http://localhost:8081', mode='login')}">
             <button>Google Login</button>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=unlink">
+        <a th:href="@{'http://localhost:8081/oauth2/authorization/google'(redirect_uri='http://localhost:8081', mode='unlink')}">
             <button>Google Unlink</button>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=login">
+        <a th:href="@{'http://localhost:8081/oauth2/authorization/naver'(redirect_uri='http://localhost:8081', mode='login')}">
             <button>Naver Login</button>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=unlink">
+        <a th:href="@{'http://localhost:8081/oauth2/authorization/naver'(redirect_uri='http://localhost:8081', mode='unlink')}">
             <button>Naver Unlink</button>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=login">
+        <a th:href="@{'http://localhost:8081/oauth2/authorization/kakao'(redirect_uri='http://localhost:8081', mode='login')}">
             <button>Kakao Login</button>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=unlink">
+        <a th:href="@{'http://localhost:8081/oauth2/authorization/kakao'(redirect_uri='http://localhost:8081', mode='unlink')}">
             <button>Kakao Unlink</button>
         </a>
 
-        <p id="accessToken">Access Token : </p>
-        <p id="refreshToken">Refresh Token : </p>
+        <p th:text="'Access Token : ' + ${access_token}"></p>
+        <p th:text="'Refresh Token : ' + ${refresh_token}"></p>
     </div>
-
-    <script>
-        // URL에서 쿼리 파라미터를 추출하는 함수
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
-        // 액세스 토큰과 리프레시 토큰을 가져와서 표시
-        document.getElementById('accessToken').textContent += getQueryParam('access_token');
-        document.getElementById('refreshToken').textContent += getQueryParam('refresh_token');
-    </script>
-
-    <a href="/oauth2/authorization/naver">Naver Login</a>
 
     <div th:replace="~{footer :: footer}"></div>
 </div>
+
+<script>
+    function rememberId() {
+
+
+    }
+</script>
+
 </body>
 </html>

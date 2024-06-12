@@ -26,6 +26,9 @@ import java.util.UUID;
 public class MemberService implements UserDetailsService {
 
     @Autowired
+    private JWTUtil jwtUtil;
+
+    @Autowired
     private MemberDAO dao;
 
     @Override
@@ -120,29 +123,6 @@ public class MemberService implements UserDetailsService {
         return dao.insertSns(ud);
     }
 
-    public UserDTO Snslogin(OAuth2UserPrincipal principal) {
-
-        String userid = principal.getUserInfo().getId();
-
-        return dao.selectSnsUser(userid);
-    }
-
-    public int updateSnsUser(OAuth2UserPrincipal principal) {
-
-        String userid = principal.getUserInfo().getId();
-        String access_token = principal.getUserInfo().getAccessToken();
-
-        // userid 와 같은 데이터를 불러오기
-        UserDTO ud = new UserDTO();
-        ud.setUserid(userid);
-        UserDTO ud2 =  dao.selectSnsUser(ud.getUserid());
-
-        ud2.setAccess_token(access_token);
-
-
-        return dao.updateSns(ud2);
-
-    }
 
     public int deleteSnsUser(OAuth2UserPrincipal principal) {
 
@@ -166,40 +146,49 @@ public class MemberService implements UserDetailsService {
         dao.insertRefresh(refreshVO);
     }
 
-    public UserDTO snslogin(String accessToken, String refreshToken, String userid) {
+//    public UserDTO snslogin(String accessToken, String userid) {
+//
+//
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setUserid(userid);
+//        userDTO = dao.selectSnsUser(userDTO.getUserid());
+//        String basic_access = dao.selectAccessToken(userDTO.getUserid());
+//
+//        if (basic_access.equals(accessToken)) {
+//
+//            return userDTO;
+//        } else {
+//
+//            userDTO.setAccess_token(accessToken);
+//
+//        }
+//
+//        return userDTO;
+//
+//    }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setAccess_token(accessToken);
-        userDTO.setRefresh_token(refreshToken);
+    public boolean isSnsUserIdExists(String userid) {
 
-        UserDTO userDTO2 = new UserDTO();
-        userDTO2.setUserid(userid);
-        userDTO2 = dao.selectSnsUser(userDTO2.getUserid());
+        return dao.countBySnsUserId(userid) > 0;
+    }
 
-        JWTUtil jwtUtil = new JWTUtil();
+    public String selectAccesstoken(String userid) {
 
-        if (userDTO.getAccess_token().equals(userDTO2.getAccess_token())
-                && userDTO.getRefresh_token().equals(userDTO2.getRefresh_token())) {
+        return dao.selectAccessToken(userid);
+    }
 
-            return userDTO2;
-        } else if (userDTO2.getRefresh_token().equals(userDTO.getRefresh_token())
-                && !userDTO2.getAccess_token().equals(userDTO.getAccess_token())) {
+    public int updateSnsUser(OAuth2UserPrincipal principal) {
 
+        UserDTO ud = new UserDTO();
+        ud.setAccess_token(principal.getUserInfo().getAccessToken());
+        ud.setUserid(principal.getUserInfo().getId());
 
-            String access = jwtUtil.createJwt("access", userDTO2.getUserid(), null, 600000L);
+        return dao.updateSns(ud);
+    }
 
-            userDTO2.setAccess_token(access);
+    public UserDTO selectSnsUser(String access) {
 
-        } else if (!userDTO2.getRefresh_token().equals(userDTO.getRefresh_token())) {
-
-            String refresh = jwtUtil.createJwt("refresh", userDTO2.getUserid(), null, 86400000L);
-
-            userDTO2.setRefresh_token(refresh);
-
-
-        }
-
-        return userDTO2;
+        return dao.selectSnsUser(access);
 
     }
 }

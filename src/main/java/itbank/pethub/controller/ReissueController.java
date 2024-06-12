@@ -13,11 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 
 @Controller
-@ResponseBody
 @RequiredArgsConstructor
 public class ReissueController {
 
@@ -27,7 +27,10 @@ public class ReissueController {
 
 
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView reissue(HttpServletRequest request, HttpServletResponse response) {
+
+        ModelAndView mav = new ModelAndView();
+        String msg = "";
 
         //get refresh token
         String refresh = null;
@@ -42,37 +45,58 @@ public class ReissueController {
 
         if (refresh == null) {
 
-            //response status code
-            return new ResponseEntity<>("refresh token null", HttpStatus.BAD_REQUEST);
+            msg = "refresh token is Null";
+
+            System.out.println(msg);
+
+            mav.setViewName("redirect:/reissue");
+
+
+            return mav;
         }
 
         //expired check
         try {
-            jwtUtil.isExpired(refresh);
+            if (jwtUtil.isExpired(refresh)) {
+                msg = "refresh token is expired";
+
+                System.out.println(msg);
+
+                mav.setViewName("redirect:/reissue");
+
+
+                return mav;
+            };
         } catch (ExpiredJwtException e) {
 
-            //response status code
-            return new ResponseEntity<>("refresh token expired", HttpStatus.BAD_REQUEST);
+            return mav;
         }
 
         // 토큰이 refresh인지 확인 (발급시 페이로드에 명시)
-        String jwttype = jwtUtil.getJwttype(refresh);
+        String category = jwtUtil.getCategory(refresh);
 
-        if (!jwttype.equals("refresh")) {
+        if (!category.equals("refresh")) {
 
-            //response status code
-            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+            msg = "this token is not refresh";
+
+            System.out.println(msg);
+
+            mav.setViewName("redirect:/reissue");
+
+
+            return mav;
         }
 
         //DB에 저장되어 있는지 확인
-        Boolean isExist = dao.existsByRefresh(refresh);
-        if (!isExist) {
+        int isExist = dao.existsByRefresh(refresh);
+        if (isExist == 0) {
 
             //response body
-            return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
+            mav.setViewName("redirect:/reissue");
+            return mav;
         }
 
-        String userid = jwtUtil.getUserid(refresh);
+        String userid = jwtUtil.getUsername(refresh);
         String role = jwtUtil.getRole(refresh);
 
         //make new JWT
@@ -80,14 +104,19 @@ public class ReissueController {
         String newRefresh = jwtUtil.createJwt("refresh", userid, role, 86400000L);
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
-        dao.deleteByRefresh(refresh);
-        addRefreshEntity(userid, newRefresh, 86400000L);
+        RefreshVO refreshVO = new RefreshVO();
+        refreshVO.setRefresh(newRefresh);
+        refreshVO.setUserid(userid);
+
+        dao.updateByRefresh(refreshVO);
+
 
         //response
         response.setHeader("access", newAccess);
         response.addCookie(createCookie("refresh", newRefresh));
+        mav.setViewName("redirect:/member/login");
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return mav;
     }
 
     private Cookie createCookie(String key, String value) {
@@ -99,16 +128,5 @@ public class ReissueController {
         cookie.setHttpOnly(true);
 
         return cookie;
-    }
-    private void addRefreshEntity(String userid, String refresh, Long expiredMs) {
-
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
-
-        RefreshVO refreshVO = new RefreshVO();
-        refreshVO.setUserid(userid);
-        refreshVO.setRefresh(refresh);
-        refreshVO.setExpiration(date.toString());
-
-        dao.insertRefresh(refreshVO);
     }
 }

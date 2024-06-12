@@ -1,5 +1,6 @@
 package itbank.pethub.handler;
 
+import itbank.pethub.dto.CustomOAuth2User;
 import itbank.pethub.dto.UserDTO;
 import itbank.pethub.jwt.CookieUtils;
 import itbank.pethub.jwt.JWTUtil;
@@ -18,12 +19,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Optional;
 
 import static itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository.MODE_PARAM_COOKIE_NAME;
@@ -33,6 +37,7 @@ import static itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepos
 @RequiredArgsConstructor
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
 
     @Autowired
     private MemberService ms;
@@ -55,7 +60,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         clearAuthenticationAttributes(request, response);
         System.out.println(targetUrl);
-        targetUrl = "http://localhost:8081/member";
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
 
     }
@@ -92,30 +96,41 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                     principal.getUserInfo().getId()
 
             );
-            JWTUtil jwtUtil = new JWTUtil();
-            String userid = jwtUtil.getUserid(principal.getUserInfo().getId());
-            String role = null;
 
-            String refresh_token = jwtUtil.createJwt("refresh", userid, role, 86400000L);
+
+            System.out.println(principal.getAttributes());
+
 
             UserDTO ud = new UserDTO();
 
             ud.setAccess_token(principal.getUserInfo().getAccessToken());
-            ud.setRefresh_token(refresh_token);
             ud.setNickname(principal.getUserInfo().getNickname());
             ud.setUserid(principal.getUserInfo().getId());
             ud.setEmail(principal.getUserInfo().getEmail());
             ud.setName(principal.getUserInfo().getName());
+            ud.setPhone(principal.getUserInfo().getPhone());
+            ud.setProfile(principal.getUserInfo().getProfileImageUrl());
 
-            ms.addSnsuser(ud);
 
+            if (ms.isSnsUserIdExists(ud.getUserid())) {
+                int row = ms.updateSnsUser(principal);
+
+                if (row != 0) {
+                    System.out.println("업데이트 성공");
+                }
+
+            }
+            else {
+                ms.addSnsuser(ud);
+            }
+
+            targetUrl = "http://localhost:8081/";
 
             return UriComponentsBuilder.fromUriString(targetUrl)
-                    .path("/snslogin")
-                    .queryParam("userid", ud.getUserid())
-                    .queryParam("access_token", ud.getAccess_token())
-                    .queryParam("refresh_token", ud.getRefresh_token())
+                    .queryParam("access", ud.getAccess_token())
                     .build().toUriString();
+
+
 
         } else if ("unlink".equalsIgnoreCase(mode)) {
 
@@ -125,11 +140,14 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             // TODO: DB 삭제
             // TODO: 리프레시 토큰 삭제
 
-            ms.updateSnsUser(principal);
+            int row = ms.updateSnsUser(principal);
+
+            if (row != 0) {
+                System.out.println("업데이트 성공");
+            }
             oAuth2UserUnlinkManager.unlink(provider, accessToken);
 
             return UriComponentsBuilder.fromUriString(targetUrl)
-                    .path("/snslogout")
                     .build().toUriString();
         }
 

@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -59,26 +60,62 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         System.out.println("success");
 
         //유저 정보
+        String username = authentication.getName();
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        MemberVO memberVO = new MemberVO();
 
-        String userid = memberDetails.getUsername();
+        memberVO.setUserid(memberDetails.getUsername());
+        memberVO.setUserpw(memberDetails.getPassword());
 
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = iterator.next();
-        String role = auth.getAuthority();
+        // 가입 여부 확인
+        if (dao.selectOne(memberVO) != null) {
+            MemberVO user = dao.selectOne(memberVO);
 
-        //토큰 생성
-        String access = jwtUtil.createJwt("access", userid, role, 600000L);
-        String refresh = jwtUtil.createJwt("refresh", userid, role, 86400000L);
+            // 가입 되어있지만 Access 와 refresh 여부에 따른 생성
 
-        //Refresh 토큰 저장
-        addRefreshEntity(userid, refresh, 86400000L);
+            // 두 토큰 다 만료되었을 때
+            if (user.getAccessToken() == null && dao.selectRefresh(user.getUserid()) == null) {
 
-        //응답 설정
-        response.setHeader("access", access);
-        response.addCookie(createCookie("refresh", refresh));
-        response.setStatus(HttpStatus.OK.value());
+                // Access & Refresh 토큰 생성
+                String access = jwtUtil.createJwt("access", user.getUserid(), user.getRole(), 600000L);
+                String refresh = jwtUtil.createJwt("refresh", user.getUserid(), user.getRole(), 86400000L);
+
+
+                // Access & Refresh 토큰 DB 저장
+                user.setAccessToken(access);
+                addAccesstoken(user);
+                addRefreshEntity(user.getUserid(), refresh, 86400000L);
+
+                //응답 설정
+                response.addHeader("Authorization", "Bearer " + access);
+                response.addCookie(createCookie("refresh", refresh));
+                response.setStatus(HttpStatus.OK.value());
+                response.sendRedirect("http://localhost:8081/reissue");
+
+            }
+            // Access 토큰만 만료되었을 때
+            else if (user.getAccessToken() == null && dao.selectRefresh(user.getUserid()) != null ) {
+                //토큰 생성
+                String access = jwtUtil.createJwt("access", user.getUserid(), user.getRole(), 600000L);
+
+                // Access 토큰 DB 저장
+                user.setAccessToken(access);
+                addAccesstoken(user);
+
+                // 만료되지않은 refresh 토큰 불러오기
+                String refresh = dao.selectRefresh(user.getUserid()).getRefresh();
+
+                //응답 설정
+                response.addHeader("Authorization", "Bearer " + access);
+                response.addCookie(createCookie("refresh", refresh));
+                response.setStatus(HttpStatus.OK.value());
+                response.sendRedirect("http://localhost:8081/reissue");
+            }
+        }
+
+
+
+
     }
 
     @Bean
@@ -109,5 +146,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         refreshVO.setExpiration(date.toString());
 
         dao.insertRefresh(refreshVO);
+    }
+
+    private void addAccesstoken(MemberVO user) {
+
+        dao.addAccesstoken(user);
+
     }
 }

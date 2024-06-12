@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.dto.UserDTO;
 import itbank.pethub.jwt.JWTUtil;
 import itbank.pethub.jwt.LoginFilter;
 import itbank.pethub.service.EmailService;
@@ -32,7 +33,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-@RestController
+@Controller
+@ResponseBody
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
@@ -59,12 +61,10 @@ public class MemberController {
 
     @GetMapping("/snslogin")
     public ModelAndView snslogin(@RequestParam String access_token,
-                                 @RequestParam String refresh_token,
                                  @RequestParam String userid,
                                  HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
-        session.setAttribute("user", ms.snslogin(access_token, refresh_token, userid));
         mav.setViewName("redirect:/");
 
         return mav;
@@ -131,10 +131,14 @@ public class MemberController {
 
     // 나의정보 페이지로 이동
     @GetMapping("/myPage")
-    public ModelAndView myPage(HttpSession session) {
+    public ModelAndView myPage(HttpSession session, @RequestParam("access") String access) {
         ModelAndView mav = new ModelAndView("member/myPage");
-        MemberVO user = (MemberVO) session.getAttribute("user");
-        mav.addObject("coupons", ms.couponFindbyId(user.getId()));
+
+        UserDTO ud;
+        ud = ms.selectSnsUser(access);
+
+        mav.addObject("user", ud);
+        mav.addObject("coupons", ms.couponFindbyId(ud.getId()));
 
         return mav;
     }

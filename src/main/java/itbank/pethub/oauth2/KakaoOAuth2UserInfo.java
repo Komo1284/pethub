@@ -12,7 +12,7 @@ public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
     private final String firstName;
     private final String lastName;
     private final String nickName;
-    private final String profileImageUrl;
+    private final String profile;
 
     public KakaoOAuth2UserInfo(String accessToken, Map<String, Object> attributes) {
         this.accessToken = accessToken;
@@ -29,7 +29,7 @@ public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
         this.lastName = null;
         this.nickName = (String) attributes.get("nickname");
         ;
-        this.profileImageUrl = (String) attributes.get("profile_image_url");
+        this.profile = (String) attributes.get("profile_image_url");
 
         this.attributes.put("id", id);
         this.attributes.put("email", this.email);
@@ -82,6 +82,9 @@ public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
 
     @Override
     public String getProfileImageUrl() {
-        return profileImageUrl;
+        return profile;
     }
+
+    @Override
+    public String getPhone() {return null;}
 }

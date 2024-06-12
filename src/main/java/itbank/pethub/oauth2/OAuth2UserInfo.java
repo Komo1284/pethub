@@ -23,4 +23,6 @@ public interface OAuth2UserInfo {
     String getNickname();
 
     String getProfileImageUrl();
+    
+    String getPhone();
 }
