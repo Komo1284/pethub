@@ -121,10 +121,8 @@
                         <li class="flex justify-between items-center">
                             <!-- 줄 긋기 -->
                             <hr class="my-4">
-
                             <!-- 취소 버튼 -->
                             <div>
-                                <!-- 취소 버튼 -->
                                 <th:block th:if="${order.delivery_status == '배송 준비'}">
                                     <div>
                                         <a th:href="@{'/order/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
@@ -132,7 +130,6 @@
                                         </a>
                                     </div>
                                 </th:block>
-
                             </div>
                         </li>
                     </div>
@@ -215,20 +212,7 @@
         popup.classList.add('hidden');
     }
 
-    // 페이지가 로드될 때, 주문 목록의 순서를 반대로 바꿉니다.
-    document.addEventListener("DOMContentLoaded", function() {
-        const ordersContainer = document.querySelector('#order');
-        const orders = Array.from(ordersContainer.children);
 
-        // Reverse the order of the orders
-        orders.reverse();
-
-        // Clear the container
-        ordersContainer.innerHTML = '';
-
-        // Append the orders in reversed order
-        orders.forEach(order => ordersContainer.appendChild(order));
-    });
 </script>
 </body>
 </html>
