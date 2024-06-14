@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold text-[#ff7b00]">새로운 쿠폰을 추가하세요!</h2>
+    </div>
+    <form class="space-y-4" action="/admin/newCoupon" method="post" onsubmit="closePopup();">
+      <div>
+        <label for="code" class="mb-2 block text-sm font-medium text-gray-700">
+          쿠폰이름
+        </label>
+        <input
+                id="code"
+                name="code"
+                type="text"
+                class="block w-full rounded-md border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 focus:border-orange-400 focus:ring-orange-400"
+                placeholder="쿠폰의 이름을 지정해주세요."
+        />
+      </div>
+      <div>
+        <label for="discount" class="mb-2 block text-sm font-medium text-gray-700">
+          할인율
+        </label>
+        <input
+                id="discount"
+                name="discount"
+                type="number"
+                class="block w-full rounded-md border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 focus:border-orange-400 focus:ring-orange-400"
+                placeholder="할인율을 작성해주세요."
+        />
+      </div>
+      <div>
+        <label for="min_price" class="mb-2 block text-sm font-medium text-gray-700">
+          최소 구매금액
+        </label>
+        <input
+                id="min_price"
+                name="min_price"
+                type="number"
+                class="block w-full rounded-md border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 focus:border-orange-400 focus:ring-orange-400"
+                placeholder="쿠폰 사용가능한 최소 구매 금액을 결정해주세요."
+        />
+      </div>
+      <div>
+        <label for="discount_limit" class="mb-2 block text-sm font-medium text-gray-700">
+          할인 최대금액
+        </label>
+        <input
+                id="discount_limit"
+                name="discount_limit"
+                type="number"
+                class="block w-full rounded-md border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 focus:border-orange-400 focus:ring-orange-400"
+                placeholder="할인 가능한 최대 할인금액을 결정하세요."
+        />
+      </div>
+      <div class="flex justify-end">
+        <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-500 text-primary-foreground hover:bg-orange-400/90 h-9 rounded-md px-3">
+          추가하기
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<th:block th:if="${msg != null}">
+  <script th:inline="javascript">
+
+    let msg = [[${msg}]];
+    alert(msg);
+    // 부모 창 새로고침
+    window.opener.location.reload();
+    // 팝업 창 닫기
+    window.close();
+
+  </script>
+</th:block>
+</body>
+</html>

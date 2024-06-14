@@ -1,29 +1,20 @@
 package itbank.pethub.service;
 
 import itbank.pethub.aop.PasswordEncoder;
-import itbank.pethub.dto.MemberDetails;
-import itbank.pethub.dto.UserDTO;
-import itbank.pethub.jwt.JWTUtil;
+
 import itbank.pethub.model.MemberDAO;
-import itbank.pethub.oauth2.OAuth2UserPrincipal;
+
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
-import itbank.pethub.vo.RefreshVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Member;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class MemberService implements UserDetailsService {
+public class MemberService {
 
     @Autowired
     private JWTUtil jwtUtil;
@@ -45,7 +36,7 @@ public class MemberService implements UserDetailsService {
 
     public MemberVO login(MemberVO input) {
         String hash = input.getUserpw();
-
+        System.out.println(hash);
         return dao.selectOne(input);
     }
 
@@ -103,6 +94,10 @@ public class MemberService implements UserDetailsService {
         return dao.countByUserId(userid) > 0;
     }
 
+    public boolean isEmailExists(String email) {
+        return dao.countByEmail(email) > 0;
+    }
+
     public List<CouponVO> couponFindbyId(int member_id) {
         return dao.couponFindbyId(member_id);
     }
@@ -117,6 +112,10 @@ public class MemberService implements UserDetailsService {
             return 1;
         }
         return 0;
+    }
+
+    public MemberVO findUserbyUserId(MemberVO input) {
+        return dao.findUserbyUserId(input);
     }
 
     public int addSnsuser(UserDTO ud) {

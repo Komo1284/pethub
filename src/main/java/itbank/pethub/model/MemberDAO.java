@@ -58,6 +58,12 @@ public interface MemberDAO {
     @Update("update member set ad = 1 where userid = #{userid}")
     void insertAd(MemberVO input);
 
+    @Select("SELECT COUNT(*) FROM member WHERE email = #{email}")
+    int countByEmail(String email);
+
+    @Select("select * from member where userid = #{userid}")
+    MemberVO findUserbyUserId(MemberVO input);
+
 
     @Insert("insert into SnsMember(email, name, nickname, access_token, userid) values (#{email}, #{name}, #{nickname}, #{access_token}, #{userid})")
     int insertSns(UserDTO userDTO);

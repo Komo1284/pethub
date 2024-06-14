@@ -27,7 +27,6 @@ public class MemberVO {
     private String nick;
     private String profile;
     private int ad;
-    private String accessToken;
     private String newpw;
     private int role;
     private String provider;

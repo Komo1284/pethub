@@ -2,28 +2,20 @@ package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
 import itbank.pethub.config.auth.PrincipalDetails;
-import itbank.pethub.dto.UserDTO;
-import itbank.pethub.jwt.JWTUtil;
-import itbank.pethub.jwt.LoginFilter;
+import itbank.pethub.service.AdminService;
 import itbank.pethub.service.EmailService;
 import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.MemberVO;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
+import java.util.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +32,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Controller
-@ResponseBody
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
@@ -48,25 +39,27 @@ public class MemberController {
     private final MemberService ms;
     private final ImageService is;
     private final EmailService es;
+    private final AdminService as;
 
 
-    @GetMapping("/test/oauth/login")
-    public @ResponseBody String testLogin(
-            Authentication authentication,
-            @AuthenticationPrincipal OAuth2User oauth) {
-        System.out.println("testlogin==========================================");
+    @GetMapping("/user")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principal) {
+        System.out.println("Principal : " + principal);
+        System.out.println("OAuth2 : "+principal.getUser().getProvider());
+        // iterator 순차 출력 해보기
+        Iterator<? extends GrantedAuthority> iter = principal.getAuthorities().iterator();
+        while (iter.hasNext()) {
+            GrantedAuthority auth = iter.next();
+            System.out.println(auth.getAuthority());
+        }
 
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-
-        System.out.println("authentication : " + oAuth2User.getAttributes());
-        System.out.println("oauth2 : " + oauth.getAttributes());
-
-        return "OAuth 세션정보확인하기";
+        return "유저 페이지입니다.";
     }
 
-
     @GetMapping("/login")
-    public void login() {}
+    public String login() {
+        return "redirect:/member/login";
+    }
 
     @PostMapping("/login")
     public ModelAndView login(MemberVO input, HttpSession session) {
@@ -79,28 +72,9 @@ public class MemberController {
 
     }
 
-    @GetMapping("/snslogin")
-    public ModelAndView snslogin(@RequestParam String access_token,
-                                 @RequestParam String userid,
-                                 HttpSession session) {
-
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("redirect:/");
-
-        return mav;
-
-    }
-
-
     // 로그아웃 버튼 클릭시 세션에서 'user'를 삭제후 홈으로 리다이렉트
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("user");
-        return "redirect:/";
-    }
-
-    @GetMapping("/snslogout")
-    public String snslogout(HttpSession session) {
         session.removeAttribute("user");
         return "redirect:/";
     }
@@ -151,14 +125,12 @@ public class MemberController {
 
     // 나의정보 페이지로 이동
     @GetMapping("/myPage")
-    public ModelAndView myPage(HttpSession session, @RequestParam("access") String access) {
+    public ModelAndView myPage(HttpSession session) {
         ModelAndView mav = new ModelAndView("member/myPage");
-
-        UserDTO ud;
-        ud = ms.selectSnsUser(access);
-
-        mav.addObject("user", ud);
-        mav.addObject("coupons", ms.couponFindbyId(ud.getId()));
+        MemberVO user = (MemberVO) session.getAttribute("user");
+        mav.addObject("coupons", ms.couponFindbyId(user.getId()));
+        mav.addObject("admins", as.findAllAdmins());
+        mav.addObject("admin_coupons", as.findAllCoupons());
 
         return mav;
     }
@@ -169,7 +141,7 @@ public class MemberController {
 
     // 회원정보 수정요청하여 로그아웃으로 리다이렉트
     @PostMapping("/memberUpdate")
-    public ModelAndView myPage(MemberVO input, HttpSession session, MultipartFile file) throws IOException {
+    public ModelAndView myPage(MemberVO input, @RequestParam("authNum") String authNum, HttpSession session, MultipartFile file) throws IOException {
 
         ModelAndView mav = new ModelAndView();
         MemberVO user = (MemberVO) session.getAttribute("user");
@@ -191,6 +163,13 @@ public class MemberController {
             return mav;
         }
 
+        // 이메일 인증번호가 틀린경우
+        if (!Objects.equals(authNum, session.getAttribute("authNum"))){
+            mav.addObject("msg", "이메일 인증번호가 올바르지 않습니다.");
+            mav.setViewName("member/memberUpdate");
+            return mav;
+        }
+
         input.setId(user.getId());
         input.setUserpw(input.getNewpw());
 
@@ -198,7 +177,8 @@ public class MemberController {
         // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
         if(!file.isEmpty()){
             String url = is.imageUploadFromFile(file);
-            user.setProfile(url);
+
+            input.setProfile(url);
             row = ms.update(input);
         } else{ // 이미지 변경 안할 경우
             row = ms.updateNoProfile(input);
@@ -269,8 +249,13 @@ public class MemberController {
     ResponseEntity<?> sendAuthNum(@RequestBody Map<String, String> request, HttpSession session) throws MessagingException {
 
         String email = request.get("email");
+
         if (email == null || email.isEmpty()) {
             return ResponseEntity.badRequest().body("이메일을 입력해주세요.");
+        }
+
+        if (ms.isEmailExists(email)){
+            return ResponseEntity.badRequest().body("사용할 수 없는 이메일 입니다.");
         }
 
         // 랜덤 인증번호 발생 및 세션에 추가

@@ -82,9 +82,6 @@ public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
 
     @Override
     public String getProfileImageUrl() {
-        return profile;
+        return profileImageUrl;
     }
-
-    @Override
-    public String getPhone() {return null;}
 }

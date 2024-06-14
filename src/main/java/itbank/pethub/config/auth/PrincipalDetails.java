@@ -1,41 +1,38 @@
 package itbank.pethub.config.auth;
 
-
-// 시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행
-// 로그인을 진행이 완료가 되면 시큐리티 session을 만들어줌 (Security ContextHolder)
-// 오브젝트 타입 => Authentication 타입 객체
-// Authentication 안에 Member 정보가 있어야 됨
-// User 오브젝트 타입 => MemberDetails 타입 객체
-
-import itbank.pethub.vo.MemberVO;
+import itbank.pethub.vo.UserVO;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 @Data
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-
-
-
-    private MemberVO memberVO;
+    private static final long serialVersionUID = 1L;
+    private UserVO userVO;
     private Map<String, Object> attributes;
 
-    public PrincipalDetails(MemberVO memberVO) {
-        this.memberVO = memberVO;
+    // 일반 시큐리티 로그인 시 사용
+    public PrincipalDetails(UserVO userVO) {
+        this.userVO = userVO;
     }
 
-    public PrincipalDetails(MemberVO memberVO, Map<String, Object> attributes) {
-        this.memberVO = memberVO;
+    // OAuth 2.0 로그인 시 사용
+    public PrincipalDetails(UserVO userVO, Map<String, Object> attributes) {
+        this.userVO = userVO;
         this.attributes = attributes;
+    }
+
+    public UserVO getUser() {
+        if (userVO == null) {
+            return new UserVO(); // 빈 UserVO 객체를 반환하거나 null 처리에 대한 방어 로직 추가
+        }
+        return userVO;
     }
 
     @Override
@@ -45,18 +42,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                String realRole = "";
-                if (memberVO.getRole() == 0)  {
-                    realRole = "ROLE_USER";
-                }
-                else if (memberVO.getRole() == 1)  {
-                    realRole = "ROLE_ADMIN";
-                }
-                else if (memberVO.getRole() == 2)  {
-                    realRole = "ROLE_MANAGER";
-                }
 
-                return realRole;
             }
         });
 
@@ -65,12 +51,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        return memberVO.getUserpw();
+        return userVO.getUserpw();
     }
 
     @Override
     public String getUsername() {
-        return memberVO.getUserid();
+        return userVO.getUserid();
     }
 
     @Override
