@@ -1,6 +1,7 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.config.auth.PrincipalDetails;
 import itbank.pethub.service.AdminService;
 import itbank.pethub.service.EmailService;
 import itbank.pethub.service.ImageService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
+import java.util.*;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/member")
@@ -40,29 +38,24 @@ public class MemberController {
     private final AdminService as;
 
 
-    // 사용자 Id을 가져오는 메서드
-    public String getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getName();
+    @GetMapping("/user")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principal) {
+        System.out.println("Principal : " + principal);
+        System.out.println("OAuth2 : "+principal.getUser().getProvider());
+        // iterator 순차 출력 해보기
+        Iterator<? extends GrantedAuthority> iter = principal.getAuthorities().iterator();
+        while (iter.hasNext()) {
+            GrantedAuthority auth = iter.next();
+            System.out.println(auth.getAuthority());
         }
-        return null; // 또는 적절한 예외 처리
-    }
 
-    // 사용자의 권한(Role)을 가져오는 메서드
-    public String getUserRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            if (!authorities.isEmpty()) {
-                return authorities.iterator().next().getAuthority();
-            }
-        }
-        return null; // 또는 적절한 예외 처리
+        return "유저 페이지입니다.";
     }
 
     @GetMapping("/login")
-    public void login() {}
+    public String login() {
+        return "redirect:/member/login";
+    }
 
     @PostMapping("/login")
     public ModelAndView login(MemberVO input, HttpSession session) {
