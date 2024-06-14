@@ -5,7 +5,9 @@ import itbank.pethub.config.auth.PrincipalDetails;
 import itbank.pethub.config.oauth.provider.GoogleUserInfo;
 import itbank.pethub.config.oauth.provider.NaverUserInfo;
 import itbank.pethub.config.oauth.provider.OAuth2UserInfo;
-import itbank.pethub.model.UserDAO;
+import itbank.pethub.model.MemberDAO;
+
+import itbank.pethub.vo.MemberVO;
 import itbank.pethub.vo.UserVO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ import java.util.Optional;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private UserDAO userDAO;
+    private MemberDAO memberDAO;
 
     @Autowired
     private HttpSession session;
@@ -64,30 +66,34 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }
 
 
-        Optional<UserVO> userOptional =
-                userDAO.findByProviderAndProviderId(oAuth2UserInfo);
+        MemberVO memberVO = new MemberVO();
 
-        UserVO user = new UserVO();
-        if (userOptional.isPresent()) {
-            user.setToken(oAuth2UserRequest.getAccessToken().toString());
-            userDAO.updateUser(user);
-            session.setAttribute("user", userDAO.findAll());
+        if (oAuth2UserInfo != null) {
+            memberVO.setUserid(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId());
+            memberVO.setName(oAuth2UserInfo.getName());
+            memberVO.setNick(oAuth2UserInfo.getNickname());
+            memberVO.setRole(0);
+            memberVO.setProvider(oAuth2UserInfo.getProvider());
+            memberVO.setEmail(oAuth2UserInfo.getEmail());
+            memberVO.setPhone(oAuth2UserInfo.getPhone());
+            if (memberDAO.countByUserId(memberVO.getUserid()) > 0) {
+                System.out.println("이미 존재하는 ID 입니다. 자동으로 업데이트 진행! 바로 로그인");
+                memberDAO.update(memberVO);
+                session.setAttribute("user", memberDAO.selectSnsOne(memberVO));
+            }
+            else {
+                
+                System.out.println("없는 새로운 SNS 계정. DB에 추가 후 로그인");
+                memberDAO.insert(memberVO);
+                session.setAttribute("user", memberDAO.selectSnsOne(memberVO));
+            }
 
-        } else {
-            user.setUserid(oAuth2UserInfo.getProviderId());
-            user.setName(oAuth2UserInfo.getName());
-            user.setEmail(oAuth2UserInfo.getEmail());
-            user.setNick(oAuth2UserInfo.getNickname());
-            user.setPhone(oAuth2UserInfo.getPhone());
-            user.setProvider(oAuth2UserInfo.getProvider());
-            user.setProviderId(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId());
-            userDAO.insertUser(user);
 
 
-            session.setAttribute("user", userDAO.findAll());
+
         }
 
-        return new PrincipalDetails(user, oAuth2User.getAttributes());
+        return new PrincipalDetails(memberVO, oAuth2User.getAttributes());
     }
 
 }

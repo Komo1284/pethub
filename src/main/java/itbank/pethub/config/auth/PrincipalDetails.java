@@ -1,5 +1,6 @@
 package itbank.pethub.config.auth;
 
+import itbank.pethub.vo.MemberVO;
 import itbank.pethub.vo.UserVO;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,25 +15,25 @@ import java.util.Map;
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private static final long serialVersionUID = 1L;
-    private UserVO userVO;
+    private MemberVO member;
     private Map<String, Object> attributes;
 
     // 일반 시큐리티 로그인 시 사용
-    public PrincipalDetails(UserVO userVO) {
-        this.userVO = userVO;
+    public PrincipalDetails(MemberVO member) {
+        this.member = member;
     }
 
     // OAuth 2.0 로그인 시 사용
-    public PrincipalDetails(UserVO userVO, Map<String, Object> attributes) {
-        this.userVO = userVO;
+    public PrincipalDetails(MemberVO member, Map<String, Object> attributes) {
+        this.member = member;
         this.attributes = attributes;
     }
 
-    public UserVO getUser() {
-        if (userVO == null) {
-            return new UserVO(); // 빈 UserVO 객체를 반환하거나 null 처리에 대한 방어 로직 추가
+    public MemberVO getMember() {
+        if (member == null) {
+            return new MemberVO(); // 빈 UserVO 객체를 반환하거나 null 처리에 대한 방어 로직 추가
         }
-        return userVO;
+        return member;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-
+               return Integer.toString(member.getRole());
             }
         });
 
@@ -51,12 +52,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        return userVO.getUserpw();
+        return member.getUserpw();
     }
 
     @Override
     public String getUsername() {
-        return userVO.getUserid();
+        return member.getUserid();
     }
 
     @Override

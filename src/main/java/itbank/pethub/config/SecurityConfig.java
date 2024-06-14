@@ -1,12 +1,10 @@
 package itbank.pethub.config;
 
-import itbank.pethub.handler.OAuth2AuthenticationFailureHandler;
-import itbank.pethub.handler.OAuth2AuthenticationSuccessHandler;
-import itbank.pethub.jwt.*;
+import itbank.pethub.config.oauth.PrincipalOauth2UserService;
 import itbank.pethub.model.MemberDAO;
-import itbank.pethub.oauth2.CustomOAuth2UserService;
-import itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository;
+
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,11 +35,9 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
-    private final JWTUtil jwtUtil;
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
+
     private final MemberDAO dao;
 
     @Bean
@@ -57,27 +53,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
-
-        http
-                .cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
-
-                    @Override
-                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-
-                        CorsConfiguration configuration = new CorsConfiguration();
-
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8081"));
-                        configuration.setAllowedMethods(Collections.singletonList("*"));
-                        configuration.setAllowCredentials(true);
-                        configuration.setAllowedHeaders(Collections.singletonList("*"));
-                        configuration.setMaxAge(3600L);
-                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-                        configuration.setExposedHeaders(Collections.singletonList("access"));
-                        configuration.setExposedHeaders(Collections.singletonList("Authentication"));
-
-                        return configuration;
-                    }
-                })));
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .formLogin(formLogin -> formLogin
@@ -99,7 +74,6 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(configure ->
                         configure
                                 .loginPage("/member/login")
@@ -110,21 +84,10 @@ public class SecurityConfig {
                                 // 4-1. 그 정보를 토대로 회원가입을 자동으로 진행시키기도 함
                                 // 4-2. (이메일, 전화번호, 이름, 아이디) 쇼핑몰 -> (집주소 필요)
 
-                                .authorizationEndpoint(config -> config.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
-                                    .userInfoEndpoint(config -> config
-                                            .userService(customOAuth2UserService))
-                                            .successHandler(oAuth2AuthenticationSuccessHandler)
-                                            .failureHandler(oAuth2AuthenticationFailureHandler)
-                );
-        //JWTFilter 등록
-
-        http
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
-
-        http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, dao), UsernamePasswordAuthenticationFilter.class);
-        http
-                .addFilterBefore(new CustomLogoutFilter(jwtUtil, dao), LogoutFilter.class);
+                                .authorizationEndpoint(config -> config
+                                        .userInfoEndpoint(endpoint -> endpoint
+                                            .userService(principalOauth2UserService))
+                ));
 
         return http.build();
     }
