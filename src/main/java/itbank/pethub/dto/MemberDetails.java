@@ -23,7 +23,7 @@ public class MemberDetails implements UserDetails {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return memberVO.getRole();
+                return "ROLE_USER";
             }
         });
 

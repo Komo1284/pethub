@@ -37,7 +37,6 @@ public class MemberService implements UserDetailsService {
 
     public MemberVO login(MemberVO input) {
         String hash = input.getUserpw();
-
         return dao.selectOne(input);
     }
 
@@ -111,25 +110,18 @@ public class MemberService implements UserDetailsService {
         return 0;
     }
 
-    public int addSnsuser(UserDTO ud) {
-        return dao.insertSns(ud);
+    public int addSnsuser(MemberVO memberVO) {
+        return dao.insertSns(memberVO);
     }
 
-    public UserDTO Snslogin(OAuth2UserPrincipal principal) {
-
-        String userid = principal.getUserInfo().getId();
+    public MemberVO Snslogin(String userid) {
 
         return dao.selectSnsUser(userid);
     }
 
-    public int updateSnsUser(OAuth2UserPrincipal principal) {
+    public int updateSnsUser(MemberVO memberVO) {
 
-        String userid = principal.getUserInfo().getId();
-
-        UserDTO ud = new UserDTO();
-        ud.setUserid(userid);
-
-        return dao.updateSns(ud);
+        return dao.updateSns(memberVO);
 
     }
 

@@ -2,15 +2,16 @@ package itbank.pethub.handler;
 
 import itbank.pethub.dto.UserDTO;
 import itbank.pethub.oauth2.util.CookieUtils;
-import itbank.pethub.jwt.JWTUtil;
 import itbank.pethub.oauth2.OAuth2Provider;
 import itbank.pethub.oauth2.service.OAuth2UserPrincipal;
 import itbank.pethub.oauth2.OAuth2UserUnlinkManager;
 import itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import itbank.pethub.service.MemberService;
+import itbank.pethub.vo.MemberVO;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Autowired
     private MemberService ms;
+
+    @Autowired
+    private HttpSession session;
 
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
     private final OAuth2UserUnlinkManager oAuth2UserUnlinkManager;
@@ -82,28 +86,49 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             log.info("email={}, name={}, nickname={}, accessToken={}, id={} ",
                     principal.getUserInfo().getEmail(),
                     principal.getUserInfo().getName(),
-                    principal.getUserInfo().getNickname(),
+                    principal.getUserInfo().getNick(),
                     principal.getUserInfo().getAccessToken(),
-                    principal.getUserInfo().getId()
+                    principal.getUserInfo().getId(),
+                    principal.getUserInfo().getPhone(),
+                    principal.getUserInfo().getProvider()
 
             );
-            JWTUtil jwtUtil = new JWTUtil();
-            String userid = jwtUtil.getUserid(principal.getUserInfo().getAccessToken());
-            String role = jwtUtil.getRole(principal.getUserInfo().getAccessToken());
 
-            String access_token = jwtUtil.createJwt("access", userid, role, 600000L);
-            String refresh_token = jwtUtil.createJwt("refresh", userid, role, 86400000L);
 
-            UserDTO ud = new UserDTO();
 
-            ud.setAccess_token(access_token);
-            ud.setRefresh_token(refresh_token);
-            ud.setNickname(principal.getUserInfo().getNickname());
-            ud.setUserid(principal.getUserInfo().getId());
-            ud.setEmail(principal.getUserInfo().getEmail());
-            ud.setName(principal.getUserInfo().getName());
+            String userid = principal.getUserInfo().getProvider() + "_" + principal.getUserInfo().getId();
 
-            ms.addSnsuser(ud);
+            System.out.println(userid);
+            System.out.println(principal.getAttributes().get("nickname").toString());
+
+            Boolean isExist = ms.isUserIdExists(userid);
+
+            MemberVO member = new MemberVO();
+
+            member.setUserid(userid);
+            member.setUserpw(principal.getUserInfo().getAccessToken());
+            member.setNick(principal.getAttributes().get("nickname").toString());
+            member.setPhone(principal.getUserInfo().getPhone());
+            member.setRole(0);
+            member.setEmail(principal.getUserInfo().getEmail());
+            member.setProvider(principal.getUserInfo().getProvider().toString());
+            member.setName(principal.getUserInfo().getName());
+
+
+            if (!isExist) {
+
+                int row = ms.addSnsuser(member);
+
+                if (row != 0) {
+                    System.out.println("DB 저장 성공!");
+                }
+
+            }
+            else {
+                ms.updateSnsUser(member);
+            }
+
+            session.setAttribute("user", ms.Snslogin(member.getUserid()));
 
             String accessToken = "test_access_token";
             String refreshToken = "test_refresh_token";
@@ -118,11 +143,23 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             String accessToken = principal.getUserInfo().getAccessToken();
             OAuth2Provider provider = principal.getUserInfo().getProvider();
 
-            // TODO: DB 삭제
-            // TODO: 리프레시 토큰 삭제
+            MemberVO member2 = new MemberVO();
 
-            ms.updateSnsUser(principal);
+            String userid = principal.getUserInfo().getProvider() + "_" + principal.getUserInfo().getId();
+
+            member2.setUserid(userid);
+            member2.setUserpw(principal.getUserInfo().getAccessToken());
+            member2.setNick(principal.getAttributes().get("nickname").toString());
+            member2.setPhone(principal.getUserInfo().getPhone());
+            member2.setRole(0);
+            member2.setEmail(principal.getUserInfo().getEmail());
+            member2.setProvider(principal.getUserInfo().getProvider().toString());
+            member2.setName(principal.getUserInfo().getName());
+
+            ms.updateSnsUser(member2);
             oAuth2UserUnlinkManager.unlink(provider, accessToken);
+
+            session.removeAttribute("user");
 
             return UriComponentsBuilder.fromUriString(targetUrl)
                     .build().toUriString();

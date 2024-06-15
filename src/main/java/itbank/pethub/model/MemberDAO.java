@@ -57,19 +57,25 @@ public interface MemberDAO {
     void insertAd(MemberVO input);
 
 
-    @Insert("insert into SnsMember(email, name, nickname, access_token, userid, refresh_token) values (#{email}, #{name}, #{nickname}, #{access_token}, #{userid}, #{refresh_token})")
-    int insertSns(UserDTO userDTO);
+    @Insert("insert into member(email, name, nick, userid, userpw, phone, provider, role) values (#{email}, #{name}, #{nick}, #{userid}, #{userpw}, #{phone},#{provider}, #{role})")
+    int insertSns(MemberVO memberVO);
 
-    @Select("select * from SnsMember where userid = #{userid}")
-    UserDTO selectSnsUser(String userid);
+    @Select("select * from member where userid = #{userid}")
+    MemberVO selectSnsUser(String userid);
 
-    @Update("update SnsMember set access_token = refresh_token where userid = #{userid}")
-    int updateSns(UserDTO ud);
+    @Update("update member set " +
+            "email = #{email}, " +
+            "name = #{name}, " +
+            "nick = #{nick}, " +
+            "phone = #{phone}, " +
+            "userpw = #{userpw}, " +
+            "provider = #{provider}, " +
+            "role = #{role} " +
+            "where userid = #{userid}")
+    int updateSns(MemberVO memberVO);
 
-    @Delete("delete from SnsMember where userid = #{userid}")
-    int deleteSns(UserDTO ud);
 
-    @Select("select * from member_address_view where userid = #{userid}")
+    @Select("select * from member where userid = #{userid}")
     MemberVO findByUserid(String userid);
 
 }

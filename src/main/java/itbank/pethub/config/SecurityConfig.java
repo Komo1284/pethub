@@ -38,13 +38,12 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // For H2 DB
-                .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/member/login", "/", "/member/signUp",
-                                            "/member/myPage", "/member/memberUpdate").permitAll()
-                        .requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN")
-                        .requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
+                        .requestMatchers("/member/login", "/", "/member/signUp", "/member/logout",
+                                            "/member/myPage", "/member/memberUpdate", "member/memberUpdate").permitAll()
+//                        .requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN")
+//                        .requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated()
                 )
