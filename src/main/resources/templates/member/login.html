@@ -82,6 +82,15 @@
                         </div>
                     </form>
                     <div class="mt-4 text-center">
+                        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=login">
+                            <img src="/img/profile/google_login.png" alt="Google Login" class="h-12 w-12 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
+                        </a>
+                
+                        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=login">
+                            <img src="/img/profile/naver_login.png" alt="Naver Login" class="h-12 w-12 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
+                        </a>
+                    </div>
+                    <div class="mt-4 text-center">
                         <span class="text-gray-600">계정을 가지고 계시지 않으신가요?</span>
                         <a class="font-medium text-orange-600 hover:text-orange-500" href="/member/signUp">
                             회원가입
@@ -102,21 +111,6 @@
         </section>
     </main>
     <br>
-
-    <div class="flex justify-center space-x-4 mt-6">
-        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=login">
-            <img src="https://itbank-pethub-s3.s3.ap-northeast-2.amazonaws.com/google_login.png" alt="Google Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
-        </a>
-
-        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=login">
-            <img src="https://itbank-pethub-s3.s3.ap-northeast-2.amazonaws.com/naver_login.png" alt="Naver Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
-        </a>
-
-<!--        <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=login">-->
-<!--            <img src="/logoimg/kakao_login.png" alt="Kakao Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>-->
-<!--        </a>-->
-    </div>
-
     <div th:replace="~{footer :: footer}"></div>
 </div>
 </body>
