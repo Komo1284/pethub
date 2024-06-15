@@ -1,4 +1,4 @@
-package itbank.pethub.config.oauth.provider;
+package itbank.pethub.oauth;
 
 import java.util.Map;
 
@@ -37,6 +37,6 @@ public class GoogleUserInfo implements OAuth2UserInfo {
 
     @Override
     public String getNickname() {
-        return (String) attributes.get("nickname");
+        return (String) attributes.get("name");
     }
 }

@@ -1,4 +1,4 @@
-package itbank.pethub.config.oauth.provider;
+package itbank.pethub.oauth;
 
 // OAuth2.0 제공자들 마다 응답해주는 속성값이 달라서 공통으로 만들어준다.
 

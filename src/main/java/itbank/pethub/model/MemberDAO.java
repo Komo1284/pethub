@@ -2,7 +2,6 @@ package itbank.pethub.model;
 
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
-import itbank.pethub.vo.RefreshVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -68,4 +67,14 @@ public interface MemberDAO {
 
     @Select("select * from member_address_view where userid = #{userid}")
     MemberVO selectSnsOne(MemberVO memberVO);
+
+    @Update("update member set " +
+            "userpw = #{userpw}, " +
+            "name = #{name}, " +
+            "email = #{email}, " +
+            "nick = #{nick}, " +
+            "phone = #{phone}, " +
+            "provider = #{provider} " +
+            "where userid = #{userid}")
+    void updateSns(MemberVO isExistmember);
 }

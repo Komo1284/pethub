@@ -1,0 +1,628 @@
+2024-06-15T10:30:55.007+09:00  INFO 25432 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : Starting PethubApplication using Java 17.0.11 with PID 25432 (D:\pethub\build\classes\java\main started by pc in D:\pethub)
+2024-06-15T10:30:55.034+09:00  INFO 25432 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-15T10:30:55.097+09:00  INFO 25432 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-15T10:30:55.098+09:00  INFO 25432 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-15T10:30:57.406+09:00  INFO 25432 --- [pethub] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-15T10:30:57.421+09:00  INFO 25432 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-15T10:30:57.422+09:00  INFO 25432 --- [pethub] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-15T10:30:57.521+09:00  INFO 25432 --- [pethub] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-15T10:30:57.521+09:00  INFO 25432 --- [pethub] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2422 ms
+2024-06-15T10:30:59.363+09:00  INFO 25432 --- [pethub] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@27ba76f3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@384e0577, org.springframework.security.web.context.SecurityContextHolderFilter@7afadfaf, org.springframework.security.web.header.HeaderWriterFilter@73bf3972, org.springframework.web.filter.CorsFilter@2187d052, org.springframework.security.web.authentication.logout.LogoutFilter@1db26063, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@3f682b45, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@59765c9b, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6e284f11, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@275ae5a2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@58ccafd1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4a7ec27d, org.springframework.security.web.access.ExceptionTranslationFilter@470f7a25, org.springframework.security.web.access.intercept.AuthorizationFilter@4f887afb]
+2024-06-15T10:30:59.570+09:00  WARN 25432 --- [pethub] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-06-15T10:31:00.274+09:00  INFO 25432 --- [pethub] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-06-15T10:31:00.322+09:00  INFO 25432 --- [pethub] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2024-06-15T10:31:00.335+09:00  INFO 25432 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : Started PethubApplication in 5.881 seconds (process running for 10.051)
+2024-06-15T10:31:14.013+09:00  INFO 25432 --- [pethub] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-06-15T10:31:14.013+09:00  INFO 25432 --- [pethub] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-06-15T10:31:14.014+09:00  INFO 25432 --- [pethub] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-06-15T10:31:14.034+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-06-15T10:31:14.041+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-06-15T10:31:14.216+09:00 ERROR 25432 --- [pethub] [http-nio-8081-exec-1] org.thymeleaf.TemplateEngine             : [THYMELEAF][http-nio-8081-exec-1] Exception processing template "home": Error resolving template [home], template might not exist or might not be accessible by any of the configured Template Resolvers
+
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [home], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1103) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1077) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.spring6.view.ThymeleafView.renderFragment(ThymeleafView.java:372) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.spring6.view.ThymeleafView.render(ThymeleafView.java:192) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1431) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1167) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1106) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.24.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.24.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:227) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:221) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:227) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:221) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.doFilterInternal(OAuth2AuthorizationRequestRedirectFilter.java:181) ~[spring-security-oauth2-client-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230) ~[spring-security-config-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2024-06-15T10:31:14.839+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:14.842+09:00 ERROR 25432 --- [pethub] [http-nio-8081-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.thymeleaf.exceptions.TemplateInputException: Error resolving template [home], template might not exist or might not be accessible by any of the configured Template Resolvers] with root cause
+
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template [home], template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.engine.TemplateManager.resolveTemplate(TemplateManager.java:869) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.engine.TemplateManager.parseAndProcess(TemplateManager.java:607) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1103) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1077) ~[thymeleaf-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.spring6.view.ThymeleafView.renderFragment(ThymeleafView.java:372) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.thymeleaf.spring6.view.ThymeleafView.render(ThymeleafView.java:192) ~[thymeleaf-spring6-3.1.2.RELEASE.jar:3.1.2.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1431) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1167) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1106) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.24.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.24.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:227) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:221) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:227) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:221) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.doFilterInternal(OAuth2AuthorizationRequestRedirectFilter.java:181) ~[spring-security-oauth2-client-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230) ~[spring-security-config-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2024-06-15T10:31:14.861+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-06-15T10:31:14.862+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.229+09:00  WARN 25432 --- [pethub] [http-nio-8081-exec-1] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [337] milliseconds.
+2024-06-15T10:31:15.241+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8081/error?continue to session
+2024-06-15T10:31:15.248+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@7a1a0d0a, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-06-15T10:31:15.252+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] s.w.a.DelegatingAuthenticationEntryPoint : Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@1738f761
+2024-06-15T10:31:15.265+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8081/member/login;jsessionid=AC5863F9712292A14896D15A60122935
+2024-06-15T10:31:15.295+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] s.s.w.f.HttpStatusRequestRejectedHandler : Rejecting request due to: The request was rejected because the URL contained a potentially malicious String ";"
+
+org.springframework.security.web.firewall.RequestRejectedException: The request was rejected because the URL contained a potentially malicious String ";"
+	at org.springframework.security.web.firewall.StrictHttpFirewall.rejectedBlocklistedUrls(StrictHttpFirewall.java:539) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.firewall.StrictHttpFirewall.getFirewalledRequest(StrictHttpFirewall.java:509) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:211) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230) ~[spring-security-config-6.2.4.jar:6.2.4]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.8.jar:6.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.24.jar:10.1.24]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2024-06-15T10:31:15.302+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-06-15T10:31:15.303+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.306+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8081/error?continue to session
+2024-06-15T10:31:15.307+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@7a1a0d0a, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-06-15T10:31:15.308+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] s.w.a.DelegatingAuthenticationEntryPoint : Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@1738f761
+2024-06-15T10:31:15.309+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8081/member/login
+2024-06-15T10:31:15.317+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.318+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.328+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.335+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.335+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.338+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.348+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.349+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.352+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.359+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.360+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.363+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.369+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.370+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.372+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.381+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.382+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.384+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.389+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.389+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.391+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.396+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.397+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.399+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.403+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.403+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.405+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.409+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.410+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.411+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.417+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.418+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.420+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.425+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.426+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.428+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.433+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.433+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.435+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.446+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.449+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.451+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.456+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.457+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.459+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.464+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.465+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.468+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.474+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.474+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.476+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:15.480+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:15.481+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:15.482+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:16.857+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:16.858+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:16.885+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:16.933+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:16.934+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:16.937+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:16.947+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:16.948+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:16.950+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:16.961+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:16.962+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:16.966+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:16.977+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:16.978+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:16.983+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:16.993+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:16.994+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:16.997+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.002+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.003+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.005+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.009+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.010+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.012+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.022+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.023+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.026+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.033+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.034+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.037+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.043+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.044+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.046+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.069+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.070+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.072+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.175+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.176+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.180+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.251+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.252+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.254+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.279+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.280+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.281+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.291+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.294+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.295+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.307+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.308+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.309+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.315+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.316+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.319+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.324+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.325+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.326+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:17.335+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:17.335+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:17.337+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.354+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.355+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.357+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.361+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.361+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.362+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.367+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.368+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.368+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.372+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.372+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.373+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.377+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.377+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.378+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.381+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.382+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.384+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.386+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.387+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.387+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.390+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.390+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.391+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.394+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.395+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.395+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.399+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.400+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.401+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.405+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.405+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.407+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.411+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.411+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.412+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.417+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.417+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.418+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.422+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.422+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.423+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.427+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.427+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.428+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.431+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.432+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.433+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.435+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.435+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.436+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.439+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.439+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.440+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.443+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.443+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.444+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T10:31:22.446+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /member/login
+2024-06-15T10:31:22.446+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /member/login
+2024-06-15T10:31:22.448+09:00 DEBUG 25432 --- [pethub] [http-nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-06-15T12:06:21.286+09:00  INFO 25444 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : Starting PethubApplication using Java 17.0.11 with PID 25444 (D:\pethub\build\classes\java\main started by pc in D:\pethub)
+2024-06-15T12:06:21.307+09:00  INFO 25444 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-15T12:06:21.381+09:00  INFO 25444 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-15T12:06:21.381+09:00  INFO 25444 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-15T12:06:23.408+09:00  INFO 25444 --- [pethub] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-15T12:06:23.425+09:00  INFO 25444 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-15T12:06:23.426+09:00  INFO 25444 --- [pethub] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-15T12:06:23.511+09:00  INFO 25444 --- [pethub] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-15T12:06:23.511+09:00  INFO 25444 --- [pethub] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2129 ms
+2024-06-15T12:06:23.633+09:00  WARN 25444 --- [pethub] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'oAuth2MemberService': Error creating bean with name 'OAuth2MemberService': Unsatisfied dependency expressed through field 'bCryptPasswordEncoder': Error creating bean with name 'securityConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2024-06-15T12:06:23.636+09:00  INFO 25444 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-06-15T12:06:23.659+09:00  INFO 25444 --- [pethub] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-06-15T12:06:23.692+09:00 ERROR 25444 --- [pethub] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  securityConfig (field private itbank.pethub.service.OAuth2MemberService itbank.pethub.config.SecurityConfig.oAuth2MemberService)
+↑     ↓
+|  OAuth2MemberService (field private org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder itbank.pethub.service.OAuth2MemberService.bCryptPasswordEncoder)
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2024-06-15T12:07:24.331+09:00  INFO 13900 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : Starting PethubApplication using Java 17.0.11 with PID 13900 (D:\pethub\build\classes\java\main started by pc in D:\pethub)
+2024-06-15T12:07:24.333+09:00  INFO 13900 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-15T12:07:24.388+09:00  INFO 13900 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-15T12:07:24.388+09:00  INFO 13900 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-15T12:07:26.162+09:00  INFO 13900 --- [pethub] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-15T12:07:26.173+09:00  INFO 13900 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-15T12:07:26.174+09:00  INFO 13900 --- [pethub] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-15T12:07:26.250+09:00  INFO 13900 --- [pethub] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-15T12:07:26.251+09:00  INFO 13900 --- [pethub] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1862 ms
+2024-06-15T12:07:26.354+09:00  WARN 13900 --- [pethub] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'oAuth2MemberService': Error creating bean with name 'OAuth2MemberService': Unsatisfied dependency expressed through field 'bCryptPasswordEncoder': No qualifying bean of type 'org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2024-06-15T12:07:26.357+09:00  INFO 13900 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-06-15T12:07:26.377+09:00  INFO 13900 --- [pethub] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-06-15T12:07:26.402+09:00 ERROR 13900 --- [pethub] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field bCryptPasswordEncoder in itbank.pethub.service.OAuth2MemberService required a bean of type 'org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder' in your configuration.
+
+2024-06-15T12:13:06.364+09:00  INFO 32728 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : Starting PethubApplication using Java 17.0.11 with PID 32728 (D:\pethub\build\classes\java\main started by pc in D:\pethub)
+2024-06-15T12:13:06.379+09:00  INFO 32728 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-15T12:13:06.433+09:00  INFO 32728 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-15T12:13:06.433+09:00  INFO 32728 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-15T12:13:08.651+09:00  INFO 32728 --- [pethub] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-15T12:13:08.666+09:00  INFO 32728 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-15T12:13:08.667+09:00  INFO 32728 --- [pethub] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-15T12:13:08.772+09:00  INFO 32728 --- [pethub] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-15T12:13:08.772+09:00  INFO 32728 --- [pethub] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2338 ms
+2024-06-15T12:13:08.878+09:00  WARN 32728 --- [pethub] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'oAuth2MemberService': Error creating bean with name 'OAuth2MemberService': Unsatisfied dependency expressed through field 'passwordEncoder': Error creating bean with name 'securityConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2024-06-15T12:13:08.883+09:00  INFO 32728 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-06-15T12:13:08.909+09:00  INFO 32728 --- [pethub] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-06-15T12:13:08.935+09:00 ERROR 32728 --- [pethub] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  securityConfig (field private itbank.pethub.service.OAuth2MemberService itbank.pethub.config.SecurityConfig.oAuth2MemberService)
+↑     ↓
+|  OAuth2MemberService (field private org.springframework.security.crypto.password.PasswordEncoder itbank.pethub.service.OAuth2MemberService.passwordEncoder)
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2024-06-15T12:16:07.317+09:00  INFO 26952 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : Starting PethubApplication using Java 17.0.11 with PID 26952 (D:\pethub\build\classes\java\main started by pc in D:\pethub)
+2024-06-15T12:16:07.319+09:00  INFO 26952 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-15T12:16:07.371+09:00  INFO 26952 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-15T12:16:07.372+09:00  INFO 26952 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-15T12:16:09.352+09:00  INFO 26952 --- [pethub] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-15T12:16:09.365+09:00  INFO 26952 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-15T12:16:09.366+09:00  INFO 26952 --- [pethub] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-15T12:16:09.449+09:00  INFO 26952 --- [pethub] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-15T12:16:09.451+09:00  INFO 26952 --- [pethub] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2078 ms
+2024-06-15T12:16:09.532+09:00  WARN 26952 --- [pethub] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'oAuth2MemberService': Error creating bean with name 'OAuth2MemberService' defined in file [D:\pethub\build\classes\java\main\itbank\pethub\service\OAuth2MemberService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.springframework.security.crypto.password.PasswordEncoder' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-06-15T12:16:09.535+09:00  INFO 26952 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-06-15T12:16:09.562+09:00  INFO 26952 --- [pethub] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-06-15T12:16:09.592+09:00 ERROR 26952 --- [pethub] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in itbank.pethub.service.OAuth2MemberService required a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' in your configuration.
+
+2024-06-15T12:22:54.043+09:00  INFO 20580 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : Starting PethubApplication using Java 17.0.11 with PID 20580 (D:\pethub\build\classes\java\main started by pc in D:\pethub)
+2024-06-15T12:22:54.045+09:00  INFO 20580 --- [pethub] [restartedMain] itbank.pethub.PethubApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-15T12:22:54.101+09:00  INFO 20580 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-06-15T12:22:54.102+09:00  INFO 20580 --- [pethub] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-06-15T12:22:55.674+09:00  INFO 20580 --- [pethub] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-15T12:22:55.686+09:00  INFO 20580 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-15T12:22:55.687+09:00  INFO 20580 --- [pethub] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-15T12:22:55.774+09:00  INFO 20580 --- [pethub] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-15T12:22:55.775+09:00  INFO 20580 --- [pethub] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1673 ms
+2024-06-15T12:22:55.851+09:00  WARN 20580 --- [pethub] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through field 'oAuth2MemberService': Error creating bean with name 'OAuth2MemberService' defined in file [D:\pethub\build\classes\java\main\itbank\pethub\service\OAuth2MemberService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.springframework.security.crypto.password.PasswordEncoder' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-06-15T12:22:55.853+09:00  INFO 20580 --- [pethub] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-06-15T12:22:55.876+09:00  INFO 20580 --- [pethub] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-06-15T12:22:55.907+09:00 ERROR 20580 --- [pethub] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in itbank.pethub.service.OAuth2MemberService required a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.crypto.password.PasswordEncoder' in your configuration.
+

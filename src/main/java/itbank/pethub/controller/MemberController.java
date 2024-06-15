@@ -42,19 +42,6 @@ public class MemberController {
     private final AdminService as;
 
 
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principal) {
-        System.out.println("Principal : " + principal);
-        System.out.println("OAuth2 : "+principal.getUser().getProvider());
-        // iterator 순차 출력 해보기
-        Iterator<? extends GrantedAuthority> iter = principal.getAuthorities().iterator();
-        while (iter.hasNext()) {
-            GrantedAuthority auth = iter.next();
-            System.out.println(auth.getAuthority());
-        }
-
-        return "유저 페이지입니다.";
-    }
 
     @GetMapping("/login")
     public String login() {

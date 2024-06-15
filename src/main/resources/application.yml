@@ -51,6 +51,9 @@ spring:
             scope: # 기본 값 openid,profile,email => profile, email 로 설정 변경
               - profile
               - email
+              - phone
+              - name
+              - nickname
           naver:
             client-id: QpBnbk7arcmKPKD1wYrM
             client-secret: AXFiNzxWTx
@@ -101,6 +104,17 @@ cloud:
       auto: false
     s3:
       bucket: itbank-pethub-s3
+
+
+logging:
+  file:
+    name: application.log
+
+
+  level:
+    org:
+      springframework:
+        security: debug
 
 #server port 변경
 server:
