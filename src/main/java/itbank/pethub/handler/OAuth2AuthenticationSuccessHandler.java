@@ -99,7 +99,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             String userpw = principal.getUserInfo().getId() + "_pethub";
 
             System.out.println(userid);
-            System.out.println(principal.getAttributes().get("nickname").toString());
+            System.out.println(principal.getUserInfo().getNick());
 
             Boolean isExist = ms.isUserIdExists(userid);
 
@@ -107,7 +107,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             member.setUserid(userid);
             member.setUserpw(userpw);
-            member.setNick(principal.getAttributes().get("nickname").toString());
+            member.setNick(principal.getUserInfo().getNick());
             member.setPhone(principal.getUserInfo().getPhone());
             member.setRole(0);
             member.setEmail(principal.getUserInfo().getEmail());

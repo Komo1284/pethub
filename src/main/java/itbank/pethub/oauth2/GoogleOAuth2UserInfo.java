@@ -20,7 +20,7 @@ public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
         this.id = (String) attributes.get("sub");
         this.email = (String) attributes.get("email");
         this.name = (String) attributes.get("name");
-        this.nick = null;
+        this.nick = (String) attributes.get("nickname");
         this.phone = (String) attributes.get("phone");
     }
 
@@ -56,7 +56,7 @@ public class GoogleOAuth2UserInfo implements OAuth2UserInfo {
 
     @Override
     public String getNick() {
-        return nick;
+        return name;
     }
 
     @Override

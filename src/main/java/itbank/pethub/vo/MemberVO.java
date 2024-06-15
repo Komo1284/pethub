@@ -1,6 +1,5 @@
 package itbank.pethub.vo;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 

@@ -2,7 +2,6 @@ package itbank.pethub.service;
 
 import itbank.pethub.aop.PasswordEncoder;
 import itbank.pethub.dto.MemberDetails;
-import itbank.pethub.dto.UserDTO;
 import itbank.pethub.model.MemberDAO;
 import itbank.pethub.oauth2.service.OAuth2UserPrincipal;
 import itbank.pethub.vo.CouponVO;
@@ -132,6 +131,11 @@ public class MemberService implements UserDetailsService {
     }
 
     public MemberVO SnsNoAddress(MemberVO member) {
+
         return dao.selectSnsOneNoAddress(member);
+    }
+
+    public MemberVO findUserbyUserId(MemberVO input) {
+        return dao.findUserbyUserId(input);
     }
 }

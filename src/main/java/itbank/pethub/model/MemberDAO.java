@@ -80,4 +80,7 @@ public interface MemberDAO {
     @Select("select * from member where userid = #{userid}")
     MemberVO findByUserid(String userid);
 
+
+    @Select("select * from member where userid = #{userid}")
+    MemberVO findUserbyUserId(MemberVO input);
 }

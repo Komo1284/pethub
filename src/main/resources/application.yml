@@ -5,6 +5,11 @@ spring:
     view:
       suffix: .html
 
+    static:
+      path:
+        pattern: /static/**
+
+
   #데이터베이스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -12,11 +17,7 @@ spring:
     username: root
     password: 12345678
 
-  jpa:
-    hibernate:
-      ddl-auto: none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
 
   jwt:
     secret: vmfhaltmskdlstkfkdgodyrogkfwkdbalrogkfmkdbalaaaaaaaaaaaaaaaabbbbb
@@ -39,17 +40,18 @@ spring:
         required: true
 
 
+
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: 117512349894-ltov655omeck2ohl2nga0lue126l2las.apps.googleusercontent.com # 발급 받은 Client ID
-            client-secret: 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 # 발급 받은 Client Secret
+            client-id: 863592095200-bcq3gf4i7vtn8l6mk8d9laftdt82n07q.apps.googleusercontent.com # 발급 받은 Client ID
+            client-secret: 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 # 발급 받은 Client Secret
             scope: # 기본 값 openid,profile,email => profile, email 로 설정 변경
               - profile
               - email
-              - name
+
           naver:
             client-id: QpBnbk7arcmKPKD1wYrM
             client-secret: AXFiNzxWTx
@@ -63,14 +65,14 @@ spring:
               - mobile
 
           kakao:
-            client-id: 33635ea546fd70c8a86ddd16aa434d03
-            client-secret: nflooZMZeolQo4n8pLgvcAQAqRxWLLIf
+            client-id: a829d59a5dfa7dbc70ea5be560ac9966
+            client-secret: SUmHVu9rQnqAISjOXEBVr775yG66ilZt
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope: # https://developers.kakao.com/docs/latest/ko/kakaologin/common#user-info
               - profile_nickname
               - profile_image
-              - account_email
+
             redirect-uri: "http://localhost:8081/login/oauth2/code/kakao"
 
 
