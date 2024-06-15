@@ -40,12 +40,12 @@ public class SecurityConfig {
                 .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // For H2 DB
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/member/login", "/", "/member/signUp", "/member/logout",
-                                            "/member/myPage", "/member/memberUpdate", "member/memberUpdate").permitAll()
+                                .requestMatchers("/member/login", "/", "/member/signUp", "/member/logout",
+                                        "/member/myPage", "/member/memberUpdate", "member/memberUpdate").permitAll()
 //                        .requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN")
 //                        .requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
-                        .requestMatchers(antMatcher("/h2-console/**")).permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(configure ->

@@ -1,6 +1,5 @@
 package itbank.pethub.handler;
 
-import itbank.pethub.dto.UserDTO;
 import itbank.pethub.oauth2.util.CookieUtils;
 import itbank.pethub.oauth2.OAuth2Provider;
 import itbank.pethub.oauth2.service.OAuth2UserPrincipal;

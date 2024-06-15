@@ -1,6 +1,5 @@
 package itbank.pethub.model;
 
-import itbank.pethub.dto.UserDTO;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import org.apache.ibatis.annotations.*;

@@ -6,24 +6,19 @@ import itbank.pethub.service.ImageService;
 import itbank.pethub.service.MemberService;
 import itbank.pethub.vo.MemberVO;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletResponse;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -156,23 +151,23 @@ public class MemberController {
             input.setId(user.getId());
         }
 
-            int row = 0;
-            // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
-            if (!file.isEmpty()) {
-                String url = is.imageUploadFromFile(file);
-                user.setProfile(url);
-                row = ms.update(input);
-            } else { // 이미지 변경 안할 경우
-                row = ms.updateNoProfile(input);
-            }
+        int row = 0;
+        // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
+        if (!file.isEmpty()) {
+            String url = is.imageUploadFromFile(file);
+            user.setProfile(url);
+            row = ms.update(input);
+        } else { // 이미지 변경 안할 경우
+            row = ms.updateNoProfile(input);
+        }
 
-            if (row > 0) {
-                mav.addObject("msg", "수정이 완료되었습니다.");
-                return mav;
-            } else {
-                mav.addObject("msg", "수정에 실패하였습니다.");
-                return mav;
-            }
+        if (row > 0) {
+            mav.addObject("msg", "수정이 완료되었습니다.");
+            return mav;
+        } else {
+            mav.addObject("msg", "수정에 실패하였습니다.");
+            return mav;
+        }
 
 
     }
@@ -267,5 +262,3 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 }
-
-

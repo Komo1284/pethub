@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-
-
     @GetMapping("/users")
     public String getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
         return userDetails.getUsername();
