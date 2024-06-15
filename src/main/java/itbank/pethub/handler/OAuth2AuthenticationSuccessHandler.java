@@ -1,19 +1,16 @@
 package itbank.pethub.handler;
 
 import itbank.pethub.dto.UserDTO;
-import itbank.pethub.jwt.CookieUtils;
+import itbank.pethub.oauth2.util.CookieUtils;
 import itbank.pethub.jwt.JWTUtil;
-import itbank.pethub.model.MemberDAO;
 import itbank.pethub.oauth2.OAuth2Provider;
-import itbank.pethub.oauth2.OAuth2UserPrincipal;
+import itbank.pethub.oauth2.service.OAuth2UserPrincipal;
 import itbank.pethub.oauth2.OAuth2UserUnlinkManager;
 import itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import itbank.pethub.service.MemberService;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Optional;
 
 import static itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository.MODE_PARAM_COOKIE_NAME;

@@ -2,35 +2,19 @@ package itbank.pethub.config;
 
 import itbank.pethub.handler.OAuth2AuthenticationFailureHandler;
 import itbank.pethub.handler.OAuth2AuthenticationSuccessHandler;
-import itbank.pethub.jwt.CustomLogoutFilter;
-import itbank.pethub.jwt.JWTFilter;
-import itbank.pethub.jwt.JWTUtil;
-import itbank.pethub.jwt.LoginFilter;
-import itbank.pethub.model.MemberDAO;
-import itbank.pethub.oauth2.CustomOAuth2UserService;
+import itbank.pethub.oauth2.service.CustomOAuth2UserService;
 import itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository;
-import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-import org.springframework.security.web.SecurityFilterChain;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-
-import java.util.Collections;
+import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -43,8 +27,6 @@ public class SecurityConfig {
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
-    private final JWTUtil jwtUtil;
-    private final MemberDAO dao;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,42 +34,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-
-        return configuration.getAuthenticationManager();
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationConfiguration authenticationConfiguration) throws Exception {
-
-        http
-                .cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
-
-                    @Override
-                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-
-                        CorsConfiguration configuration = new CorsConfiguration();
-
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8081"));
-                        configuration.setAllowedMethods(Collections.singletonList("*"));
-                        configuration.setAllowCredentials(true);
-                        configuration.setAllowedHeaders(Collections.singletonList("*"));
-                        configuration.setMaxAge(3600L);
-                        configuration.setExposedHeaders(Collections.singletonList("Authentication"));
-
-                        return configuration;
-                    }
-                })));
-
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // For H2 DB
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/reissue").permitAll()
-                        .requestMatchers("/","/member/login", "/member/signUp", "member/logout"
-                                        , "member/myPage", "member/memberUpdate").permitAll()
+                        .requestMatchers("/member/login", "/", "/member/signUp",
+                                            "/member/myPage", "/member/memberUpdate").permitAll()
                         .requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN")
                         .requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
@@ -100,15 +55,6 @@ public class SecurityConfig {
                                 .successHandler(oAuth2AuthenticationSuccessHandler)
                                 .failureHandler(oAuth2AuthenticationFailureHandler)
                 );
-        http
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
-        http
-                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, dao), UsernamePasswordAuthenticationFilter.class);
-        http
-                .addFilterBefore(new CustomLogoutFilter(jwtUtil, dao), LogoutFilter.class);
-
-        http
-                .addFilterAfter(new JWTFilter(jwtUtil), OAuth2LoginAuthenticationFilter.class);
 
         return http.build();
     }

@@ -1,7 +1,9 @@
-package itbank.pethub.oauth2;
+package itbank.pethub.oauth2.service;
 
 
 import itbank.pethub.exception.OAuth2AuthenticationProcessingException;
+import itbank.pethub.oauth2.OAuth2UserInfo;
+import itbank.pethub.oauth2.OAuth2UserInfoFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;

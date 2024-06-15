@@ -1,6 +1,6 @@
 package itbank.pethub.repository;
 
-import itbank.pethub.jwt.CookieUtils;
+import itbank.pethub.oauth2.util.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package itbank.pethub.jwt;
+package itbank.pethub.oauth2.util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

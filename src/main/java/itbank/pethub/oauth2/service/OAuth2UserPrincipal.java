@@ -1,5 +1,6 @@
-package itbank.pethub.oauth2;
+package itbank.pethub.oauth2.service;
 
+import itbank.pethub.oauth2.OAuth2UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;

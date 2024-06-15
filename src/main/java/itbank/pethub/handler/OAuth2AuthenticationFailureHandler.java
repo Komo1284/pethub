@@ -1,6 +1,6 @@
 package itbank.pethub.handler;
 
-import itbank.pethub.jwt.CookieUtils;
+import itbank.pethub.oauth2.util.CookieUtils;
 import itbank.pethub.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

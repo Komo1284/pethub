@@ -4,10 +4,9 @@ import itbank.pethub.aop.PasswordEncoder;
 import itbank.pethub.dto.MemberDetails;
 import itbank.pethub.dto.UserDTO;
 import itbank.pethub.model.MemberDAO;
-import itbank.pethub.oauth2.OAuth2UserPrincipal;
+import itbank.pethub.oauth2.service.OAuth2UserPrincipal;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
-import itbank.pethub.vo.RefreshVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,8 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Member;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -136,25 +133,5 @@ public class MemberService implements UserDetailsService {
 
     }
 
-    public int deleteSnsUser(OAuth2UserPrincipal principal) {
 
-        String userid = principal.getUserInfo().getId();
-        UserDTO ud = new UserDTO();
-        ud.setUserid(userid);
-        return dao.deleteSns(ud);
-    }
-
-
-
-    private void addRefreshEntity(String userid, String refresh, Long expiredMs) {
-
-        Date date = new Date(System.currentTimeMillis() + expiredMs);
-
-        RefreshVO refreshVO = new RefreshVO();
-        refreshVO.setUserid(userid);
-        refreshVO.setRefresh(refresh);
-        refreshVO.setExpiration(date.toString());
-
-        dao.insertRefresh(refreshVO);
-    }
 }
