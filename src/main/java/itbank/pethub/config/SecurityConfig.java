@@ -41,7 +41,9 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/member/login", "/", "/member/signUp", "/member/logout",
-                                        "/member/myPage", "/member/memberUpdate", "member/memberUpdate").permitAll()
+                                        "/member/myPage", "/member/memberUpdate", "member/memberUpdate",
+                                        "/member/findAcc", "/mall/order/**", "/board/**", "/mall/shop/**",
+                                        "/admin/**").permitAll()
 //                        .requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN")
 //                        .requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
                                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
