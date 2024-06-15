@@ -5,6 +5,8 @@ spring:
     view:
       suffix: .html
 
+
+
   #데이터베이스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,6 +27,9 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache : false
 
   #Support Mail Service
   mail:
@@ -51,9 +56,9 @@ spring:
             scope: # 기본 값 openid,profile,email => profile, email 로 설정 변경
               - profile
               - email
-              - phone
               - name
-              - nickname
+
+
           naver:
             client-id: QpBnbk7arcmKPKD1wYrM
             client-secret: AXFiNzxWTx
@@ -106,15 +111,15 @@ cloud:
       bucket: itbank-pethub-s3
 
 
-logging:
-  file:
-    name: application.log
+#logging:
+#  file:
+#    name: application.log
 
-
-  level:
-    org:
-      springframework:
-        security: debug
+#
+#  level:
+#    org:
+#      springframework:
+#        security: debug
 
 #server port 변경
 server:

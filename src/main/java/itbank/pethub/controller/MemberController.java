@@ -1,7 +1,6 @@
 package itbank.pethub.controller;
 
 import itbank.pethub.aop.PasswordEncoder;
-import itbank.pethub.config.auth.PrincipalDetails;
 import itbank.pethub.service.AdminService;
 import itbank.pethub.service.EmailService;
 import itbank.pethub.service.ImageService;
@@ -43,12 +42,12 @@ public class MemberController {
 
 
 
-    @GetMapping("/login")
+    @GetMapping("/loginPage")
     public String login() {
-        return "redirect:/member/login";
+        return "loginPage";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/loginPage")
     public ModelAndView login(MemberVO input, HttpSession session) {
 
         ModelAndView mav = new ModelAndView();
