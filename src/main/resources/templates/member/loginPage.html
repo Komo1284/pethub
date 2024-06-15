@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,17 +90,33 @@
                 </div>
                 <div>
                     <img
-                            src="https://itbank-pethub-s3.s3.ap-northeast-2.amazonaws.com/login.png"
-                            width="700"
+                            src="/placeholder.svg"
+                            width="600"
                             height="400"
                             alt="Login"
                             class="rounded-lg shadow-lg"
-                            style="aspect-ratio:700/400;object-fit:cover"
+                            style="aspect-ratio:600/400;object-fit:cover"
                     />
                 </div>
             </div>
         </section>
     </main>
+    <br>
+
+    <div class="flex justify-center space-x-4 mt-6">
+        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=login">
+            <img src="/logoimg/google_login.png" alt="Google Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
+        </a>
+
+        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=login">
+            <img src="/logoimg/naver_login.png" alt="Naver Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
+        </a>
+
+        <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=login">
+            <img src="/logoimg/kakao_login.png" alt="Kakao Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
+        </a>
+    </div>
+
     <div th:replace="~{footer :: footer}"></div>
 </div>
 </body>

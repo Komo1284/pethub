@@ -1,14 +1,12 @@
 package itbank.pethub.vo;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @ToString
-@NoArgsConstructor
 public class MemberVO {
-
 
     private int id;
 
@@ -25,6 +23,4 @@ public class MemberVO {
     private String newpw;
     private int role;
     private String provider;
-
-
 }

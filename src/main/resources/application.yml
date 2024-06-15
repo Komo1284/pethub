@@ -5,8 +5,6 @@ spring:
     view:
       suffix: .html
 
-
-
   #데이터베이스 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,9 +25,6 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
-    mode: HTML
-    encoding: UTF-8
-    cache : false
 
   #Support Mail Service
   mail:
@@ -44,8 +39,6 @@ spring:
         required: true
 
 
-
-  #OAuth2 SNS API
   security:
     oauth2:
       client:
@@ -57,8 +50,6 @@ spring:
               - profile
               - email
               - name
-
-
           naver:
             client-id: QpBnbk7arcmKPKD1wYrM
             client-secret: AXFiNzxWTx
@@ -81,7 +72,7 @@ spring:
               - profile_image
               - account_email
             redirect-uri: "http://localhost:8081/login/oauth2/code/kakao"
-        #            client-name: Kakao
+
 
         provider:
           naver:
@@ -110,17 +101,7 @@ cloud:
     s3:
       bucket: itbank-pethub-s3
 
-
-#logging:
-#  file:
-#    name: application.log
-
-#
-#  level:
-#    org:
-#      springframework:
-#        security: debug
-
-#server port 변경
 server:
   port: 8081
+
+

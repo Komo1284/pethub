@@ -1,5 +1,6 @@
 package itbank.pethub.model;
 
+import itbank.pethub.dto.UserDTO;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import org.apache.ibatis.annotations.*;
@@ -15,8 +16,8 @@ public interface MemberDAO {
     @Select("select * from member_address_view where userid = #{userid} and userpw = #{userpw}")
     MemberVO selectOne(MemberVO input);
 
-    @Insert("insert into member (name, email, userid, userpw, nick, phone, provider) " +
-            "values (#{name}, #{email}, #{userid}, #{userpw}, #{nick}, #{phone}, #{provider})")
+    @Insert("insert into member (name, email, userid, userpw, nick, phone) " +
+            "values (#{name}, #{email}, #{userid}, #{userpw}, #{nick}, #{phone})")
     int insert(MemberVO input);
 
     @Update("update member set userpw = #{userpw}, email = #{email}, " +
@@ -55,26 +56,29 @@ public interface MemberDAO {
     @Update("update member set ad = 1 where userid = #{userid}")
     void insertAd(MemberVO input);
 
-    @Select("SELECT COUNT(*) FROM member WHERE email = #{email}")
-    int countByEmail(String email);
+
+    @Insert("insert into member(email, name, nick, userid, userpw, phone, provider, role) values (#{email}, #{name}, #{nick}, #{userid}, #{userpw}, #{phone},#{provider}, #{role})")
+    int insertSns(MemberVO memberVO);
 
     @Select("select * from member where userid = #{userid}")
-    MemberVO findUserbyUserId(MemberVO input);
-
-
-    @Select("select * from member_address_view where userid = #{userid}")
-    MemberVO findByUserid(String userid);
+    MemberVO selectSnsOneNoAddress(MemberVO input);
 
     @Select("select * from member_address_view where userid = #{userid}")
-    MemberVO selectSnsOne(MemberVO memberVO);
+    MemberVO selectSnsUser(String userid);
 
     @Update("update member set " +
-            "userpw = #{userpw}, " +
-            "name = #{name}, " +
             "email = #{email}, " +
+            "name = #{name}, " +
             "nick = #{nick}, " +
             "phone = #{phone}, " +
-            "provider = #{provider} " +
+            "userpw = #{userpw}, " +
+            "provider = #{provider}, " +
+            "role = #{role} " +
             "where userid = #{userid}")
-    void updateSns(MemberVO isExistmember);
+    int updateSns(MemberVO memberVO);
+
+
+    @Select("select * from member where userid = #{userid}")
+    MemberVO findByUserid(String userid);
+
 }
