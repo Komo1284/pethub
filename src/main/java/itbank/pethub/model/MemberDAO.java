@@ -61,6 +61,9 @@ public interface MemberDAO {
     int insertSns(MemberVO memberVO);
 
     @Select("select * from member where userid = #{userid}")
+    MemberVO selectSnsOneNoAddress(MemberVO input);
+
+    @Select("select * from member_address_view where userid = #{userid}")
     MemberVO selectSnsUser(String userid);
 
     @Update("update member set " +

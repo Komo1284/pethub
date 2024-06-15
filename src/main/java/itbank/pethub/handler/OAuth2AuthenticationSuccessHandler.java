@@ -97,6 +97,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 
             String userid = principal.getUserInfo().getProvider() + "_" + principal.getUserInfo().getId();
+            String userpw = principal.getUserInfo().getId() + "_pethub";
 
             System.out.println(userid);
             System.out.println(principal.getAttributes().get("nickname").toString());
@@ -106,7 +107,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             MemberVO member = new MemberVO();
 
             member.setUserid(userid);
-            member.setUserpw(principal.getUserInfo().getAccessToken());
+            member.setUserpw(userpw);
             member.setNick(principal.getAttributes().get("nickname").toString());
             member.setPhone(principal.getUserInfo().getPhone());
             member.setRole(0);
@@ -115,11 +116,21 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             member.setName(principal.getUserInfo().getName());
 
 
+
             if (!isExist) {
 
                 int row = ms.addSnsuser(member);
 
                 if (row != 0) {
+
+                    MemberVO memberVO = ms.SnsNoAddress(member);
+                    memberVO.setAddress_details("상세주소를 꼭 마이페이지 가서 입력!");
+                    memberVO.setPrimary_address("마이페이지가서 주소를 꼭 입력해주세요!");
+                    memberVO.setZip_code(0);
+
+                    ms.insertSnsAdd(memberVO);
+
+
                     System.out.println("DB 저장 성공!");
                 }
 
@@ -128,7 +139,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 ms.updateSnsUser(member);
             }
 
-            session.setAttribute("user", ms.Snslogin(member.getUserid()));
+            session.setAttribute("user", ms.Snslogin(member));
 
             String accessToken = "test_access_token";
             String refreshToken = "test_refresh_token";
@@ -146,15 +157,17 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             MemberVO member2 = new MemberVO();
 
             String userid = principal.getUserInfo().getProvider() + "_" + principal.getUserInfo().getId();
+            String userpw = principal.getUserInfo().getId() + "_pethub";
 
             member2.setUserid(userid);
-            member2.setUserpw(principal.getUserInfo().getAccessToken());
+            member2.setUserpw(userpw);
             member2.setNick(principal.getAttributes().get("nickname").toString());
             member2.setPhone(principal.getUserInfo().getPhone());
             member2.setRole(0);
             member2.setEmail(principal.getUserInfo().getEmail());
             member2.setProvider(principal.getUserInfo().getProvider().toString());
             member2.setName(principal.getUserInfo().getName());
+
 
             ms.updateSnsUser(member2);
             oAuth2UserUnlinkManager.unlink(provider, accessToken);

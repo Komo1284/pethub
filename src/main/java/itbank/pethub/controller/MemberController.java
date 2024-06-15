@@ -127,43 +127,54 @@ public class MemberController {
         ModelAndView mav = new ModelAndView();
         MemberVO user = (MemberVO) session.getAttribute("user");
 
-        // 현재비밀번호가 일치하는지 확인
-        String hashPw = input.getUserpw();
-        hashPw = PasswordEncoder.encode(hashPw);
+        if (user.getProvider().equals("pet_hub")) {
 
-        if(!Objects.equals(user.getUserpw(), hashPw)){
-            mav.addObject("msg", "현재 비밀번호가 알맞지 않습니다.");
-            mav.setViewName("member/memberUpdate");
-            return mav;
+            // 현재비밀번호가 일치하는지 확인
+            String hashPw = input.getUserpw();
+            hashPw = PasswordEncoder.encode(hashPw);
+
+            if (!Objects.equals(user.getUserpw(), hashPw)) {
+                mav.addObject("msg", "현재 비밀번호가 알맞지 않습니다.");
+                mav.setViewName("member/memberUpdate");
+                return mav;
+            }
+
+            // 변경할 비밀번호와 비밀번호체크가 동일하지 않다면 메세지를 담아서 수정페이지로 포워드
+            if (!Objects.equals(input.getNewpw(), input.getPwCheck())) {
+                mav.addObject("msg", "변경할 비밀번호와 확인이 일치하지 않습니다.");
+                mav.setViewName("member/memberUpdate");
+                return mav;
+            }
+
+
+            input.setId(user.getId());
+            input.setUserpw(input.getNewpw());
+
+        }
+        else {
+            input.setUserpw(user.getUserpw());
+            input.setId(user.getId());
         }
 
-        // 변경할 비밀번호와 비밀번호체크가 동일하지 않다면 메세지를 담아서 수정페이지로 포워드
-        if(!Objects.equals(input.getNewpw(), input.getPwCheck())){
-            mav.addObject("msg", "변경할 비밀번호와 확인이 일치하지 않습니다.");
-            mav.setViewName("member/memberUpdate");
-            return mav;
-        }
+            int row = 0;
+            // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
+            if (!file.isEmpty()) {
+                String url = is.imageUploadFromFile(file);
+                user.setProfile(url);
+                row = ms.update(input);
+            } else { // 이미지 변경 안할 경우
+                row = ms.updateNoProfile(input);
+            }
 
-        input.setId(user.getId());
-        input.setUserpw(input.getNewpw());
+            if (row > 0) {
+                mav.addObject("msg", "수정이 완료되었습니다.");
+                return mav;
+            } else {
+                mav.addObject("msg", "수정에 실패하였습니다.");
+                return mav;
+            }
 
-        int row = 0;
-        // 이미지를 s3 서버에 저장하여 저장된 이미지의 url을 세팅 - 이미지를 변경할 경우
-        if(!file.isEmpty()){
-            String url = is.imageUploadFromFile(file);
-            user.setProfile(url);
-            row = ms.update(input);
-        } else{ // 이미지 변경 안할 경우
-            row = ms.updateNoProfile(input);
-        }
 
-        if (row > 0) {
-            mav.addObject("msg", "수정이 완료되었습니다.");
-            return mav;
-        } else {
-            mav.addObject("msg", "수정에 실패하였습니다.");
-            return mav;
-        }
     }
 
     // 회원탈퇴하고 홈으로 리다이렉트

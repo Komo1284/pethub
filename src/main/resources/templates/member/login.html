@@ -103,41 +103,19 @@
     </main>
     <br>
 
-    <div>
+    <div class="flex justify-center space-x-4 mt-6">
         <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=login">
-            <button>Google Login</button>
+            <img src="/logoimg/google_login.png" alt="Google Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=unlink">
-            <button>Google Unlink</button>
-        </a>
+
         <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=login">
-            <button>Naver Login</button>
+            <img src="/logoimg/naver_login.png" alt="Naver Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=unlink">
-            <button>Naver Unlink</button>
-        </a>
+
         <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=login">
-            <button>Kakao Login</button>
+            <img src="/logoimg/kakao_login.png" alt="Kakao Login" class="h-12 w-48 object-contain rounded shadow-md hover:shadow-lg transition-shadow"/>
         </a>
-        <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=unlink">
-            <button>Kakao Unlink</button>
-        </a>
-
     </div>
-
-    <script>
-        // URL에서 쿼리 파라미터를 추출하는 함수
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
-        // 액세스 토큰과 리프레시 토큰을 가져와서 표시
-        document.getElementById('accessToken').textContent += getQueryParam('access_token');
-        document.getElementById('refreshToken').textContent += getQueryParam('refresh_token');
-    </script>
-
-    <a href="/oauth2/authorization/naver">Naver Login</a>
 
     <div th:replace="~{footer :: footer}"></div>
 </div>

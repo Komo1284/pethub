@@ -114,9 +114,9 @@ public class MemberService implements UserDetailsService {
         return dao.insertSns(memberVO);
     }
 
-    public MemberVO Snslogin(String userid) {
+    public MemberVO Snslogin(MemberVO member) {
 
-        return dao.selectSnsUser(userid);
+        return dao.selectSnsUser(member.getUserid());
     }
 
     public int updateSnsUser(MemberVO memberVO) {
@@ -126,4 +126,12 @@ public class MemberService implements UserDetailsService {
     }
 
 
+    public int insertSnsAdd(MemberVO member) {
+
+        return dao.insertAddress(member);
+    }
+
+    public MemberVO SnsNoAddress(MemberVO member) {
+        return dao.selectSnsOneNoAddress(member);
+    }
 }

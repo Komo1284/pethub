@@ -93,37 +93,6 @@
                     </div>
                     </div>
 
-                    <!-- provider가 'pet_hub'가 아닐 때 -->
-                    <div th:if="${provider != 'pet_hub'}" style="display: none;">
-                        <div class="mt-6">
-                            <h3 class="text-lg font-semibold mb-2">비밀번호 변경</h3>
-                            <p class="text-gray-500 text-sm"> * 비밀번호를 변경하지 않는다면 변경할 비밀번호에 현재 비밀번호와 동일하게 입력해주세요.</p>
-                            <br>
-                            <div class="mb-4">
-                                <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1" for="hiddenUserpw">
-                                    현재 비밀번호
-                                </label>
-                                <input class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full" id="hiddenUserpw" type="password" name="userpw" th:value="${userpw}"/>
-                            </div>
-                            <div class="mb-4">
-                                <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1" for="hiddenNewpw">
-                                    변경할 비밀번호
-                                </label>
-                                <input class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full" id="hiddenNewpw" type="password" name="newpw" th:value="${userpw}"/>
-                            </div>
-                            <div class="mb-4">
-                                <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block mb-1" for="hiddenPwCheck">
-                                    변경할 비밀번호 확인
-                                </label>
-                                <input class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full" id="hiddenPwCheck" type="password" name="pwCheck" th:value="${userpw}"/>
-                            </div>
-                        </div>
-                        <!-- hidden input fields to submit userpw, newpw, and pwCheck values without displaying them -->
-                        <input type="hidden" name="hiddenUserpw" th:value="${userpw}"/>
-                        <input type="hidden" name="hiddenNewpw" th:value="${userpw}"/>
-                        <input type="hidden" name="hiddenPwCheck" th:value="${userpw}"/>
-                    </div>
-
                     <br>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
