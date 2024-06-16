@@ -5,20 +5,20 @@
     <title>Message Page</title>
 </head>
 <body>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var row = /*[[${row}]]*/ 0;
-        var msg = /*[[${msg}]]*/ '';
-        var path = /*[[${path}]]*/ '';
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var row = /*[[${row}]]*/ 0;
+    var msg = /*[[${msg}]]*/ '';
+    var path = /*[[${path}]]*/ '';
 
-        if (row !== 0) {
-            alert(msg);
-            location.href = path;
-        } else {
-            alert(msg);
-            history.go(-1);
-        }
-        /*]]>*/
-    </script>
+    if (row !== 0) {
+        alert(msg);
+        location.href = path;
+    } else {
+        alert(msg);
+        history.go(-1);
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

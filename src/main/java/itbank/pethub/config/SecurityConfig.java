@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/member/login", "/", "/member/signUp", "/member/logout",
                                         "/member/myPage", "/member/memberUpdate", "member/memberUpdate",
-                                        "/member/findAcc", "/mall/order/**", "/board/**", "/mall/shop/**",
+                                        "/member/findAcc", "/order/**", "/board/**", "/shop/**",
                                         "/admin/**").permitAll()
 //                        .requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN")
 //                        .requestMatchers(antMatcher("/api/user/**")).hasRole("USER")

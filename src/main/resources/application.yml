@@ -46,34 +46,34 @@ spring:
       client:
         registration:
           google:
-            client-id: 863592095200-bcq3gf4i7vtn8l6mk8d9laftdt82n07q.apps.googleusercontent.com # 발급 받은 Client ID
-            client-secret: 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 # 발급 받은 Client Secret
+            client-id: 762624065961-msc4b8lr47c8h42hqfldh4qsajgk446e.apps.googleusercontent.com # 발급 받은 Client ID
+            client-secret: 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 # 발급 받은 Client Secret
             scope: # 기본 값 openid,profile,email => profile, email 로 설정 변경
               - profile
               - email
 
           naver:
-            client-id: QpBnbk7arcmKPKD1wYrM
-            client-secret: AXFiNzxWTx
+            client-id: fNuxSy3r0deZ7hTaPmSs
+            client-secret: he3ELRPmVu
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8081/login/oauth2/code/naver"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/naver"
             scope:
               - name
               - email
               - nickname
               - mobile
 
-          kakao:
-            client-id: a829d59a5dfa7dbc70ea5be560ac9966
-            client-secret: SUmHVu9rQnqAISjOXEBVr775yG66ilZt
-            client-authentication-method: client_secret_post
-            authorization-grant-type: authorization_code
-            scope: # https://developers.kakao.com/docs/latest/ko/kakaologin/common#user-info
-              - profile_nickname
-              - profile_image
-
-            redirect-uri: "http://localhost:8081/login/oauth2/code/kakao"
+#          kakao:
+#            client-id: a829d59a5dfa7dbc70ea5be560ac9966
+#            client-secret: SUmHVu9rQnqAISjOXEBVr775yG66ilZt
+#            client-authentication-method: client_secret_post
+#            authorization-grant-type: authorization_code
+#            scope: # https://developers.kakao.com/docs/latest/ko/kakaologin/common#user-info
+#              - profile_nickname
+#              - profile_image
+#
+#            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
 
 
         provider:
@@ -84,12 +84,13 @@ spring:
             user-info-authentication-method: header
             user-name-attribute: response # Naver 응답 값 resultCode, message, response 중 response 지정
 
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-info-authentication-method: header
-            user-name-attribute: id
+#          kakao:
+#            authorization-uri: https://kauth.kakao.com/oauth/authorize
+#            token-uri: https://kauth.kakao.com/oauth/token
+#            user-info-uri: https://kapi.kakao.com/v2/user/me
+#            user-info-authentication-method: header
+#            user-name-attribute: id
+
 #s3
 cloud:
   aws:
@@ -104,6 +105,6 @@ cloud:
       bucket: itbank-pethub-s3
 
 server:
-  port: 8081
+  port: 8080
 
 

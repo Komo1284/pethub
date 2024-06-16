@@ -378,21 +378,25 @@
         }).open();
     });
 
-    function sendAuthNum(emailFieldId, alertMessage
-    ) {
+    function sendAuthNum(emailFieldId, alertMessage) {
         var email = document.getElementById(emailFieldId).value;
         fetch('/member/AuthNum', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email: email})
+            body: JSON.stringify({ email: email })
         })
             .then(response => {
                 if (response.ok) {
                     alert(alertMessage);
                 } else {
-                    alert('인증번호 전송에 실패했습니다.');
+                    return response.text(); // 에러 메시지를 텍스트로 받아옴
+                }
+            })
+            .then(errorMessage => {
+                if (errorMessage) {
+                    alert(errorMessage); // 받아온 에러 메시지를 alert로 표시
                 }
             })
             .catch(error => {
@@ -400,6 +404,7 @@
                 alert('인증번호 전송에 실패했습니다.');
             });
     }
+
 
     document.getElementById('auth').addEventListener('click', function () {
         sendAuthNum('email', '인증번호가 전송되었습니다.');
