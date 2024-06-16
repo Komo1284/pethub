@@ -92,7 +92,7 @@
                                                 <img th:src="${item.pic}" alt="제품 이미지" class="aspect-[2/1]" width="100" height="50"/>
                                                 <div>
                                                     <h4 class="text-lg font-semibold">상품 명:
-                                                            <span th:text="${item.item_name}"></span>
+                                                        <span th:text="${item.item_name}"></span>
                                                     </h4>
                                                     <span>수량: <span class="item-count" th:text="${item.count}" data-cdi="${order.cdi}"></span> 개</span>
                                                     <p class="text-gray-500">합계 가격: <span class="item-price" th:text="${item.order_price * item.count}+' 원'" data-cdi="${order.cdi}"></span></p>

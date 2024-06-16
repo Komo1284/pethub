@@ -54,9 +54,9 @@
             <div class="mb-6 flex justify-between items-center">
                 <h2 class="text-2xl font-bold">Community</h2>
                 <a th:href="@{/board/write}">
-                <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-9 rounded-md px-3">
-                    글 쓰기
-                </button>
+                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-9 rounded-md px-3">
+                        글 쓰기
+                    </button>
                 </a>
             </div>
             <div class="relative w-full overflow-auto">
@@ -150,7 +150,7 @@
                         </li>
                     </ul>
                 </nav>
-                    <form th:action="@{/board/list}" method="get" class="flex justify-center items-center gap-2 mt-4">
+                <form th:action="@{/board/list}" method="get" class="flex justify-center items-center gap-2 mt-4">
                     <input value="5" type="hidden" name="num">
                     <select name="group" class="flex h-10 w-1-5 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                         <option value="title">제목</option>
@@ -166,7 +166,7 @@
                     <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-300 text-primary-foreground hover:bg-orange-200/90 h-10 px-4 py-2">
                         검색
                     </button>
-                    </form>
+                </form>
             </div>
         </div>
     </main>
