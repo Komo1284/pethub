@@ -78,21 +78,7 @@
                     <a href="/member/myPage">마이페이지</a>
                 </button>
             </th:block>
-            <th:block th:if="${provider == 'GOOGLE' && session.user != null}">
-                <button><a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:8081&mode=unlink" class="text-gray-500 hover:text-gray-900">
-                    Google 링크 해제
-                </a></button>
-            </th:block>
-            <th:block th:if="${provider == 'NAVER' && session.user != null}">
-                <button><a href="http://localhost:8081/oauth2/authorization/naver?redirect_uri=http://localhost:8081&mode=unlink" class="text-gray-500 hover:text-gray-900">
-                    Naver 링크 해제
-                </a></button>
-            </th:block>
-            <!--                <div th:if="${provider == 'KAKAO'}">-->
-            <!--                    <a href="http://localhost:8081/oauth2/authorization/kakao?redirect_uri=http://localhost:8081&mode=unlink" class="text-gray-500 hover:text-gray-900">-->
-            <!--                        <button>Kakao Unlink</button>-->
-            <!--                    </a>-->
-            <!--                </div>-->
+
         </div>
     </div>
 </header>

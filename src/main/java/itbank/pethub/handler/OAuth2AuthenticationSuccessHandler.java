@@ -160,7 +160,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             member2.setUserid(userid);
             member2.setUserpw(userpw);
-            member2.setNick(principal.getAttributes().get("nickname").toString());
+            member2.setNick(principal.getUserInfo().getNick());
             member2.setPhone(principal.getUserInfo().getPhone());
             member2.setRole(0);
             member2.setEmail(principal.getUserInfo().getEmail());
