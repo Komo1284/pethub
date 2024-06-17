@@ -41,4 +41,5 @@ cloud:
       auto: false
     s3:
       bucket: itbank-pethub-s3
-
+server:
+  port: 8082
