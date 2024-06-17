@@ -7,9 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-            .detail {
-                display:none;
-            }
+        .detail {
+            display:none;
+        }
 
     </style>
 </head>
@@ -36,7 +36,7 @@
                                     />
                                     <div>
                                         <h3 class="detail text-lg font-semibold">주문 번호: <span class="order_id"
-                                                                                       th:text="${row.order_id}"></span>
+                                                                                              th:text="${row.order_id}"></span>
                                         </h3>
                                         <h3 class="detail text-lg font-semibold">상품 번호: <span
                                                 th:text="${row.order_item}"></span></h3>
@@ -144,15 +144,15 @@
                                             </div>
                                         </form>
                                         <div>
-                                        <button
-                                                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
-                                                type="button"
-                                        >
-                                            <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md delivery_modify_btn" th:data-product-id="${list[0].delivery_id}" style="width: 150px; height: 40px;">
-                                                배송지 수정
-                                            </a>
+                                            <button
+                                                    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md"
+                                                    type="button"
+                                            >
+                                                <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 rounded-md delivery_modify_btn" th:data-product-id="${list[0].delivery_id}" style="width: 150px; height: 40px;">
+                                                    배송지 수정
+                                                </a>
 
-                                        </button>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -201,17 +201,17 @@
                     <span id="total">0</span>
                 </div>
                 <div class="text-right">
-                <!-- 결제 옵션 및 버튼 -->
-                <div class="payment-options">
-                    <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
-                    <label><input type="radio" name="pay_method" value="trans">실시간 계좌이체</label>
-                    <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
-                </div>
-                <button id="checkoutBtn"
-                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full md:w-1/2 lg:w-1/4"
-                        onclick="requestPay()">
-                    결제 하기
-                </button>
+                    <!-- 결제 옵션 및 버튼 -->
+                    <div class="payment-options">
+                        <label><input type="radio" name="pay_method" value="card" checked>신용카드</label>
+                        <label><input type="radio" name="pay_method" value="trans">실시간 계좌이체</label>
+                        <label><input type="radio" name="pay_method" value="phone">휴대폰 소액결제</label>
+                    </div>
+                    <button id="checkoutBtn"
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-white hover:bg-orange-500/90 h-10 px-4 py-2 w-full md:w-1/2 lg:w-1/4"
+                            onclick="requestPay()">
+                        결제 하기
+                    </button>
                 </div>
             </div>
         </div>

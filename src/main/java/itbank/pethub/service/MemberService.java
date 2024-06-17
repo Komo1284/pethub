@@ -1,24 +1,41 @@
 package itbank.pethub.service;
 
 import itbank.pethub.aop.PasswordEncoder;
+import itbank.pethub.dto.MemberDetails;
 import itbank.pethub.model.MemberDAO;
+import itbank.pethub.oauth2.service.OAuth2UserPrincipal;
 import itbank.pethub.vo.CouponVO;
 import itbank.pethub.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Member;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     @Autowired
     private MemberDAO dao;
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        MemberVO memberData = dao.findByUserid(username);
+
+        if (memberData != null) {
+            return new MemberDetails(memberData);
+
+        }
+
+        return null;
+    }
+
     public MemberVO login(MemberVO input) {
+        String hash = input.getUserpw();
         return dao.selectOne(input);
     }
 
@@ -76,10 +93,6 @@ public class MemberService {
         return dao.countByUserId(userid) > 0;
     }
 
-    public boolean isEmailExists(String email) {
-        return dao.countByEmail(email) > 0;
-    }
-
     public List<CouponVO> couponFindbyId(int member_id) {
         return dao.couponFindbyId(member_id);
     }
@@ -94,6 +107,32 @@ public class MemberService {
             return 1;
         }
         return 0;
+    }
+
+    public int addSnsuser(MemberVO memberVO) {
+        return dao.insertSns(memberVO);
+    }
+
+    public MemberVO Snslogin(MemberVO member) {
+
+        return dao.selectSnsUser(member.getUserid());
+    }
+
+    public int updateSnsUser(MemberVO memberVO) {
+
+        return dao.updateSns(memberVO);
+
+    }
+
+
+    public int insertSnsAdd(MemberVO member) {
+
+        return dao.insertAddress(member);
+    }
+
+    public MemberVO SnsNoAddress(MemberVO member) {
+
+        return dao.selectSnsOneNoAddress(member);
     }
 
     public MemberVO findUserbyUserId(MemberVO input) {

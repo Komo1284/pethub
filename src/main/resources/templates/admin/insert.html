@@ -34,16 +34,16 @@
     </div>
 </div>
 <th:block th:if="${msg != null}">
-<script th:inline="javascript">
+    <script th:inline="javascript">
 
-    let msg = [[${msg}]];
-    alert(msg);
-    // 부모 창 새로고침
-    window.opener.location.reload();
-    // 팝업 창 닫기
-    window.close();
+        let msg = [[${msg}]];
+        alert(msg);
+        // 부모 창 새로고침
+        window.opener.location.reload();
+        // 팝업 창 닫기
+        window.close();
 
-</script>
+    </script>
 </th:block>
 </body>
 </html>
