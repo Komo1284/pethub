@@ -6,7 +6,9 @@ import lombok.ToString;
 @Data
 @ToString
 public class MemberVO {
-    private int id, role;
+
+    private int id;
+
     private String name;
     private String email;
     private String phone;
@@ -18,4 +20,6 @@ public class MemberVO {
     private String profile;
     private int ad;
     private String newpw;
+    private int role;
+    private String provider;
 }

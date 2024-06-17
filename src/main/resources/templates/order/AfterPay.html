@@ -93,9 +93,9 @@
                                                 <img th:src="${item.pic}" alt="제품 이미지" class="aspect-[2/1]" width="100" height="50"/>
                                                 <div>
                                                     <h4 class="text-lg font-semibold">상품 명:
-                                                            <a th:href="@{'/shop/DetailPage/' + ${item.order_item}}" class="text-blue-600 hover:underline">
-                                                                <span th:text="${item.item_name}"></span>
-                                                            </a>
+                                                        <a th:href="@{'/shop/DetailPage/' + ${item.order_item}}" class="text-blue-600 hover:underline">
+                                                            <span th:text="${item.item_name}"></span>
+                                                        </a>
                                                     </h4>
                                                     <span>수량: <span class="item-count" th:text="${item.count}" data-cdi="${order.cdi}"></span> 개</span>
                                                     <p class="text-gray-500">합계 가격: <span class="item-price" th:text="${item.order_price * item.count}+' 원'" data-cdi="${order.cdi}"></span></p>
@@ -121,10 +121,8 @@
                         <li class="flex justify-between items-center">
                             <!-- 줄 긋기 -->
                             <hr class="my-4">
-
                             <!-- 취소 버튼 -->
                             <div>
-                                <!-- 취소 버튼 -->
                                 <th:block th:if="${order.delivery_status == '배송 준비'}">
                                     <div>
                                         <a th:href="@{'/order/cartdelete/' + ${order.cdi}}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
@@ -132,7 +130,6 @@
                                         </a>
                                     </div>
                                 </th:block>
-
                             </div>
                         </li>
                     </div>
@@ -154,15 +151,15 @@
                                     </div>
 
                                     <div class="mt-2">
-                                    <label for="rating">평점:</label>
-                                    <select name="rating" id="rating" required>
-                                        <option value="-">-</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
+                                        <label for="rating">평점:</label>
+                                        <select name="rating" id="rating" required>
+                                            <option value="-">-</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
                                     </div>
 
                                     <input type="hidden" name="item_id" id="item-id">
@@ -215,20 +212,7 @@
         popup.classList.add('hidden');
     }
 
-    // 페이지가 로드될 때, 주문 목록의 순서를 반대로 바꿉니다.
-    document.addEventListener("DOMContentLoaded", function() {
-        const ordersContainer = document.querySelector('#order');
-        const orders = Array.from(ordersContainer.children);
 
-        // Reverse the order of the orders
-        orders.reverse();
-
-        // Clear the container
-        ordersContainer.innerHTML = '';
-
-        // Append the orders in reversed order
-        orders.forEach(order => ordersContainer.appendChild(order));
-    });
 </script>
 </body>
 </html>

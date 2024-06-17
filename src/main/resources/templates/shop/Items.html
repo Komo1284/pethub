@@ -13,6 +13,7 @@
         .absolute {
             display: none;
             z-index: 10;
+            left: 20px;
         }
 
         .absolute a {
@@ -56,14 +57,19 @@
     <div class="grid grid-cols-3 gap-4 p-4 max-w-[1600px] mx-auto">
         <!-- 이 부분은 처음에만 표시되도록 하세요 -->
         <div class="rounded-lg border shadow-sm col-span-2 bg-orange-600 text-white" data-v0-t="card">
-            <div class="flex flex-col space-y-1.5 p-6">
+            <div class="flex flex-col space-y-1.5 p-4">
                 <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">K9 Natural
                     Food</h3>
                 <p class="text-sm text-muted-foreground">No grains, No GMO, No additives</p>
             </div>
-            <div class="p-6">
-                <img src="/placeholder.svg" alt="Promotional content" class="aspect-[2/1]" width="400"
-                     height="200"/>
+            <div class="p-4">
+                <div class="rounded-lg shadow-lg" style="height: 300px;">
+                    <img
+                            src="https://itbank-pethub-s3.s3.ap-northeast-2.amazonaws.com/44a13b02-2024-420d-badd-e9f27fe5787a.png"
+                            alt="Promotional content"
+                            class="w-full h-full rounded-lg object-cover"
+                    />
+                </div>
             </div>
         </div>
         <!-- 여기까지 -->
@@ -78,34 +84,18 @@
                 </div>
                 <!-- 수정된 부분 끝 -->
 
-                    <div class="mt-2 text-center">
-                        <!-- 제품 이름에 링크를 걸어줍니다. -->
-                        <p class="text-sm">
-                            <a th:href="@{'/shop/DetailPage/' + ${product.id}}" th:text="${product.name}">Product Name</a>
-                        </p>
-                        <p class="text-gray-600" th:text="${product.price}"></p>
-                    </div>
+                <div class="mt-2 text-center">
+                    <!-- 제품 이름에 링크를 걸어줍니다. -->
+                    <p class="text-sm">
+                        <a th:href="@{'/shop/DetailPage/' + ${product.id}}" th:text="${product.name}">Product Name</a>
+                    </p>
+                    <p class="text-gray-600" th:text="${product.price}"></p>
                 </div>
             </div>
         </div>
+    </div>
 </main>
-<script>
-    // JavaScript 코드
-    // 서버에서 가져온 회원의 프로필 이미지 경로
-    var profileImagePath = "https://itbank-pethub-s3.s3.ap-northeast-2.amazonaws.com/082336fa-5094-4200-a596-b37892321703.png"; // 기본 프로필 이미지 경로
 
-    // 프로필 이미지를 변경하는 함수
-    function changeProfileImage(imagePath) {
-        var profileImage = document.getElementById("profileImage");
-        profileImage.src = imagePath;
-    }
-
-    // 페이지가 로드되었을 때 실행되는 코드
-    document.addEventListener("DOMContentLoaded", function() {
-        // 가져온 프로필 이미지 경로를 사용하여 프로필 이미지 변경
-        changeProfileImage(profileImagePath);
-    });
-</script>
 <script>
     function adjustProductBoxHeights() {
         var productBoxes = document.querySelectorAll('.product-box'); // 모든 상자 요소 선택

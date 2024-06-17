@@ -55,8 +55,31 @@ public interface MemberDAO {
     @Update("update member set ad = 1 where userid = #{userid}")
     void insertAd(MemberVO input);
 
-    @Select("SELECT COUNT(*) FROM member WHERE email = #{email}")
-    int countByEmail(String email);
+
+    @Insert("insert into member(email, name, nick, userid, userpw, phone, provider, role) values (#{email}, #{name}, #{nick}, #{userid}, #{userpw}, #{phone},#{provider}, #{role})")
+    int insertSns(MemberVO memberVO);
+
+    @Select("select * from member where userid = #{userid}")
+    MemberVO selectSnsOneNoAddress(MemberVO input);
+
+    @Select("select * from member_address_view where userid = #{userid}")
+    MemberVO selectSnsUser(String userid);
+
+    @Update("update member set " +
+            "email = #{email}, " +
+            "name = #{name}, " +
+            "nick = #{nick}, " +
+            "phone = #{phone}, " +
+            "userpw = #{userpw}, " +
+            "provider = #{provider}, " +
+            "role = #{role} " +
+            "where userid = #{userid}")
+    int updateSns(MemberVO memberVO);
+
+
+    @Select("select * from member where userid = #{userid}")
+    MemberVO findByUserid(String userid);
+
 
     @Select("select * from member where userid = #{userid}")
     MemberVO findUserbyUserId(MemberVO input);
