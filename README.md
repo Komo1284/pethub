@@ -96,12 +96,12 @@
 
 ---
 
-- 곽동열 : 소셜 로그인 기능 구현
-- 김태환 : 커뮤니티 전반 기능 구현
-- 박정은 :
-- 서강혁 : 메일서비스, AWS EC2/S3, DOCKER APP 및 DB 빌드, Front-End(ThymeLeaf, TailWindCSS), 모든 파일(S3에 저장) 및 메일서비스 로직 구현, 관리자관련 로직 구현
-- 이승환 :
-- 함현우 : DataBase 설계, 제작 및 유지 관리, 권한 별 게시판 CRUD Interceptor 기능 구현, 다이어그램 설계, ReadMe 작성, PowerPoint 제작
+- 곽동열 : Social Login, SignUp 기능 구현 담당
+- 김태환 : Community(Board, Reply) CRUD system, Paging algorithm, Search algorithm, Filtering algorithm
+- 박정은 : Order CRUD system, Cart CRUD system, Purchase API
+- 서강혁 : Mail service logic, AWS EC2/S3, Docker App, DB build, Front-End(ThymeLeaf, TailWindCSS), S3 storage, Admin system logic
+- 이승환 : Order CRUD system, Cart CRUD system, Purchase API
+- 함현우 : DataBase design, construction, maintenance, Diagram design, member authority interceptor algorithm, Readme design, ppt design
 
 # ⚙️ 개발 환경
 
